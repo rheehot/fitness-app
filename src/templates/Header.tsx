@@ -9,6 +9,9 @@ const HeaderBlock = styled.header`
   align-items: center;
   width: 100%;
   margin-bottom: 1rem;
+  @media (max-width: 430px) {
+    flex-direction: column;
+  }
 `;
 
 const TitleBlock = styled(NavLink)`
@@ -25,7 +28,8 @@ const NavBlock = styled.nav`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  padding: 0.5rem 1rem;
+  padding: 0 0.25rem;
+  margin: 0 0.5rem;
   color: grey;
   border-bottom: 2px solid transparent;
   text-decoration: none;

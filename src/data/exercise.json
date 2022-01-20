@@ -1,0 +1,52 @@
+[
+  {
+    "name": "랫 풀 다운",
+    "category": "상체",
+    "part": ["등"]
+  },
+  {
+    "name": "시티드 로우",
+    "category": "상체",
+    "part": ["등"]
+  },
+  {
+    "name": "숄더 프레스",
+    "category": "상체",
+    "part": ["어깨"]
+  },
+  {
+    "name": "체스트 프레스",
+    "category": "상체",
+    "part": ["가슴"]
+  },
+  {
+    "name": "팩토럴 플라이",
+    "category": "상체",
+    "part": ["가슴"]
+  },
+  {
+    "name": "암 컬",
+    "category": "상체",
+    "part": ["이두"]
+  },
+  {
+    "name": "레그 컬",
+    "category": "하체",
+    "part": ["다리"]
+  },
+  {
+    "name": "레그 익스텐션",
+    "category": "하체",
+    "part": ["다리"]
+  },
+  {
+    "name": "크런치",
+    "category": "코어",
+    "part": ["복근"]
+  },
+  {
+    "name": "플랭크",
+    "category": "코어",
+    "part": ["복근, 허리"]
+  }
+]
