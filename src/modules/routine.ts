@@ -18,9 +18,9 @@ export type ExerciseItem = {
 export type ExerciseList = ExerciseItem[]; // 하루 루틴
 
 export type Routine = {
-  id: number;
+  id: string;
   title: string;
-  routine: [
+  weekRoutine: [
     ExerciseList | [],
     ExerciseList | [],
     ExerciseList | [],
@@ -35,9 +35,9 @@ export type RoutineStateType = Routine[]; // 루틴 목록
 
 const initialState: RoutineStateType = [
   {
-    id: 0,
+    id: '0',
     title: '테스트',
-    routine: [
+    weekRoutine: [
       [],
       [
         {
@@ -232,9 +232,9 @@ const initialState: RoutineStateType = [
     ],
   },
   {
-    id: 1,
+    id: '1',
     title: '1번',
-    routine: [
+    weekRoutine: [
       [],
       [
         {
@@ -419,13 +419,26 @@ export const routineSlice = createSlice({
     addRoutine: (state, { payload }: { payload: Routine }) => {
       state.push(payload);
     },
-    removeRoutine: (state, { payload }: { payload: number }) => {
+    removeRoutine: (state, { payload }: { payload: string }) => {
       const filtered = state.filter((routine) => routine.id !== payload);
       return filtered;
+    },
+    addExercise: (
+      state,
+      {
+        payload: { id, day, exercise },
+      }: { payload: { id: string; day: number; exercise: ExerciseItem } },
+    ) => {
+      const r = state.find((s) => s.id === id);
+      if (!r) return;
+      const days = r.weekRoutine[day];
+      if (!days) return;
+      const newDays = [...days, exercise];
+      r.weekRoutine[day] = newDays;
     },
   },
 });
 
-export const { addRoutine, removeRoutine } = routineSlice.actions;
+export const { addRoutine, removeRoutine, addExercise } = routineSlice.actions;
 
 export default routineSlice.reducer;

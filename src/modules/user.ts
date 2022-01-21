@@ -11,7 +11,7 @@ const initialState: UserStateType = {
   name: '사용자',
   gender: '미정',
   birth: new Date(1999, 3, 30),
-  height: 168,
+  height: 171,
 };
 
 export const userSlice = createSlice({

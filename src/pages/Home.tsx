@@ -9,7 +9,6 @@ const PerformListBlock = styled.ul`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   border-radius: 0.5rem;
-  border: 1px solid #408080;
   overflow: hidden;
   li + li {
   }
@@ -24,7 +23,7 @@ const PerformListBlock = styled.ul`
 const PerformItemBlock = styled.li<{ done?: boolean }>`
   display: flex;
   justify-content: center;
-  background: ${(props) => props.done && '#00ffb3'};
+  background: ${(props) => (props.done ? '#00ffb3' : '#eeeeee')};
   font-weight: bold;
 `;
 
