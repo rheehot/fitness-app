@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { routineSelector } from 'modules/hooks';
-import { removeRoutine, addExercise } from 'modules/routine';
+import { changeTitle, removeRoutine, addExercise } from 'modules/routine';
 import { numToDayOfWeek } from 'lib/methods';
 import { BsTriangleFill, BsFillPlusCircleFill } from 'react-icons/bs';
 import { MdOutlineEdit, MdCheck, MdRemoveCircleOutline } from 'react-icons/md';
+import AddExercise from './AddExercise';
 
 const RoutineListBlock = styled.ul`
   display: flex;
@@ -81,11 +82,10 @@ const ExerciseItem = styled.li`
   }
 `;
 
-const DetailButton = styled(BsTriangleFill)<{ isOpened: boolean }>`
+const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
   font-size: 1rem;
   cursor: pointer;
-  transform: ${(props) =>
-    props.isOpened ? 'rotate(180deg)' : 'rotate(90deg)'};
+  transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
   transition: transform 0.25s;
 `;
 
@@ -124,80 +124,98 @@ const RoutineList = ({
 }: RoutineListProps) => {
   const routines = useSelector(routineSelector);
   const dispatch = useDispatch();
+  const [modalOn, setModalOn] = useState(true);
 
   return (
-    <RoutineListBlock>
-      {routines.map((routine) => (
-        <RoutineItem
-          key={routine.id}
-          visible={routine.id === visible}
-          editing={routine.id === editing}
-        >
-          <div className="header">
-            <div className="title">
-              <DetailButton
-                isOpened={routine.id === visible}
-                onClick={() => onToggleVisible(routine.id)}
-              />
-              {routine.title}
-            </div>
-            <div className="buttons">
-              {routine.id === editing ? (
-                <MdCheck
-                  onClick={() => onToggleEditing(routine.id)}
-                  style={{ color: '#00ffb3' }}
+    <>
+      <AddExercise visible={modalOn} onClose={() => setModalOn(false)} />
+      <RoutineListBlock>
+        {routines.map((routine) => (
+          <RoutineItem
+            key={routine.id}
+            visible={routine.id === visible}
+            editing={routine.id === editing}
+          >
+            <div className="header">
+              <div className="title">
+                <DetailButton
+                  visible={routine.id === visible ? 1 : 0}
+                  onClick={() => onToggleVisible(routine.id)}
                 />
-              ) : (
-                <MdOutlineEdit onClick={() => onToggleEditing(routine.id)} />
-              )}
-              <RemoveRoutineButton
-                onClick={() => dispatch(removeRoutine(routine.id))}
-              />
+                {routine.id === editing ? (
+                  <input
+                    type="text"
+                    value={routine.title}
+                    maxLength={10}
+                    onChange={(e) =>
+                      dispatch(
+                        changeTitle({ id: routine.id, value: e.target.value }),
+                      )
+                    }
+                  />
+                ) : (
+                  routine.title
+                )}
+              </div>
+              <div className="buttons">
+                {routine.id === editing ? (
+                  <MdCheck
+                    onClick={() => onToggleEditing(routine.id)}
+                    style={{ color: '#00ffb3' }}
+                  />
+                ) : (
+                  <MdOutlineEdit onClick={() => onToggleEditing(routine.id)} />
+                )}
+                <RemoveRoutineButton
+                  onClick={() => dispatch(removeRoutine(routine.id))}
+                />
+              </div>
             </div>
-          </div>
-          <RoutineDetail>
-            {routine.weekRoutine.map((dayRoutine, idx) => (
-              <RoutineDetailItem editing={routine.id === editing}>
-                <span className="day">{numToDayOfWeek(idx)}</span>
-                <ExerciseList>
-                  {dayRoutine.map((s) => (
-                    <ExerciseItem>
-                      <b>{s.exercise.name}</b>
-                      <span>{s.weight} kg</span>
-                      <span>
-                        {s.numberOfSets} x {s.numberOfTimes}
-                      </span>
-                    </ExerciseItem>
-                  ))}
-                  {routine.id === editing && (
-                    <AddExerciseButton
-                      onClick={() =>
-                        dispatch(
-                          addExercise({
-                            id: routine.id,
-                            day: idx,
-                            exercise: {
+            <RoutineDetail>
+              {routine.weekRoutine.map((dayRoutine, idx) => (
+                <RoutineDetailItem editing={routine.id === editing}>
+                  <span className="day">{numToDayOfWeek(idx)}</span>
+                  <ExerciseList>
+                    {dayRoutine.map((s) => (
+                      <ExerciseItem>
+                        <b>{s.exercise.name}</b>
+                        <span>{s.weight} kg</span>
+                        <span>
+                          {s.numberOfSets} x {s.numberOfTimes}
+                        </span>
+                      </ExerciseItem>
+                    ))}
+                    {routine.id === editing && (
+                      <AddExerciseButton
+                        onClick={
+                          () => setModalOn(true)
+                          /* dispatch(
+                            addExercise({
+                              id: routine.id,
+                              day: idx,
                               exercise: {
-                                name: '윗몸',
-                                category: '상체',
-                                part: ['배'],
+                                exercise: {
+                                  name: '윗몸',
+                                  category: '상체',
+                                  part: ['배'],
+                                },
+                                weight: 25,
+                                numberOfTimes: 10,
+                                numberOfSets: 5,
                               },
-                              weight: 25,
-                              numberOfTimes: 10,
-                              numberOfSets: 5,
-                            },
-                          }),
-                        )
-                      }
-                    />
-                  )}
-                </ExerciseList>
-              </RoutineDetailItem>
-            ))}
-          </RoutineDetail>
-        </RoutineItem>
-      ))}
-    </RoutineListBlock>
+                            }),
+                          ) */
+                        }
+                      />
+                    )}
+                  </ExerciseList>
+                </RoutineDetailItem>
+              ))}
+            </RoutineDetail>
+          </RoutineItem>
+        ))}
+      </RoutineListBlock>
+    </>
   );
 };
 

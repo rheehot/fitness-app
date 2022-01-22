@@ -43,7 +43,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -53,7 +53,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '시티드 로우',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -63,7 +63,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '암 컬',
-            category: '상체',
+            category: 'upper',
             part: ['이두'],
           },
           weight: 40,
@@ -75,7 +75,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -85,7 +85,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -95,7 +95,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -108,7 +108,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '체스트 프레스',
-            category: '상체',
+            category: 'upper',
             part: ['가슴'],
           },
           weight: 40,
@@ -118,7 +118,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -130,7 +130,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -140,7 +140,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '시티드 로우',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -150,7 +150,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '암 컬',
-            category: '상체',
+            category: 'upper',
             part: ['이두'],
           },
           weight: 40,
@@ -160,7 +160,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -170,7 +170,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -180,7 +180,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -190,7 +190,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -200,7 +200,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -210,7 +210,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -220,7 +220,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -240,7 +240,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '시티드 로우',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -250,7 +250,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '암 컬',
-            category: '상체',
+            category: 'upper',
             part: ['이두'],
           },
           weight: 40,
@@ -262,7 +262,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -272,7 +272,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -282,7 +282,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -294,7 +294,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -306,7 +306,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '체스트 프레스',
-            category: '상체',
+            category: 'upper',
             part: ['가슴'],
           },
           weight: 40,
@@ -316,7 +316,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -328,7 +328,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -338,7 +338,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '시티드 로우',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -348,7 +348,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '암 컬',
-            category: '상체',
+            category: 'upper',
             part: ['이두'],
           },
           weight: 40,
@@ -358,7 +358,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -368,7 +368,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -380,7 +380,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -390,7 +390,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -400,7 +400,7 @@ const initialState: RoutineStateType = [
         {
           exercise: {
             name: '랫 풀 다운',
-            category: '상체',
+            category: 'upper',
             part: ['등'],
           },
           weight: 40,
@@ -416,6 +416,14 @@ export const routineSlice = createSlice({
   name: 'routines',
   initialState,
   reducers: {
+    changeTitle: (
+      state,
+      { payload: { id, value } }: { payload: { id: string; value: string } },
+    ) => {
+      const r = state.find((s) => s.id === id);
+      if (!r) return;
+      r.title = value;
+    },
     addRoutine: (state, { payload }: { payload: Routine }) => {
       state.push(payload);
     },
@@ -439,6 +447,7 @@ export const routineSlice = createSlice({
   },
 });
 
-export const { addRoutine, removeRoutine, addExercise } = routineSlice.actions;
+export const { changeTitle, addRoutine, removeRoutine, addExercise } =
+  routineSlice.actions;
 
 export default routineSlice.reducer;
