@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
-import { Exercise } from 'modules/routine';
-import { MdOutlineClose } from 'react-icons/md';
+import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
 import exerciseJSON from '../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
@@ -23,19 +23,19 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   background: white;
   overflow: hidden;
   transition: top 0.5s;
-  h1 {
+  h2 {
     align-self: center;
   }
 `;
 
-const CategoryList = styled.ul`
+const CategoryListBlock = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 1rem;
   gap: 0.5rem;
 `;
 
-const CategoryItem = styled.li<{ checked: number }>`
+const CategoryItemBlock = styled.li<{ checked: number }>`
   display: flex;
   justify-content: center;
   padding: 0.25rem;
@@ -45,7 +45,7 @@ const CategoryItem = styled.li<{ checked: number }>`
   cursor: pointer;
 `;
 
-const ExerciseList = styled.ul`
+const ExerciseListBlock = styled.ul`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -55,88 +55,212 @@ const ExerciseList = styled.ul`
   height: 100%;
 `;
 
-const ExerciseItem = styled.li`
+const ExerciseItemBlock = styled.li<{ isSelected: number }>`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background: white;
+  border: 1px solid ${(props) => (props.isSelected ? '#00ffb3' : 'white')};
+  background: ${(props) => (props.isSelected ? '#dcfff5' : 'white')};
 `;
 
-const CloseButton = styled.button`
+const FooterBlock = styled.div`
   display: flex;
-  border: none;
-  background: #cccccc;
-  border-radius: 0 0 0 0.5rem;
-  color: white;
-  font-size: 2rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.75;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+`;
+
+const ConfirmBlock = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  div {
+    display: grid;
+    place-items: center;
+    input {
+      font-size: 2rem;
+      width: 5rem;
+    }
   }
-  &:active {
-    opacity: 0.5;
+`;
+
+const ButtonsBlock = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  button {
+    display: flex;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #cccccc;
+    border-radius: 0.5rem;
+    background: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.75;
+    }
+    &:active {
+      opacity: 0.5;
+    }
+  }
+  .submit {
+    border: 1px solid transparent;
+    color: white;
+    background: #00ffb3;
   }
 `;
 
 type AddExerciseProps = {
+  id: string | null;
+  day: number | null;
   visible: boolean;
   onClose: () => void;
 };
 
-const AddExercise = ({ visible, onClose }: AddExerciseProps) => {
+type InputState = {
+  weight: number;
+  numberOfTimes: number;
+  numberOfSets: number;
+};
+
+type InputAction = {
+  type: string;
+  payload: number;
+};
+
+const reducer = (state: InputState, action: InputAction) => {
+  switch (action.type) {
+    case 'CHANGE_WEIGHT':
+      return { ...state, weight: action.payload };
+    case 'CHANGE_NUM_OF_TIMES':
+      return { ...state, numberOfTimes: action.payload };
+    case 'CHANGE_NUM_OF_SETS':
+      return { ...state, numberOfSets: action.payload };
+    default:
+      return state;
+  }
+};
+
+const AddExercise = ({ id, day, visible, onClose }: AddExerciseProps) => {
   const exercise: Exercise[] = exerciseJSON;
   const [category, setCategory] = useState('all');
+  const [selected, setSelected] = useState<Exercise | null>(null);
+  const [inputState, inputDispatch] = useReducer(reducer, {
+    weight: 0,
+    numberOfTimes: 0,
+    numberOfSets: 0,
+  });
+
+  const dispatch = useDispatch();
+  const onSelect = (exercise: Exercise) => setSelected(exercise);
+  const onChange = (type: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 3) return;
+    inputDispatch({
+      type,
+      payload: +e.target.value,
+    });
+  };
+  const onAddExercise = () => {
+    if (!id || !selected || day === null) return;
+    const exercise: ExerciseItem = {
+      exercise: selected,
+      weight: inputState.weight,
+      numberOfTimes: inputState.numberOfTimes,
+      numberOfSets: inputState.numberOfSets,
+    };
+    dispatch(addExercise({ id, day, exercise }));
+    onClose();
+  };
 
   return (
     <AddExerciseBlock visible={visible}>
-      <CloseButton type="button" onClick={onClose}>
-        <MdOutlineClose />
-      </CloseButton>
-      <h1>운동 목록</h1>
-      <CategoryList>
-        <CategoryItem
+      <h2>운동 목록</h2>
+      <CategoryListBlock>
+        <CategoryItemBlock
           checked={category === 'all' ? 1 : 0}
           onClick={() => setCategory('all')}
         >
           전체
-        </CategoryItem>
-        <CategoryItem
+        </CategoryItemBlock>
+        <CategoryItemBlock
           checked={category === 'upper' ? 1 : 0}
           onClick={() => setCategory('upper')}
         >
           상체
-        </CategoryItem>
-        <CategoryItem
+        </CategoryItemBlock>
+        <CategoryItemBlock
           checked={category === 'lower' ? 1 : 0}
           onClick={() => setCategory('lower')}
         >
           하체
-        </CategoryItem>
-        <CategoryItem
+        </CategoryItemBlock>
+        <CategoryItemBlock
           checked={category === 'core' ? 1 : 0}
           onClick={() => setCategory('core')}
         >
           코어
-        </CategoryItem>
-      </CategoryList>
-      <ExerciseList>
+        </CategoryItemBlock>
+      </CategoryListBlock>
+      <ExerciseListBlock>
         {exercise
           .filter((exer) =>
             category === 'all' ? true : exer.category === category,
           )
           .map((exer) => (
-            <ExerciseItem>
+            <ExerciseItemBlock
+              onClick={() => onSelect(exer)}
+              isSelected={selected === exer ? 1 : 0}
+            >
               <b>{exer.name}</b>
               <span>
                 {exer.category} - {exer.part}
               </span>
-            </ExerciseItem>
+            </ExerciseItemBlock>
           ))}
-      </ExerciseList>
+      </ExerciseListBlock>
+      <FooterBlock>
+        <ConfirmBlock>
+          <div className="weight">
+            <b>중량</b>
+            <input
+              type="number"
+              min={0}
+              value={inputState.weight}
+              onChange={(e) => onChange('CHANGE_WEIGHT', e)}
+            />
+            kg
+          </div>
+          <div className="numOfTimes">
+            <b>횟수</b>
+            <input
+              type="number"
+              min={0}
+              value={inputState.numberOfTimes}
+              onChange={(e) => onChange('CHANGE_NUM_OF_TIMES', e)}
+            />
+            회
+          </div>
+          <div className="numOfSets">
+            <b>세트 수</b>
+            <input
+              type="number"
+              min={0}
+              value={inputState.numberOfSets}
+              onChange={(e) => onChange('CHANGE_NUM_OF_SETS', e)}
+            />
+            세트
+          </div>
+        </ConfirmBlock>
+        <ButtonsBlock>
+          <button className="submit" type="button" onClick={onAddExercise}>
+            추가
+          </button>
+          <button className="close" type="button" onClick={onClose}>
+            취소
+          </button>
+        </ButtonsBlock>
+      </FooterBlock>
     </AddExerciseBlock>
   );
 };

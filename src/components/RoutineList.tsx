@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { routineSelector } from 'modules/hooks';
-import { changeTitle, removeRoutine, addExercise } from 'modules/routine';
+import { changeTitle, removeRoutine } from 'modules/routine';
 import { numToDayOfWeek } from 'lib/methods';
 import { BsTriangleFill, BsFillPlusCircleFill } from 'react-icons/bs';
 import { MdOutlineEdit, MdCheck, MdRemoveCircleOutline } from 'react-icons/md';
@@ -124,11 +124,24 @@ const RoutineList = ({
 }: RoutineListProps) => {
   const routines = useSelector(routineSelector);
   const dispatch = useDispatch();
-  const [modalOn, setModalOn] = useState(true);
+
+  const [modal, setModal] = useState(false);
+  const [day, setDay] = useState<number | null>(null);
+
+  const onOpenModal = (day: number) => {
+    setDay(day);
+    setModal(true);
+  };
+  const onCloseModal = () => setModal(false);
 
   return (
     <>
-      <AddExercise visible={modalOn} onClose={() => setModalOn(false)} />
+      <AddExercise
+        id={editing}
+        day={day}
+        visible={modal}
+        onClose={onCloseModal}
+      />
       <RoutineListBlock>
         {routines.map((routine) => (
           <RoutineItem
@@ -186,27 +199,7 @@ const RoutineList = ({
                       </ExerciseItem>
                     ))}
                     {routine.id === editing && (
-                      <AddExerciseButton
-                        onClick={
-                          () => setModalOn(true)
-                          /* dispatch(
-                            addExercise({
-                              id: routine.id,
-                              day: idx,
-                              exercise: {
-                                exercise: {
-                                  name: '윗몸',
-                                  category: '상체',
-                                  part: ['배'],
-                                },
-                                weight: 25,
-                                numberOfTimes: 10,
-                                numberOfSets: 5,
-                              },
-                            }),
-                          ) */
-                        }
-                      />
+                      <AddExerciseButton onClick={() => onOpenModal(idx)} />
                     )}
                   </ExerciseList>
                 </RoutineDetailItem>
