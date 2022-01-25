@@ -444,10 +444,28 @@ export const routineSlice = createSlice({
       const newDays = [...days, exercise];
       r.weekRoutine[day] = newDays;
     },
+    removeExercise: (
+      state,
+      {
+        payload: { id, day, idx },
+      }: { payload: { id: string; day: number; idx: number } },
+    ) => {
+      const r = state.find((s) => s.id === id);
+      if (!r) return;
+      const days = r.weekRoutine[day];
+      if (!days) return;
+      const newDays = days.filter((day, i) => i !== idx);
+      r.weekRoutine[day] = newDays;
+    },
   },
 });
 
-export const { changeTitle, addRoutine, removeRoutine, addExercise } =
-  routineSlice.actions;
+export const {
+  changeTitle,
+  addRoutine,
+  removeRoutine,
+  addExercise,
+  removeExercise,
+} = routineSlice.actions;
 
 export default routineSlice.reducer;

@@ -4,6 +4,7 @@ import Info from 'components/Info';
 import { useSelector } from 'react-redux';
 import { userSelector } from 'modules/hooks';
 import styled from '@emotion/styled';
+import { convertDateToStr, getWeekDate } from 'lib/methods';
 
 const PerformListBlock = styled.ul`
   display: grid;
@@ -20,15 +21,17 @@ const PerformListBlock = styled.ul`
   }
 `;
 
-const PerformItemBlock = styled.li<{ done?: boolean }>`
+const PerformItemBlock = styled.li<{ done?: string }>`
   display: flex;
   justify-content: center;
-  background: ${(props) => (props.done ? '#00ffb3' : '#eeeeee')};
+  background: ${(props) =>
+    props.done === 'fulfilled' ? '#00ffb3' : '#eeeeee'};
   font-weight: bold;
 `;
 
 const Home = () => {
   const user = useSelector(userSelector);
+  const weekDate = getWeekDate(Date());
 
   return (
     <Template>
@@ -36,13 +39,23 @@ const Home = () => {
       <Info user={user}></Info>
       <h2>이번 주 운동 현황</h2>
       <PerformListBlock>
-        <PerformItemBlock done>일</PerformItemBlock>
-        <PerformItemBlock done>월</PerformItemBlock>
-        <PerformItemBlock done>화</PerformItemBlock>
-        <PerformItemBlock>수</PerformItemBlock>
-        <PerformItemBlock>목</PerformItemBlock>
-        <PerformItemBlock>금</PerformItemBlock>
-        <PerformItemBlock>토</PerformItemBlock>
+        {weekDate.map((w) => {
+          if (w < new Date()) {
+            if (user.completeDays.indexOf(convertDateToStr(w)) > -1) {
+              return (
+                <PerformItemBlock done="fulfilled">
+                  {w.getDate()}일
+                </PerformItemBlock>
+              );
+            }
+            return (
+              <PerformItemBlock done="unfulfilled">
+                {w.getDate()}일
+              </PerformItemBlock>
+            );
+          }
+          return <PerformItemBlock>{w.getDate()}일</PerformItemBlock>;
+        })}
       </PerformListBlock>
     </Template>
   );

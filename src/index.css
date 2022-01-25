@@ -25,6 +25,13 @@ li {
   list-style: none;
 }
 
+hr {
+  border: none;
+  border-top: 1px solid #cccccc;
+  background: none;
+  margin: 3rem 0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
