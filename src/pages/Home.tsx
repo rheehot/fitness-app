@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { userSelector } from 'modules/hooks';
 import styled from '@emotion/styled';
 import { convertDateToStr, getWeekDate } from 'lib/methods';
+import PerformRoutine from 'components/PerformRoutine';
 
 const PerformListBlock = styled.ul`
   display: grid;
@@ -29,6 +30,18 @@ const PerformItemBlock = styled.li<{ done?: string }>`
   font-weight: bold;
 `;
 
+const CompleteText = styled.div`
+  display: flex;
+  place-items: center;
+  span {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+    background: #ffe600;
+    font-weight: bold;
+  }
+`;
+
 const Home = () => {
   const user = useSelector(userSelector);
   const weekDate = getWeekDate(Date());
@@ -37,7 +50,7 @@ const Home = () => {
     <Template>
       <h1>안녕하세요, {user.name}님!</h1>
       <Info user={user}></Info>
-      <h2>이번 주 운동 현황</h2>
+      <h1>이번 주 운동 현황</h1>
       <PerformListBlock>
         {weekDate.map((w) => {
           if (w < new Date()) {
@@ -57,6 +70,13 @@ const Home = () => {
           return <PerformItemBlock>{w.getDate()}일</PerformItemBlock>;
         })}
       </PerformListBlock>
+      <CompleteText>
+        <h1>오늘의 운동</h1>
+        {user.completeDays.indexOf(convertDateToStr(new Date())) > -1 && (
+          <span>완료</span>
+        )}
+      </CompleteText>
+      <PerformRoutine id={user.currentRoutineId} />
     </Template>
   );
 };

@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import Template from 'templates/Template';
-import routine, { addRoutine, Routine } from 'modules/routine';
+import { addRoutine, Routine } from 'modules/routine';
 import { routineSelector, userSelector } from 'modules/hooks';
 import RoutineItem from 'components/RoutineItem';
 import AddExercise from 'components/AddExercise';
 import { BsPlusCircle } from 'react-icons/bs';
 import { v4 as uuidv4 } from 'uuid';
-import { setCurrentRoutine } from 'modules/user';
 
 const AddRoutineButton = styled.div`
   display: flex;
@@ -103,6 +102,7 @@ const RoutinePage = () => {
               addRoutine({
                 id,
                 title: '새 루틴',
+                lastModified: new Date(),
                 weekRoutine: [[], [], [], [], [], [], []],
               }),
             );

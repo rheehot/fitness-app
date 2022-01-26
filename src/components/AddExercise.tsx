@@ -142,7 +142,7 @@ const reducer = (state: InputState, action: InputAction) => {
   }
 };
 
-const AddExercise = ({ id, day, visible, onClose }: AddExerciseProps) => {
+const AddExercisePage = ({ id, day, visible, onClose }: AddExerciseProps) => {
   const exercise: Exercise[] = exerciseJSON;
   const [category, setCategory] = useState('all');
   const [selected, setSelected] = useState<Exercise | null>(null);
@@ -265,4 +265,4 @@ const AddExercise = ({ id, day, visible, onClose }: AddExerciseProps) => {
   );
 };
 
-export default AddExercise;
+export default AddExercisePage;

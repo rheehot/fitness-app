@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Routine } from './routine';
 
 export type UserStateType = {
   name: string;
