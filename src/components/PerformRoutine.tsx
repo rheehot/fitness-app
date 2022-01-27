@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { performSelector, routineSelector } from 'modules/hooks';
@@ -7,7 +7,10 @@ import {
   MdRadioButtonUnchecked,
   MdOutlineCheckCircleOutline,
 } from 'react-icons/md';
-import { initialPerform, toggleCheck } from 'modules/perform';
+import { completePerform, initialPerform, toggleCheck } from 'modules/perform';
+import { addCompleteDay } from 'modules/user';
+import { convertDateToStr } from 'lib/methods';
+import AlertModal from 'lib/AlertModal';
 
 const PerformRoutineBlock = styled.div`
   display: flex;
@@ -48,11 +51,28 @@ const SetButton = styled.div<{ available: boolean }>`
   }
 `;
 
+const CompleteButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 0.5rem;
+  background: #eeeeee;
+  font-size: 2rem;
+  font-weight: bold;
+  &:active {
+    background: #00ffb3;
+  }
+  cursor: pointer;
+`;
+
 type PerformRoutineProps = {
   id: string | null;
 };
 
 const PerformRoutine = ({ id }: PerformRoutineProps) => {
+  const [modal, setModal] = useState(false);
+
   if (!id) return <h4>사용 중인 루틴이 없습니다.</h4>;
 
   const routines = useSelector(routineSelector);
@@ -76,39 +96,69 @@ const PerformRoutine = ({ id }: PerformRoutineProps) => {
   const onToggleCheck = (name: string, idx: number) =>
     dispatch(toggleCheck({ name, idx }));
 
-  if (performs.list.length === 0)
+  const isCompleted = () => {
+    const uncompleted = performs.list.reduce(
+      (acc, exer) => acc + exer.setCheck.filter((a) => !a).length,
+      0,
+    );
+    if (uncompleted === 0) return true;
+    return false;
+  };
+
+  const onComplete = () => {
+    if (!isCompleted()) {
+      setModal(true);
+      setTimeout(() => setModal(false), 2000);
+    } else {
+      dispatch(addCompleteDay(convertDateToStr(new Date())));
+      dispatch(completePerform());
+    }
+  };
+
+  if (performs.completed)
+    return (
+      <h4>
+        <b>오늘 운동을 완료했습니다.</b>
+      </h4>
+    );
+  if (performs.list.length === 0) {
     return (
       <h4>
         <i># 오늘은 쉬는 날!</i>
       </h4>
     );
+  }
 
   return (
-    <PerformRoutineBlock>
-      {performs.list.map((p) => (
-        <PerformExerciseBlock>
-          <ExerciseBlock completed={!p.setCheck.filter((a) => !a).length}>
-            <b>{p.exercise.exercise.name}</b>
-            <span>
-              {p.exercise.weight}kg, {p.exercise.numberOfTimes}회
-            </span>
-          </ExerciseBlock>
-          {p.setCheck.map((a, j) => (
-            <SetButton
-              available={j === 0 || p.setCheck[j - 1]}
-              onClick={() => onToggleCheck(p.exercise.exercise.name, j)}
-            >
-              {p.setCheck[j] ? (
-                <MdOutlineCheckCircleOutline />
-              ) : (
-                <MdRadioButtonUnchecked />
-              )}
-              <b>{j + 1}세트</b>
-            </SetButton>
-          ))}
-        </PerformExerciseBlock>
-      ))}
-    </PerformRoutineBlock>
+    <>
+      <AlertModal visible={modal} text="남은 운동이 있습니다." />
+      <PerformRoutineBlock>
+        {performs.list.map((p) => (
+          <PerformExerciseBlock>
+            <ExerciseBlock completed={!p.setCheck.filter((a) => !a).length}>
+              <b>{p.exercise.exercise.name}</b>
+              <span>
+                {p.exercise.weight}kg, {p.exercise.numberOfTimes}회
+              </span>
+            </ExerciseBlock>
+            {p.setCheck.map((a, j) => (
+              <SetButton
+                available={j === 0 || p.setCheck[j - 1]}
+                onClick={() => onToggleCheck(p.exercise.exercise.name, j)}
+              >
+                {p.setCheck[j] ? (
+                  <MdOutlineCheckCircleOutline />
+                ) : (
+                  <MdRadioButtonUnchecked />
+                )}
+                <b>{j + 1}세트</b>
+              </SetButton>
+            ))}
+          </PerformExerciseBlock>
+        ))}
+        <CompleteButton onClick={onComplete}>운동완료</CompleteButton>
+      </PerformRoutineBlock>
+    </>
   );
 };
 

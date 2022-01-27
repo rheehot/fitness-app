@@ -18,7 +18,7 @@ export type ExerciseItem = {
 export type Routine = {
   id: string;
   title: string;
-  lastModified: Date;
+  lastModified: number;
   weekRoutine: [
     ExerciseItem[],
     ExerciseItem[],
@@ -36,7 +36,7 @@ const initialState: RoutineStateType = [
   {
     id: '0',
     title: '테스트',
-    lastModified: new Date(),
+    lastModified: Date.now(),
     weekRoutine: [
       [],
       [
@@ -234,7 +234,7 @@ const initialState: RoutineStateType = [
   {
     id: '1',
     title: '1번',
-    lastModified: new Date(),
+    lastModified: Date.now(),
     weekRoutine: [
       [],
       [
@@ -444,7 +444,7 @@ export const routineSlice = createSlice({
       if (!days) return;
       const newDays = [...days, exercise];
       r.weekRoutine[day] = newDays;
-      r.lastModified = new Date();
+      r.lastModified = Date.now();
     },
     removeExercise: (
       state,
@@ -458,7 +458,7 @@ export const routineSlice = createSlice({
       if (!days) return;
       const newDays = days.filter((day, i) => i !== idx);
       r.weekRoutine[day] = newDays;
-      r.lastModified = new Date();
+      r.lastModified = Date.now();
     },
   },
 });

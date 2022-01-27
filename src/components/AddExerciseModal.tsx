@@ -2,6 +2,7 @@ import React, { useReducer, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
+import AlertModal from 'lib/AlertModal';
 import exerciseJSON from '../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
@@ -142,7 +143,7 @@ const reducer = (state: InputState, action: InputAction) => {
   }
 };
 
-const AddExercisePage = ({ id, day, visible, onClose }: AddExerciseProps) => {
+const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
   const exercise: Exercise[] = exerciseJSON;
   const [category, setCategory] = useState('all');
   const [selected, setSelected] = useState<Exercise | null>(null);
@@ -151,6 +152,8 @@ const AddExercisePage = ({ id, day, visible, onClose }: AddExerciseProps) => {
     numberOfTimes: 0,
     numberOfSets: 0,
   });
+  const [modal, setModal] = useState(false);
+  const [text, setText] = useState('');
 
   const dispatch = useDispatch();
   const onSelect = (exercise: Exercise) => setSelected(exercise);
@@ -162,7 +165,21 @@ const AddExercisePage = ({ id, day, visible, onClose }: AddExerciseProps) => {
     });
   };
   const onAddExercise = () => {
-    if (!id || !selected || day === null) return;
+    if (!id || day === null) return;
+    if (!selected) {
+      setText('운동 종류를 선택하세요.');
+      onModal();
+      return;
+    }
+    if (
+      !inputState.weight ||
+      !inputState.numberOfTimes ||
+      !inputState.numberOfSets
+    ) {
+      setText('정확한 값을 입력하세요.');
+      onModal();
+      return;
+    }
     const exercise: ExerciseItem = {
       exercise: selected,
       weight: inputState.weight,
@@ -172,97 +189,104 @@ const AddExercisePage = ({ id, day, visible, onClose }: AddExerciseProps) => {
     dispatch(addExercise({ id, day, exercise }));
     onClose();
   };
+  const onModal = () => {
+    setModal(true);
+    setTimeout(() => setModal(false), 2000);
+  };
 
   return (
-    <AddExerciseBlock visible={visible}>
-      <h2>운동 목록</h2>
-      <CategoryListBlock>
-        <CategoryItemBlock
-          checked={category === 'all' ? 1 : 0}
-          onClick={() => setCategory('all')}
-        >
-          전체
-        </CategoryItemBlock>
-        <CategoryItemBlock
-          checked={category === 'upper' ? 1 : 0}
-          onClick={() => setCategory('upper')}
-        >
-          상체
-        </CategoryItemBlock>
-        <CategoryItemBlock
-          checked={category === 'lower' ? 1 : 0}
-          onClick={() => setCategory('lower')}
-        >
-          하체
-        </CategoryItemBlock>
-        <CategoryItemBlock
-          checked={category === 'core' ? 1 : 0}
-          onClick={() => setCategory('core')}
-        >
-          코어
-        </CategoryItemBlock>
-      </CategoryListBlock>
-      <ExerciseListBlock>
-        {exercise
-          .filter((exer) =>
-            category === 'all' ? true : exer.category === category,
-          )
-          .map((exer) => (
-            <ExerciseItemBlock
-              onClick={() => onSelect(exer)}
-              isSelected={selected === exer ? 1 : 0}
-            >
-              <b>{exer.name}</b>
-              <span>
-                {exer.category} - {exer.part}
-              </span>
-            </ExerciseItemBlock>
-          ))}
-      </ExerciseListBlock>
-      <FooterBlock>
-        <ConfirmBlock>
-          <div className="weight">
-            <b>중량</b>
-            <input
-              type="number"
-              min={0}
-              value={inputState.weight}
-              onChange={(e) => onChange('CHANGE_WEIGHT', e)}
-            />
-            kg
-          </div>
-          <div className="numOfTimes">
-            <b>횟수</b>
-            <input
-              type="number"
-              min={0}
-              value={inputState.numberOfTimes}
-              onChange={(e) => onChange('CHANGE_NUM_OF_TIMES', e)}
-            />
-            회
-          </div>
-          <div className="numOfSets">
-            <b>세트 수</b>
-            <input
-              type="number"
-              min={0}
-              value={inputState.numberOfSets}
-              onChange={(e) => onChange('CHANGE_NUM_OF_SETS', e)}
-            />
-            세트
-          </div>
-        </ConfirmBlock>
-        <ButtonsBlock>
-          <button className="submit" type="button" onClick={onAddExercise}>
-            추가
-          </button>
-          <button className="close" type="button" onClick={onClose}>
-            취소
-          </button>
-        </ButtonsBlock>
-      </FooterBlock>
-    </AddExerciseBlock>
+    <>
+      <AlertModal visible={modal} text={text} />
+      <AddExerciseBlock visible={visible}>
+        <h2>운동 목록</h2>
+        <CategoryListBlock>
+          <CategoryItemBlock
+            checked={category === 'all' ? 1 : 0}
+            onClick={() => setCategory('all')}
+          >
+            전체
+          </CategoryItemBlock>
+          <CategoryItemBlock
+            checked={category === 'upper' ? 1 : 0}
+            onClick={() => setCategory('upper')}
+          >
+            상체
+          </CategoryItemBlock>
+          <CategoryItemBlock
+            checked={category === 'lower' ? 1 : 0}
+            onClick={() => setCategory('lower')}
+          >
+            하체
+          </CategoryItemBlock>
+          <CategoryItemBlock
+            checked={category === 'core' ? 1 : 0}
+            onClick={() => setCategory('core')}
+          >
+            코어
+          </CategoryItemBlock>
+        </CategoryListBlock>
+        <ExerciseListBlock>
+          {exercise
+            .filter((exer) =>
+              category === 'all' ? true : exer.category === category,
+            )
+            .map((exer) => (
+              <ExerciseItemBlock
+                onClick={() => onSelect(exer)}
+                isSelected={selected === exer ? 1 : 0}
+              >
+                <b>{exer.name}</b>
+                <span>
+                  {exer.category} - {exer.part}
+                </span>
+              </ExerciseItemBlock>
+            ))}
+        </ExerciseListBlock>
+        <FooterBlock>
+          <ConfirmBlock>
+            <div className="weight">
+              <b>중량</b>
+              <input
+                type="number"
+                min={0}
+                value={inputState.weight}
+                onChange={(e) => onChange('CHANGE_WEIGHT', e)}
+              />
+              kg
+            </div>
+            <div className="numOfTimes">
+              <b>횟수</b>
+              <input
+                type="number"
+                min={0}
+                value={inputState.numberOfTimes}
+                onChange={(e) => onChange('CHANGE_NUM_OF_TIMES', e)}
+              />
+              회
+            </div>
+            <div className="numOfSets">
+              <b>세트 수</b>
+              <input
+                type="number"
+                min={0}
+                value={inputState.numberOfSets}
+                onChange={(e) => onChange('CHANGE_NUM_OF_SETS', e)}
+              />
+              세트
+            </div>
+          </ConfirmBlock>
+          <ButtonsBlock>
+            <button className="submit" type="button" onClick={onAddExercise}>
+              추가
+            </button>
+            <button className="close" type="button" onClick={onClose}>
+              취소
+            </button>
+          </ButtonsBlock>
+        </FooterBlock>
+      </AddExerciseBlock>
+    </>
   );
 };
 
-export default AddExercisePage;
+export default AddExerciseModal;

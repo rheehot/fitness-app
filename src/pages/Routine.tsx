@@ -5,7 +5,7 @@ import Template from 'templates/Template';
 import { addRoutine, Routine } from 'modules/routine';
 import { routineSelector, userSelector } from 'modules/hooks';
 import RoutineItem from 'components/RoutineItem';
-import AddExercise from 'components/AddExercise';
+import AddExercise from 'components/AddExerciseModal';
 import { BsPlusCircle } from 'react-icons/bs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -102,7 +102,7 @@ const RoutinePage = () => {
               addRoutine({
                 id,
                 title: '새 루틴',
-                lastModified: new Date(),
+                lastModified: Date.now(),
                 weekRoutine: [[], [], [], [], [], [], []],
               }),
             );

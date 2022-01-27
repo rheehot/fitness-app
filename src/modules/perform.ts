@@ -7,7 +7,7 @@ export type PerformItem = {
 };
 
 export type PerformList = {
-  lastModified: Date | null;
+  lastModified: number | null;
   completed: boolean;
   list: PerformItem[];
 };
@@ -26,7 +26,7 @@ export const performSlice = createSlice({
       state,
       {
         payload: { lastModified, exerciseList },
-      }: { payload: { lastModified: Date; exerciseList: ExerciseItem[] } },
+      }: { payload: { lastModified: number; exerciseList: ExerciseItem[] } },
     ) => {
       state.lastModified = lastModified;
       // eslint-disable-next-line no-param-reassign
@@ -50,9 +50,14 @@ export const performSlice = createSlice({
       )
         exer.setCheck[idx] = !exer.setCheck[idx];
     },
+    completePerform: (state) => {
+      state.completed = true;
+      state.list = [];
+    },
   },
 });
 
-export const { initialPerform, toggleCheck } = performSlice.actions;
+export const { initialPerform, toggleCheck, completePerform } =
+  performSlice.actions;
 
 export default performSlice.reducer;

@@ -36,6 +36,9 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
       font-weight: bold;
       font-size: 1.25rem;
       gap: 0.5rem;
+      input {
+        font-size: 1.125rem;
+      }
     }
     .buttons {
       display: flex;
