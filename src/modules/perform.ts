@@ -37,18 +37,20 @@ export const performSlice = createSlice({
     },
     toggleCheck: (
       state,
-      { payload: { name, idx } }: { payload: { name: string; idx: number } },
+      {
+        payload: { exerIdx, setIdx },
+      }: { payload: { exerIdx: number; setIdx: number } },
     ) => {
-      const exer = state.list.find((l) => l.exercise.exercise.name === name);
+      const exer = state.list[exerIdx];
       if (!exer) return;
 
-      if (!exer.setCheck[idx] && (idx === 0 || exer.setCheck[idx - 1]))
-        exer.setCheck[idx] = !exer.setCheck[idx];
+      if (!exer.setCheck[setIdx] && (setIdx === 0 || exer.setCheck[setIdx - 1]))
+        exer.setCheck[setIdx] = !exer.setCheck[setIdx];
       else if (
-        exer.setCheck[idx] &&
-        (idx === exer.setCheck.length - 1 || !exer.setCheck[idx + 1])
+        exer.setCheck[setIdx] &&
+        (setIdx === exer.setCheck.length - 1 || !exer.setCheck[setIdx + 1])
       )
-        exer.setCheck[idx] = !exer.setCheck[idx];
+        exer.setCheck[setIdx] = !exer.setCheck[setIdx];
     },
     completePerform: (state) => {
       state.completed = true;

@@ -91,6 +91,7 @@ const RoutinePage = () => {
             onToggleVisible={onToggleVisible}
             onToggleEditing={onToggleEditing}
             onOpenModal={onOpenModal}
+            key={routine.id}
           />
         ))}
       </RoutineListBlock>

@@ -126,115 +126,14 @@ const initialState: RoutineStateType = [
           numberOfSets: 5,
         },
       ],
-      [
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '시티드 로우',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '암 컬',
-            category: 'upper',
-            part: ['이두'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfTimes: 12,
-          numberOfSets: 5,
-        },
-      ],
+      [],
       [],
     ],
   },
   {
     id: '1',
     title: '1번',
-    lastModified: Date.now(),
+    lastModified: Date.now() + 1,
     weekRoutine: [
       [],
       [

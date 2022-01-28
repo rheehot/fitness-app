@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { convertDateToStr } from 'lib/methods';
 
 export type UserStateType = {
   name: string;
@@ -16,7 +15,13 @@ const initialState: UserStateType = {
   birth: '1999-04-30',
   height: 172,
   currentRoutineId: null,
-  completeDays: ['2022-01-23', '2022-01-24', '2022-01-25', '2022-01-26'],
+  completeDays: [
+    '2022-01-23',
+    '2022-01-24',
+    '2022-01-25',
+    '2022-01-26',
+    '2022-01-27',
+  ],
 };
 
 export const userSlice = createSlice({

@@ -56,18 +56,22 @@ const Home = () => {
           if (w < new Date()) {
             if (user.completeDays.indexOf(convertDateToStr(w)) > -1) {
               return (
-                <PerformItemBlock done="fulfilled">
+                <PerformItemBlock done="fulfilled" key={w.getDay()}>
                   {w.getDate()}일
                 </PerformItemBlock>
               );
             }
             return (
-              <PerformItemBlock done="unfulfilled">
+              <PerformItemBlock done="unfulfilled" key={w.getDay()}>
                 {w.getDate()}일
               </PerformItemBlock>
             );
           }
-          return <PerformItemBlock>{w.getDate()}일</PerformItemBlock>;
+          return (
+            <PerformItemBlock key={w.getDay()}>
+              {w.getDate()}일
+            </PerformItemBlock>
+          );
         })}
       </PerformListBlock>
       <CompleteText>
@@ -76,7 +80,12 @@ const Home = () => {
           <span>완료</span>
         )}
       </CompleteText>
-      <PerformRoutine id={user.currentRoutineId} />
+      <PerformRoutine
+        id={user.currentRoutineId}
+        todayCompleted={
+          user.completeDays.indexOf(convertDateToStr(new Date())) > -1
+        }
+      />
     </Template>
   );
 };
