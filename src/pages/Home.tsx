@@ -44,7 +44,7 @@ const CompleteText = styled.div`
 
 const Home = () => {
   const user = useSelector(userSelector);
-  const weekDate = getWeekDate(Date());
+  const weekDate = getWeekDate(new Date());
 
   return (
     <Template>
@@ -52,25 +52,26 @@ const Home = () => {
       <Info user={user}></Info>
       <h1>이번 주 운동 현황</h1>
       <PerformListBlock>
-        {weekDate.map((w) => {
+        {weekDate.map((w, i) => {
           if (w < new Date()) {
-            if (user.completeDays.indexOf(convertDateToStr(w)) > -1) {
+            if (
+              user.completeDays.indexOf(convertDateToStr(w)) > -1 ||
+              user.currentRoutine?.weekRoutine[i].length === 0
+            ) {
               return (
                 <PerformItemBlock done="fulfilled" key={w.getDay()}>
-                  {w.getDate()}일
+                  {w.getDate()}
                 </PerformItemBlock>
               );
             }
             return (
               <PerformItemBlock done="unfulfilled" key={w.getDay()}>
-                {w.getDate()}일
+                {w.getDate()}
               </PerformItemBlock>
             );
           }
           return (
-            <PerformItemBlock key={w.getDay()}>
-              {w.getDate()}일
-            </PerformItemBlock>
+            <PerformItemBlock key={w.getDay()}>{w.getDate()}</PerformItemBlock>
           );
         })}
       </PerformListBlock>
@@ -80,12 +81,7 @@ const Home = () => {
           <span>완료</span>
         )}
       </CompleteText>
-      <PerformRoutine
-        id={user.currentRoutineId}
-        todayCompleted={
-          user.completeDays.indexOf(convertDateToStr(new Date())) > -1
-        }
-      />
+      <PerformRoutine currentRoutine={user.currentRoutine} />
     </Template>
   );
 };

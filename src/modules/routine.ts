@@ -1,4 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import exerciseJSON from '../data/exercise.json';
+
+const exercise: Exercise[] = exerciseJSON;
 
 export type Exercise = {
   name: string;
@@ -41,31 +44,19 @@ const initialState: RoutineStateType = [
       [],
       [
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[0],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '시티드 로우',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[1],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '암 컬',
-            category: 'upper',
-            part: ['이두'],
-          },
+          exercise: exercise[3],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -73,31 +64,19 @@ const initialState: RoutineStateType = [
       ],
       [
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[2],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[4],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[1],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -106,27 +85,26 @@ const initialState: RoutineStateType = [
       [],
       [
         {
-          exercise: {
-            name: '체스트 프레스',
-            category: 'upper',
-            part: ['가슴'],
-          },
+          exercise: exercise[5],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[6],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
       ],
-      [],
+      [
+        {
+          exercise: exercise[1],
+          weight: 40,
+          numberOfTimes: 12,
+          numberOfSets: 5,
+        },
+      ],
       [],
     ],
   },
@@ -138,21 +116,13 @@ const initialState: RoutineStateType = [
       [],
       [
         {
-          exercise: {
-            name: '시티드 로우',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[8],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '암 컬',
-            category: 'upper',
-            part: ['이두'],
-          },
+          exercise: exercise[7],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -160,31 +130,19 @@ const initialState: RoutineStateType = [
       ],
       [
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[6],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[9],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[5],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -192,11 +150,7 @@ const initialState: RoutineStateType = [
       ],
       [
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[6],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -204,21 +158,13 @@ const initialState: RoutineStateType = [
       ],
       [
         {
-          exercise: {
-            name: '체스트 프레스',
-            category: 'upper',
-            part: ['가슴'],
-          },
+          exercise: exercise[1],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[0],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -226,51 +172,31 @@ const initialState: RoutineStateType = [
       ],
       [
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[5],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '시티드 로우',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[9],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '암 컬',
-            category: 'upper',
-            part: ['이두'],
-          },
+          exercise: exercise[6],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[1],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[0],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
@@ -278,31 +204,19 @@ const initialState: RoutineStateType = [
       ],
       [
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[0],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[1],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,
         },
         {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
+          exercise: exercise[2],
           weight: 40,
           numberOfTimes: 12,
           numberOfSets: 5,

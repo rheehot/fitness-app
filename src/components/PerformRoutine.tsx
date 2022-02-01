@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { performSelector, routineSelector } from 'modules/hooks';
+import { performSelector } from 'modules/hooks';
 import { Routine } from 'modules/routine';
 import {
   MdRadioButtonUnchecked,
@@ -68,34 +68,28 @@ const CompleteButton = styled.button`
 `;
 
 type PerformRoutineProps = {
-  id: string | null;
-  todayCompleted: boolean;
+  currentRoutine: Routine | null;
 };
 
-const PerformRoutine = ({ id, todayCompleted }: PerformRoutineProps) => {
+const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
   const [modal, setModal] = useState(false);
 
-  if (!id) return <h4>사용 중인 루틴이 없습니다.</h4>;
+  if (!currentRoutine) return <h4>사용 중인 루틴이 없습니다.</h4>;
 
-  const routines = useSelector(routineSelector);
   const performs = useSelector(performSelector);
   const dispatch = useDispatch();
 
   const day = new Date().getDay();
-  const routine = routines.find((r) => r.id === id) as Routine;
-  const todayRoutine = routine.weekRoutine[day];
+  const todayRoutine = currentRoutine.weekRoutine[day];
 
   useEffect(() => {
-    if (routine.lastModified !== performs.lastModified)
+    if (currentRoutine.lastModified !== performs.lastModified)
       dispatch(
         initialPerform({
-          lastModified: routine.lastModified,
+          lastModified: currentRoutine.lastModified,
           exerciseList: todayRoutine,
         }),
       );
-
-    if (!todayRoutine.length && !todayCompleted)
-      dispatch(addCompleteDay(convertDateToStr(new Date())));
   }, []);
 
   if (!todayRoutine.length) {

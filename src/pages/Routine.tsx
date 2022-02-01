@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import Template from 'templates/Template';
-import { addRoutine, Routine } from 'modules/routine';
+import { addRoutine } from 'modules/routine';
 import { routineSelector, userSelector } from 'modules/hooks';
 import RoutineItem from 'components/RoutineItem';
 import AddExercise from 'components/AddExerciseModal';
@@ -64,13 +64,8 @@ const RoutinePage = () => {
   return (
     <Template>
       <h1>현재 루틴</h1>
-      {user.currentRoutineId ? (
-        <RoutineItem
-          isCurrent
-          routine={
-            routines.find((r) => r.id === user.currentRoutineId) as Routine
-          }
-        />
+      {user.currentRoutine?.id ? (
+        <RoutineItem isCurrent routine={user.currentRoutine} />
       ) : (
         <h3>선택된 루틴이 없습니다.</h3>
       )}

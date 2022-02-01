@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import {
   changeTitle,
@@ -29,15 +29,19 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
     .title {
       display: flex;
       place-items: center;
+      gap: 0.5rem;
+      min-width: 0;
       font-weight: bold;
       font-size: 1.25rem;
-      gap: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
       input {
+        min-width: 0;
         font-size: 1.125rem;
+        margin-right: 0.5rem;
       }
     }
     .buttons {
@@ -96,6 +100,7 @@ const ExerciseItem = styled.li<{ editing?: boolean }>`
 `;
 
 const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
+  flex-shrink: 0;
   cursor: pointer;
   transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
   transition: transform 0.25s;
@@ -149,9 +154,15 @@ const RoutineItem = ({
   const dispatch = useDispatch();
 
   const onRemoveRoutine = () => {
-    if (user.currentRoutineId === routine.id) dispatch(setCurrentRoutine(null));
+    if (user.currentRoutine && user.currentRoutine.id === routine.id)
+      dispatch(setCurrentRoutine(null));
     dispatch(removeRoutine(routine.id));
   };
+
+  useEffect(() => {
+    if (user.currentRoutine?.id === routine.id)
+      dispatch(setCurrentRoutine(routine));
+  }, [routine.lastModified]);
 
   return isCurrent ? (
     <RoutineItemBlock key={routine.id} visible>
@@ -205,13 +216,13 @@ const RoutineItem = ({
           )}
         </div>
         <div className="buttons">
-          {user.currentRoutineId && user.currentRoutineId === routine.id ? (
+          {user.currentRoutine?.id === routine.id ? (
             <UnsetCurrentRoutineButton
               onClick={() => dispatch(setCurrentRoutine(null))}
             />
           ) : (
             <SetCurrentRoutineButton
-              onClick={() => dispatch(setCurrentRoutine(routine.id))}
+              onClick={() => dispatch(setCurrentRoutine(routine))}
             />
           )}
           {onToggleEditing &&

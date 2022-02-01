@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Routine } from './routine';
 
 export type UserStateType = {
   name: string;
   gender: string;
   birth: string;
   height: number;
-  currentRoutineId: string | null;
+  currentRoutine: Routine | null;
   completeDays: string[];
 };
 
@@ -14,14 +15,8 @@ const initialState: UserStateType = {
   gender: '남성',
   birth: '1999-04-30',
   height: 172,
-  currentRoutineId: null,
-  completeDays: [
-    '2022-01-23',
-    '2022-01-24',
-    '2022-01-25',
-    '2022-01-26',
-    '2022-01-27',
-  ],
+  currentRoutine: null,
+  completeDays: ['2022-01-30'],
 };
 
 export const userSlice = createSlice({
@@ -34,8 +29,8 @@ export const userSlice = createSlice({
       state.gender = gender;
       state.height = height;
     },
-    setCurrentRoutine: (state, { payload }: { payload: string | null }) => {
-      state.currentRoutineId = payload;
+    setCurrentRoutine: (state, { payload }: { payload: Routine | null }) => {
+      state.currentRoutine = payload;
     },
     addCompleteDay: (state, { payload }: { payload: string }) => {
       state.completeDays.push(payload);
