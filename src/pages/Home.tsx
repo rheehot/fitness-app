@@ -1,11 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import { userSelector } from 'modules/hooks';
 import Template from 'templates/Template';
 import Info from 'components/Info';
-import { useSelector } from 'react-redux';
-import { userSelector } from 'modules/hooks';
-import styled from '@emotion/styled';
-import { convertDateToStr, getWeekDate } from 'lib/methods';
 import PerformRoutine from 'components/PerformRoutine';
+import { convertDateToStr, getWeekDate } from 'lib/methods';
 
 const PerformListBlock = styled.ul`
   display: grid;

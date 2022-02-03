@@ -25,11 +25,13 @@ const PerformExerciseBlock = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  overflow-x: scroll;
 `;
 
 const ExerciseBlock = styled.div<{ completed: boolean }>`
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -40,12 +42,13 @@ const ExerciseBlock = styled.div<{ completed: boolean }>`
 const SetButton = styled.div<{ available: boolean }>`
   display: flex;
   flex-direction: column;
-  font-size: 2rem;
+  flex-shrink: 0;
   place-items: center;
   padding: 0.5rem;
-  cursor: pointer;
+  font-size: 2rem;
   opacity: ${(props) => (props.available ? 1 : 0.25)};
   transition: opacity 0.2s;
+  cursor: pointer;
   b {
     font-size: 0.75rem;
   }

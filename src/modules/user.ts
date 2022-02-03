@@ -23,11 +23,23 @@ export const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setUser: (state, { payload: { name, gender, birth, height } }) => {
-      state.name = name;
-      state.birth = birth;
-      state.gender = gender;
-      state.height = height;
+    setUser: (
+      state,
+      {
+        payload,
+      }: {
+        payload: {
+          name: string;
+          gender: string;
+          birth: string;
+          height: number;
+        };
+      },
+    ) => {
+      state.name = payload.name;
+      state.birth = payload.birth;
+      state.gender = payload.gender;
+      state.height = payload.height;
     },
     setCurrentRoutine: (state, { payload }: { payload: Routine | null }) => {
       state.currentRoutine = payload;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { MdRefresh } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
+import Button from 'lib/Button';
 
 const HeaderBlock = styled.header`
   display: flex;
@@ -42,20 +43,22 @@ type NavLinkBlockProps = {
 };
 
 const NavLinkBlock = ({ to, children }: NavLinkBlockProps) => (
-  <StyledNavLink
-    to={to}
-    style={({ isActive }) =>
-      isActive
-        ? {
-            color: 'black',
-            fontWeight: 'bold',
-            borderBottom: '2px solid black',
-          }
-        : {}
-    }
-  >
-    {children}
-  </StyledNavLink>
+  <Button>
+    <StyledNavLink
+      to={to}
+      style={({ isActive }) =>
+        isActive
+          ? {
+              color: 'black',
+              fontWeight: 'bold',
+              borderBottom: '2px solid black',
+            }
+          : {}
+      }
+    >
+      {children}
+    </StyledNavLink>
+  </Button>
 );
 
 function Header() {

@@ -8,15 +8,13 @@ import {
 } from 'modules/routine';
 import { setCurrentRoutine } from 'modules/user';
 import { numToDayOfWeek } from 'lib/methods';
-import {
-  BsTriangleFill,
-  BsFillPlusCircleFill,
-  BsStar,
-  BsStarFill,
-} from 'react-icons/bs';
-import { MdOutlineEdit, MdCheck, MdRemoveCircleOutline } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from 'modules/hooks';
+import Button from 'lib/Button';
+import { BsTriangleFill, BsStar, BsStarFill } from 'react-icons/bs';
+import { MdCheck } from 'react-icons/md';
+import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   height: ${(props) => (props.visible ? '40rem' : '2.8rem')};
@@ -24,7 +22,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   border: 1px solid ${(props) => (props.editing ? '#00ffb3' : '#cccccc')};
   border-radius: 0.5rem;
   overflow: hidden;
-  transition: all 0.5s;
+  transition: border 0.2s, height 0.5s;
   .header {
     display: flex;
     justify-content: space-between;
@@ -49,7 +47,6 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
       place-items: center;
       gap: 0.5rem;
       font-size: 1.5rem;
-      cursor: pointer;
     }
   }
 `;
@@ -67,7 +64,7 @@ const RoutineDetailItem = styled.li<{ editing?: boolean }>`
   padding: 0.25rem;
   border-radius: 0.5rem;
   background: ${(props) => (props.editing ? '#dcfff5' : '#eeeeee')};
-  transition: background 0.5s;
+  transition: background 0.2s;
   .day {
     font-weight: bold;
     margin: 0 0.5rem 0 0;
@@ -87,26 +84,30 @@ const ExerciseItem = styled.li<{ editing?: boolean }>`
   flex-shrink: 0;
   flex-direction: column;
   place-items: center;
-  padding: 0.25rem 0.5rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid transparent;
   background: white;
+  transition: border 0.2s, opacity 0.2s;
   span {
     font-size: 0.8rem;
   }
   &:hover {
+    border: ${(props) => props.editing && '1px solid red'};
+    opacity: ${(props) => props.editing && 0.75};
+  }
+  &:active {
     opacity: ${(props) => props.editing && 0.5};
   }
 `;
 
 const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
   flex-shrink: 0;
-  cursor: pointer;
   transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
   transition: transform 0.25s;
 `;
 
-const RemoveRoutineButton = styled(MdRemoveCircleOutline)`
+const RemoveRoutineButton = styled(FaTrashAlt)`
   color: #df2323;
 `;
 
@@ -115,20 +116,22 @@ const UnsetCurrentRoutineButton = styled(BsStarFill)`
   color: #ffd900;
 `;
 
-const AddExerciseButton = styled(BsFillPlusCircleFill)`
+const CheckButton = styled(MdCheck)`
+  color: #00ffb3;
+  font-size: 2rem;
+  margin: -0.25rem;
+`;
+
+const AddExerciseButton = styled(AiOutlinePlus)`
   display: flex;
   flex-shrink: 0;
   place-items: center;
-  padding: 0.5rem;
-  font-size: 3rem;
-  opacity: 0.5;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.4;
-  }
-  &:active {
-    opacity: 0.3;
-  }
+  padding: 0.25rem;
+  color: white;
+  background: #00ffb3;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: bold;
 `;
 
 type RoutineItemProps = {
@@ -197,10 +200,12 @@ const RoutineItem = ({
       <div className="header">
         <div className="title">
           {onToggleVisible && (
-            <DetailButton
-              visible={routine.id === visible ? 1 : 0}
-              onClick={() => onToggleVisible(routine.id)}
-            />
+            <Button>
+              <DetailButton
+                visible={routine.id === visible ? 1 : 0}
+                onClick={() => onToggleVisible(routine.id)}
+              />
+            </Button>
           )}
           {routine.id === editing ? (
             <input
@@ -217,24 +222,31 @@ const RoutineItem = ({
         </div>
         <div className="buttons">
           {user.currentRoutine?.id === routine.id ? (
-            <UnsetCurrentRoutineButton
-              onClick={() => dispatch(setCurrentRoutine(null))}
-            />
+            <Button>
+              <UnsetCurrentRoutineButton
+                onClick={() => dispatch(setCurrentRoutine(null))}
+              />
+            </Button>
           ) : (
-            <SetCurrentRoutineButton
-              onClick={() => dispatch(setCurrentRoutine(routine))}
-            />
+            <Button>
+              <SetCurrentRoutineButton
+                onClick={() => dispatch(setCurrentRoutine(routine))}
+              />
+            </Button>
           )}
           {onToggleEditing &&
             (routine.id === editing ? (
-              <MdCheck
-                onClick={() => onToggleEditing(routine.id)}
-                style={{ color: '#00ffb3' }}
-              />
+              <Button>
+                <CheckButton onClick={() => onToggleEditing(routine.id)} />
+              </Button>
             ) : (
-              <MdOutlineEdit onClick={() => onToggleEditing(routine.id)} />
+              <Button>
+                <FaPencilAlt onClick={() => onToggleEditing(routine.id)} />
+              </Button>
             ))}
-          <RemoveRoutineButton onClick={onRemoveRoutine} />
+          <Button>
+            <RemoveRoutineButton onClick={onRemoveRoutine} />
+          </Button>
         </div>
       </div>
       <RoutineDetail>
@@ -264,7 +276,9 @@ const RoutineItem = ({
                 </ExerciseItem>
               ))}
               {onOpenModal && routine.id === editing && (
-                <AddExerciseButton onClick={() => onOpenModal(dayIdx)} />
+                <Button>
+                  <AddExerciseButton onClick={() => onOpenModal(dayIdx)} />
+                </Button>
               )}
             </ExerciseList>
           </RoutineDetailItem>
