@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import Template from 'templates/Template';
@@ -45,21 +45,33 @@ const RoutinePage = () => {
   const [visible, setVisible] = useState<string | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
 
-  const onOpenModal = (day: number) => {
+  const onOpenModal = useCallback((day: number) => {
     setDay(day);
     setModal(true);
-  };
-  const onCloseModal = () => setModal(false);
-  const onToggleVisible = (id: string) =>
-    id !== visible ? setVisible(id) : setVisible(null);
-  const onToggleEditing = (id: string) => {
-    if (id !== editing) {
-      setVisible(id);
-      setEditing(id);
-    } else {
-      setEditing(null);
-    }
-  };
+  }, []);
+  const onCloseModal = useCallback(() => setModal(false), []);
+  /* const onToggleVisible = useCallback(
+    (id: string) => (id !== visible ? setVisible(id) : setVisible(null)),
+    [visible],
+  );
+  const onToggleEditing = useCallback(
+    (id: string) => {
+      if (id !== editing) {
+        setVisible(id);
+        setEditing(id);
+      } else {
+        setEditing(null);
+      }
+    },
+    [editing],
+  ); */
+  const onVisible = useCallback((id: string) => setVisible(id), []);
+  const onInvisible = useCallback(() => setVisible(null), []);
+  const onEditing = useCallback((id: string) => {
+    setVisible(id);
+    setEditing(id);
+  }, []);
+  const onUnediting = useCallback(() => setEditing(null), []);
 
   return (
     <Template>
@@ -81,11 +93,15 @@ const RoutinePage = () => {
         {routines.map((routine) => (
           <RoutineItem
             routine={routine}
-            visible={visible}
-            editing={editing}
+            isVisible={visible === routine.id}
+            isEditing={editing === routine.id} /* 
             onToggleVisible={onToggleVisible}
-            onToggleEditing={onToggleEditing}
+            onToggleEditing={onToggleEditing} */
             onOpenModal={onOpenModal}
+            onVisible={onVisible}
+            onInvisible={onInvisible}
+            onEditing={onEditing}
+            onUnediting={onUnediting}
             key={routine.id}
           />
         ))}
@@ -102,7 +118,7 @@ const RoutinePage = () => {
                 weekRoutine: [[], [], [], [], [], [], []],
               }),
             );
-            onToggleEditing(id);
+            onEditing(id);
           }}
         />
         <b>루틴 추가</b>
@@ -111,4 +127,4 @@ const RoutinePage = () => {
   );
 };
 
-export default RoutinePage;
+export default React.memo(RoutinePage);

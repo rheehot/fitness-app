@@ -5,7 +5,7 @@ import { userSelector } from 'modules/hooks';
 import Template from 'templates/Template';
 import Info from 'components/Info';
 import PerformRoutine from 'components/PerformRoutine';
-import { convertDateToStr, getWeekDate } from 'lib/methods';
+import { dateToString, getWeekDate } from 'lib/methods';
 
 const PerformListBlock = styled.ul`
   display: grid;
@@ -55,7 +55,7 @@ const Home = () => {
         {weekDate.map((w, i) => {
           if (w < new Date()) {
             if (
-              user.completeDays.indexOf(convertDateToStr(w)) > -1 ||
+              user.completes.filter((c) => c.date === dateToString(w)).length ||
               user.currentRoutine?.weekRoutine[i].length === 0
             ) {
               return (
@@ -77,9 +77,10 @@ const Home = () => {
       </PerformListBlock>
       <CompleteText>
         <h1>오늘의 운동</h1>
-        {user.completeDays.indexOf(convertDateToStr(new Date())) > -1 && (
+        {user.completes.filter((c) => c.date === dateToString(new Date()))
+          .length ? (
           <span>완료</span>
-        )}
+        ) : null}
       </CompleteText>
       <PerformRoutine currentRoutine={user.currentRoutine} />
     </Template>

@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
-import styled from '@emotion/styled';
-import {
-  changeTitle,
-  removeExercise,
-  removeRoutine,
-  Routine,
-} from 'modules/routine';
-import { setCurrentRoutine } from 'modules/user';
-import { numToDayOfWeek } from 'lib/methods';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import { setCurrentRoutine } from 'modules/user';
+import { changeTitle, removeRoutine, Routine } from 'modules/routine';
 import { userSelector } from 'modules/hooks';
 import Button from 'lib/Button';
+import { numToDayOfWeek } from 'lib/methods';
 import { BsTriangleFill, BsStar, BsStarFill } from 'react-icons/bs';
 import { MdCheck } from 'react-icons/md';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import { AiOutlinePlus } from 'react-icons/ai';
+import RoutineExerciseList from './RoutineExerciseList';
 
 const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   height: ${(props) => (props.visible ? '40rem' : '2.8rem')};
@@ -51,14 +46,20 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   }
 `;
 
-const RoutineDetail = styled.ul`
+const DetailButton = styled(BsTriangleFill)<{ visible: boolean }>`
+  flex-shrink: 0;
+  transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
+  transition: transform 0.25s;
+`;
+
+const RoutineDetailBlock = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin-top: 0.5rem;
 `;
 
-const RoutineDetailItem = styled.li<{ editing?: boolean }>`
+const RoutineDetailItem = styled.li<{ editing?: number }>`
   display: flex;
   place-items: center;
   padding: 0.25rem;
@@ -69,42 +70,6 @@ const RoutineDetailItem = styled.li<{ editing?: boolean }>`
     font-weight: bold;
     margin: 0 0.5rem 0 0;
   }
-`;
-
-const ExerciseList = styled.ul`
-  display: flex;
-  align-items: center;
-  overflow: scroll hidden;
-  gap: 0.5rem;
-  height: 4.5rem;
-`;
-
-const ExerciseItem = styled.li<{ editing?: boolean }>`
-  display: flex;
-  flex-shrink: 0;
-  flex-direction: column;
-  place-items: center;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid transparent;
-  background: white;
-  transition: border 0.2s, opacity 0.2s;
-  span {
-    font-size: 0.8rem;
-  }
-  &:hover {
-    border: ${(props) => props.editing && '1px solid red'};
-    opacity: ${(props) => props.editing && 0.75};
-  }
-  &:active {
-    opacity: ${(props) => props.editing && 0.5};
-  }
-`;
-
-const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
-  flex-shrink: 0;
-  transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
-  transition: transform 0.25s;
 `;
 
 const RemoveRoutineButton = styled(FaTrashAlt)`
@@ -122,36 +87,28 @@ const CheckButton = styled(MdCheck)`
   margin: -0.25rem;
 `;
 
-const AddExerciseButton = styled(AiOutlinePlus)`
-  display: flex;
-  flex-shrink: 0;
-  place-items: center;
-  padding: 0.25rem;
-  color: white;
-  background: #00ffb3;
-  border-radius: 50%;
-  font-size: 2rem;
-  font-weight: bold;
-`;
-
 type RoutineItemProps = {
-  isCurrent?: boolean;
   routine: Routine;
-  visible?: string | null;
-  editing?: string | null;
-  onToggleVisible?: (id: string) => void;
-  onToggleEditing?: (id: string) => void;
+  isCurrent?: boolean;
+  isVisible?: boolean;
+  isEditing?: boolean;
   onOpenModal?: (day: number) => void;
+  onVisible?: (id: string) => void;
+  onInvisible?: () => void;
+  onEditing?: (id: string) => void;
+  onUnediting?: () => void;
 };
 
 const RoutineItem = ({
-  isCurrent,
   routine,
-  visible,
-  editing,
-  onToggleVisible,
-  onToggleEditing,
+  isCurrent = false,
+  isVisible = false,
+  isEditing = false,
   onOpenModal,
+  onVisible,
+  onInvisible,
+  onEditing,
+  onUnediting,
 }: RoutineItemProps) => {
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -172,42 +129,34 @@ const RoutineItem = ({
       <div className="header">
         <div className="title">{routine.title}</div>
       </div>
-      <RoutineDetail>
+      <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
-          <RoutineDetailItem>
+          <RoutineDetailItem editing={isEditing ? 1 : 0}>
             <span className="day">{numToDayOfWeek(dayIdx)}</span>
-            <ExerciseList>
-              {dayRoutine.map((s) => (
-                <ExerciseItem>
-                  <b>{s.exercise.name}</b>
-                  <span>{s.weight} kg</span>
-                  <span>
-                    {s.numberOfSets} x {s.numberOfTimes}
-                  </span>
-                </ExerciseItem>
-              ))}
-            </ExerciseList>
+            <RoutineExerciseList
+              dayRoutine={dayRoutine}
+              dayIdx={dayIdx}
+              routineId={routine.id}
+              editing={isEditing}
+              onOpenModal={onOpenModal}
+            />
           </RoutineDetailItem>
         ))}
-      </RoutineDetail>
+      </RoutineDetailBlock>
     </RoutineItemBlock>
   ) : (
-    <RoutineItemBlock
-      key={routine.id}
-      visible={routine.id === visible}
-      editing={routine.id === editing}
-    >
+    <RoutineItemBlock key={routine.id} visible={isVisible} editing={isEditing}>
       <div className="header">
         <div className="title">
-          {onToggleVisible && (
+          {onVisible && onInvisible && (
             <Button>
               <DetailButton
-                visible={routine.id === visible ? 1 : 0}
-                onClick={() => onToggleVisible(routine.id)}
+                visible={isVisible}
+                onClick={isVisible ? onInvisible : () => onVisible(routine.id)}
               />
             </Button>
           )}
-          {routine.id === editing ? (
+          {isEditing ? (
             <input
               type="text"
               value={routine.title}
@@ -234,14 +183,15 @@ const RoutineItem = ({
               />
             </Button>
           )}
-          {onToggleEditing &&
-            (routine.id === editing ? (
+          {onEditing &&
+            onUnediting &&
+            (isEditing ? (
               <Button>
-                <CheckButton onClick={() => onToggleEditing(routine.id)} />
+                <CheckButton onClick={onUnediting} />
               </Button>
             ) : (
               <Button>
-                <FaPencilAlt onClick={() => onToggleEditing(routine.id)} />
+                <FaPencilAlt onClick={() => onEditing(routine.id)} />
               </Button>
             ))}
           <Button>
@@ -249,52 +199,33 @@ const RoutineItem = ({
           </Button>
         </div>
       </div>
-      <RoutineDetail>
+      <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
-          <RoutineDetailItem editing={routine.id === editing}>
+          <RoutineDetailItem>
             <span className="day">{numToDayOfWeek(dayIdx)}</span>
-            <ExerciseList>
-              {dayRoutine.map((s, i) => (
-                <ExerciseItem
-                  editing={routine.id === editing}
-                  onClick={() =>
-                    routine.id === editing &&
-                    dispatch(
-                      removeExercise({
-                        id: routine.id,
-                        day: dayIdx,
-                        idx: i,
-                      }),
-                    )
-                  }
-                >
-                  <b>{s.exercise.name}</b>
-                  <span>{s.weight} kg</span>
-                  <span>
-                    {s.numberOfSets} x {s.numberOfTimes}
-                  </span>
-                </ExerciseItem>
-              ))}
-              {onOpenModal && routine.id === editing && (
-                <Button>
-                  <AddExerciseButton onClick={() => onOpenModal(dayIdx)} />
-                </Button>
-              )}
-            </ExerciseList>
+            <RoutineExerciseList
+              dayRoutine={dayRoutine}
+              dayIdx={dayIdx}
+              routineId={routine.id}
+              editing={isEditing}
+              onOpenModal={onOpenModal}
+            />
           </RoutineDetailItem>
         ))}
-      </RoutineDetail>
+      </RoutineDetailBlock>
     </RoutineItemBlock>
   );
 };
 
 RoutineItem.defaultProps = {
   isCurrent: false,
-  visible: null,
-  editing: null,
-  onToggleVisible: null,
-  onToggleEditing: null,
+  isVisible: false,
+  isEditing: false,
   onOpenModal: null,
+  onVisible: null,
+  onInvisible: null,
+  onEditing: null,
+  onUnediting: null,
 };
 
-export default RoutineItem;
+export default React.memo(RoutineItem);

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
 import AlertModal from 'lib/AlertModal';
+import { categoryToKor } from 'lib/methods';
 import exerciseJSON from '../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
@@ -237,7 +238,7 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
               >
                 <b>{exer.name}</b>
                 <span>
-                  {exer.category} - {exer.part}
+                  [{categoryToKor(exer.category)}] {exer.part}
                 </span>
               </ExerciseItemBlock>
             ))}

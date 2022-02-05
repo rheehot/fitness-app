@@ -6,10 +6,23 @@ export const dateStringToDay = (str: string) => {
   return d.getDay();
 };
 
-export const convertDateToStr = (date: Date) =>
+export const dateToString = (date: Date) =>
   `${date.getFullYear()}-${
     date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
   }-${date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}`;
+
+export const categoryToKor = (str: string) => {
+  switch (str) {
+    case 'upper':
+      return '상체';
+    case 'lower':
+      return '하체';
+    case 'core':
+      return '코어';
+    default:
+      return str;
+  }
+};
 
 export const getWeekDate = (date: Date) => {
   date.setDate(date.getDate() - date.getDay()); // this week, sunday

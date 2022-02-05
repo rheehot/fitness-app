@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ExerciseItem } from 'modules/routine';
 import { Routine } from './routine';
+
+type completeItem = {
+  date: string;
+  list: ExerciseItem[];
+};
 
 export type UserStateType = {
   name: string;
@@ -7,7 +13,7 @@ export type UserStateType = {
   birth: string;
   height: number;
   currentRoutine: Routine | null;
-  completeDays: string[];
+  completes: completeItem[];
 };
 
 const initialState: UserStateType = {
@@ -16,7 +22,23 @@ const initialState: UserStateType = {
   birth: '1999-04-30',
   height: 172,
   currentRoutine: null,
-  completeDays: ['2022-01-30'],
+  completes: [
+    {
+      date: '2022-01-30',
+      list: [
+        {
+          exercise: {
+            name: '랫 풀 다운',
+            category: 'upper',
+            part: ['등'],
+          },
+          weight: 40,
+          numberOfSets: 5,
+          numberOfTimes: 12,
+        },
+      ],
+    },
+  ],
 };
 
 export const userSlice = createSlice({
@@ -44,8 +66,8 @@ export const userSlice = createSlice({
     setCurrentRoutine: (state, { payload }: { payload: Routine | null }) => {
       state.currentRoutine = payload;
     },
-    addCompleteDay: (state, { payload }: { payload: string }) => {
-      state.completeDays.push(payload);
+    addCompleteDay: (state, { payload }: { payload: completeItem }) => {
+      state.completes.push(payload);
     },
   },
 });
