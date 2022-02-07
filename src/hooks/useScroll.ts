@@ -1,24 +1,37 @@
 /* eslint-disable no-param-reassign */
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
-const useScroll = (
-  ref: React.RefObject<HTMLUListElement>,
-  viewWidth: number,
-) => {
-  const maxWidth = ref.current ? ref.current.scrollWidth : 0;
-  const vWidth = ref.current ? ref.current.offsetWidth : 0;
-
-  console.log(maxWidth, vWidth);
-  const [currentX, setCurrentX] = useState(0);
-
-  const moveNext = () => {
+const useScroll = (ref: React.RefObject<HTMLUListElement>) => {
+  const x = useRef(0);
+  const moveTo = (direction: string) => {
     if (!ref.current) return;
 
-    setCurrentX(currentX + 1);
-    ref.current.scrollLeft = currentX;
+    const maxWidth = ref.current ? ref.current.scrollWidth : 0;
+    const vWidth = ref.current ? ref.current.clientWidth : 0;
+    // console.log(maxWidth, vWidth);
+
+    switch (direction) {
+      case 'next':
+        if (x.current >= maxWidth - ref.current.clientWidth) return;
+        x.current = Math.min(
+          x.current + vWidth,
+          maxWidth - ref.current.clientWidth,
+        );
+        break;
+      case 'prev':
+        if (x.current <= 0) return;
+        x.current = Math.max(x.current - vWidth, 0);
+        break;
+      case 'end':
+        x.current = maxWidth - ref.current.clientWidth;
+        break;
+      default:
+        break;
+    }
+    ref.current.scrollLeft = x.current;
   };
 
-  return { moveNext };
+  return { moveTo };
 };
 
 export default useScroll;

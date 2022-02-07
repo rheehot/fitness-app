@@ -50,21 +50,7 @@ const RoutinePage = () => {
     setModal(true);
   }, []);
   const onCloseModal = useCallback(() => setModal(false), []);
-  /* const onToggleVisible = useCallback(
-    (id: string) => (id !== visible ? setVisible(id) : setVisible(null)),
-    [visible],
-  );
-  const onToggleEditing = useCallback(
-    (id: string) => {
-      if (id !== editing) {
-        setVisible(id);
-        setEditing(id);
-      } else {
-        setEditing(null);
-      }
-    },
-    [editing],
-  ); */
+
   const onVisible = useCallback((id: string) => setVisible(id), []);
   const onInvisible = useCallback(() => setVisible(null), []);
   const onEditing = useCallback((id: string) => {
@@ -94,9 +80,7 @@ const RoutinePage = () => {
           <RoutineItem
             routine={routine}
             isVisible={visible === routine.id}
-            isEditing={editing === routine.id} /* 
-            onToggleVisible={onToggleVisible}
-            onToggleEditing={onToggleEditing} */
+            isEditing={editing === routine.id}
             onOpenModal={onOpenModal}
             onVisible={onVisible}
             onInvisible={onInvisible}

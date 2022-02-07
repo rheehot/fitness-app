@@ -113,13 +113,6 @@ const ButtonsBlock = styled.div`
   }
 `;
 
-type AddExerciseProps = {
-  id: string | null;
-  day: number | null;
-  visible: boolean;
-  onClose: () => void;
-};
-
 type InputState = {
   weight: number;
   numberOfTimes: number;
@@ -142,6 +135,13 @@ const reducer = (state: InputState, action: InputAction) => {
     default:
       return state;
   }
+};
+
+type AddExerciseProps = {
+  id: string | null;
+  day: number | null;
+  visible: boolean;
+  onClose: () => void;
 };
 
 const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {

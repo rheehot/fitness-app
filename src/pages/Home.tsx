@@ -12,8 +12,6 @@ const PerformListBlock = styled.ul`
   grid-template-columns: repeat(7, 1fr);
   border-radius: 0.5rem;
   overflow: hidden;
-  li + li {
-  }
   li:nth-of-type(1) {
     color: red;
   }

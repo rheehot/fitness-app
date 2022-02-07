@@ -46,7 +46,17 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   }
 `;
 
-const DetailButton = styled(BsTriangleFill)<{ visible: boolean }>`
+const DaySpan = styled.div<{ dayIdx: number }>`
+  margin: 0 0.25rem 0 0;
+  font-weight: bold;
+  color: ${(props) => {
+    if (props.dayIdx === 0) return 'red';
+    if (props.dayIdx === 6) return 'blue';
+    return 'black';
+  }};
+`;
+
+const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
   flex-shrink: 0;
   transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
   transition: transform 0.25s;
@@ -66,9 +76,9 @@ const RoutineDetailItem = styled.li<{ editing?: number }>`
   border-radius: 0.5rem;
   background: ${(props) => (props.editing ? '#dcfff5' : '#eeeeee')};
   transition: background 0.2s;
-  .day {
-    font-weight: bold;
-    margin: 0 0.5rem 0 0;
+  overflow: hidden;
+  .list {
+    flex-grow: 1;
   }
 `;
 
@@ -132,14 +142,16 @@ const RoutineItem = ({
       <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
           <RoutineDetailItem editing={isEditing ? 1 : 0}>
-            <span className="day">{numToDayOfWeek(dayIdx)}</span>
-            <RoutineExerciseList
-              dayRoutine={dayRoutine}
-              dayIdx={dayIdx}
-              routineId={routine.id}
-              editing={isEditing}
-              onOpenModal={onOpenModal}
-            />
+            <DaySpan dayIdx={dayIdx}>{numToDayOfWeek(dayIdx)}</DaySpan>
+            <div className="list">
+              <RoutineExerciseList
+                dayRoutine={dayRoutine}
+                dayIdx={dayIdx}
+                routineId={routine.id}
+                editing={isEditing}
+                onOpenModal={onOpenModal}
+              />
+            </div>
           </RoutineDetailItem>
         ))}
       </RoutineDetailBlock>
@@ -151,7 +163,7 @@ const RoutineItem = ({
           {onVisible && onInvisible && (
             <Button>
               <DetailButton
-                visible={isVisible}
+                visible={isVisible ? 1 : 0}
                 onClick={isVisible ? onInvisible : () => onVisible(routine.id)}
               />
             </Button>
@@ -202,14 +214,16 @@ const RoutineItem = ({
       <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
           <RoutineDetailItem>
-            <span className="day">{numToDayOfWeek(dayIdx)}</span>
-            <RoutineExerciseList
-              dayRoutine={dayRoutine}
-              dayIdx={dayIdx}
-              routineId={routine.id}
-              editing={isEditing}
-              onOpenModal={onOpenModal}
-            />
+            <DaySpan dayIdx={dayIdx}>{numToDayOfWeek(dayIdx)}</DaySpan>
+            <div className="list">
+              <RoutineExerciseList
+                dayRoutine={dayRoutine}
+                dayIdx={dayIdx}
+                routineId={routine.id}
+                editing={isEditing}
+                onOpenModal={onOpenModal}
+              />
+            </div>
           </RoutineDetailItem>
         ))}
       </RoutineDetailBlock>

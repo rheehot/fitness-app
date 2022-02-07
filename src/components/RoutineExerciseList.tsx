@@ -5,13 +5,22 @@ import { ExerciseItem, removeExercise } from 'modules/routine';
 import useScroll from 'hooks/useScroll';
 import Button from 'lib/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+
+const ExerciseListWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const ExerciseListBlock = styled.ul`
   display: flex;
+  flex-grow: 1;
   align-items: center;
   gap: 0.5rem;
+  width: 0;
   height: 4.5rem;
   overflow: hidden;
+  scroll-behavior: smooth;
 `;
 
 const ExerciseItemBlock = styled.li<{ editing?: boolean }>`
@@ -48,6 +57,22 @@ const AddExerciseButton = styled(AiOutlinePlus)`
   font-weight: bold;
 `;
 
+const PrevScrollButton = styled(Button)`
+  border-radius: 0.5rem 0 0 0.5rem;
+  margin-right: 0.5rem;
+  color: white;
+  background: #cccccc;
+  font-size: 1.5rem;
+`;
+
+const NextScrollButton = styled(Button)`
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin-left: 0.5rem;
+  color: white;
+  background: #cccccc;
+  font-size: 1.5rem;
+`;
+
 type RoutineExerciseListProps = {
   dayRoutine: ExerciseItem[];
   dayIdx: number;
@@ -66,38 +91,45 @@ const RoutineExerciseList = ({
   const dispatch = useDispatch();
 
   const ref = useRef<HTMLUListElement>(null);
-  const viewWidth = document.documentElement.clientWidth;
-  const { moveNext } = useScroll(ref, viewWidth);
+  const { moveTo } = useScroll(ref);
 
   return (
-    <ExerciseListBlock ref={ref}>
-      {dayRoutine.map((s, i) => (
-        <ExerciseItemBlock
-          editing={editing}
-          onClick={() =>
-            editing &&
-            dispatch(
-              removeExercise({
-                id: routineId,
-                day: dayIdx,
-                idx: i,
-              }),
-            )
-          }
-        >
-          <b>{s.exercise.name}</b>
-          <span>{s.weight} kg</span>
-          <span>
-            {s.numberOfSets} x {s.numberOfTimes}
-          </span>
-        </ExerciseItemBlock>
-      ))}
-      {onOpenModal && editing && (
-        <Button>
-          <AddExerciseButton onClick={() => onOpenModal(dayIdx)} />
-        </Button>
-      )}
-    </ExerciseListBlock>
+    <ExerciseListWrapper>
+      <PrevScrollButton onClick={() => moveTo('prev')}>
+        <MdNavigateBefore />
+      </PrevScrollButton>
+      <ExerciseListBlock ref={ref}>
+        {dayRoutine.map((s, i) => (
+          <ExerciseItemBlock
+            editing={editing}
+            onClick={() =>
+              editing &&
+              dispatch(
+                removeExercise({
+                  id: routineId,
+                  day: dayIdx,
+                  idx: i,
+                }),
+              )
+            }
+          >
+            <b>{s.exercise.name}</b>
+            <span>{s.weight} kg</span>
+            <span>
+              {s.numberOfSets} x {s.numberOfTimes}
+            </span>
+          </ExerciseItemBlock>
+        ))}
+        {onOpenModal && editing && (
+          <Button onClick={() => onOpenModal(dayIdx)}>
+            <AddExerciseButton />
+          </Button>
+        )}
+      </ExerciseListBlock>
+      <NextScrollButton onClick={() => moveTo('next')}>
+        <MdNavigateNext />
+      </NextScrollButton>
+    </ExerciseListWrapper>
   );
 };
 

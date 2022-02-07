@@ -3,6 +3,7 @@ import React from 'react';
 
 type ButtonProps = {
   children: React.ReactNode;
+  [x: string]: unknown;
 };
 
 const ButtonBlock = styled.div`
@@ -19,8 +20,9 @@ const ButtonBlock = styled.div`
   padding: 0;
 `;
 
-const Button = ({ children }: ButtonProps) => {
-  return <ButtonBlock>{children}</ButtonBlock>;
+const Button = ({ children, ...props }: ButtonProps) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <ButtonBlock {...props}>{children}</ButtonBlock>;
 };
 
 export default Button;
