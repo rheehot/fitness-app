@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { ExerciseItem, removeExercise } from 'modules/routine';
@@ -92,6 +92,12 @@ const RoutineExerciseList = ({
 
   const ref = useRef<HTMLUListElement>(null);
   const { moveTo } = useScroll(ref);
+
+  const dr = useRef<ExerciseItem[]>(dayRoutine);
+  useEffect(() => {
+    if (dr.current.length < dayRoutine.length) moveTo('end');
+    dr.current = dayRoutine;
+  }, [dayRoutine]);
 
   return (
     <ExerciseListWrapper>

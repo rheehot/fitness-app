@@ -8,7 +8,6 @@ const useScroll = (ref: React.RefObject<HTMLUListElement>) => {
 
     const maxWidth = ref.current ? ref.current.scrollWidth : 0;
     const vWidth = ref.current ? ref.current.clientWidth : 0;
-    // console.log(maxWidth, vWidth);
 
     switch (direction) {
       case 'next':

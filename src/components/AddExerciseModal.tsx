@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
 import AlertModal from 'lib/AlertModal';
 import { categoryToKor } from 'lib/methods';
+import Button from 'lib/Button';
 import exerciseJSON from '../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
@@ -62,8 +63,8 @@ const ExerciseItemBlock = styled.li<{ isSelected: number }>`
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 1px solid ${(props) => (props.isSelected ? '#00ffb3' : 'white')};
-  background: ${(props) => (props.isSelected ? '#dcfff5' : 'white')};
+  background: ${(props) => (props.isSelected ? '#00ffb3' : 'white')};
+  transition: background 0.2s;
 `;
 
 const FooterBlock = styled.div`
@@ -107,9 +108,16 @@ const ButtonsBlock = styled.div`
     }
   }
   .submit {
+    padding: 0.25rem 0.5rem;
     border: 1px solid transparent;
     color: white;
     background: #00ffb3;
+    font-size: 1.25rem;
+  }
+  .close {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #cccccc;
+    font-size: 1.25rem;
   }
 `;
 
@@ -277,12 +285,12 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
             </div>
           </ConfirmBlock>
           <ButtonsBlock>
-            <button className="submit" type="button" onClick={onAddExercise}>
+            <Button className="submit" onClick={onAddExercise}>
               추가
-            </button>
-            <button className="close" type="button" onClick={onClose}>
+            </Button>
+            <Button className="close" onClick={onClose}>
               취소
-            </button>
+            </Button>
           </ButtonsBlock>
         </FooterBlock>
       </AddExerciseBlock>

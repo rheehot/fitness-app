@@ -2,13 +2,15 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 type ButtonProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   [x: string]: unknown;
 };
 
 const ButtonBlock = styled.div`
   display: grid;
   place-items: center;
+  border-radius: 0.5rem;
+  font-weight: bold;
   cursor: pointer;
   &:hover {
     opacity: 0.75;
@@ -23,6 +25,10 @@ const ButtonBlock = styled.div`
 const Button = ({ children, ...props }: ButtonProps) => {
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <ButtonBlock {...props}>{children}</ButtonBlock>;
+};
+
+Button.defaultProps = {
+  children: null,
 };
 
 export default Button;

@@ -41,9 +41,9 @@ const RoutinePage = () => {
   const dispatch = useDispatch();
 
   const [modal, setModal] = useState(false);
-  const [day, setDay] = useState<number | null>(null);
   const [visible, setVisible] = useState<string | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
+  const [day, setDay] = useState<number | null>(null);
 
   const onOpenModal = useCallback((day: number) => {
     setDay(day);

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { GrCircleAlert } from 'react-icons/gr';
 
 const InfoModal = styled.div<{ visible: boolean }>`
-  pointer-events: none;
   display: flex;
   background: ${(props) =>
     props.visible ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0)'};
@@ -14,26 +13,26 @@ const InfoModal = styled.div<{ visible: boolean }>`
   width: 100%;
   height: 100%;
   transition: background 0.5s;
-  content: '';
+  pointer-events: none;
   .text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     place-items: center;
     gap: 0.25rem;
     position: fixed;
+    width: 80%;
     z-index: 300;
     top: 50%;
     left: 50%;
     padding: 1rem;
     border-radius: 0.5rem;
     background: white;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: bold;
     transform: translate(-50%, -50%);
     opacity: ${(props) => (props.visible ? 1 : 0)};
-    transition: opacity 0.5s;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.5s;
     .icon {
       font-size: 2.5rem;
     }
