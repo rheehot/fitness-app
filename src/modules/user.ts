@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ExerciseItem } from 'modules/routine';
 import { Routine } from './routine';
 
-type completeItem = {
+export type CompleteItem = {
   date: string;
   list: ExerciseItem[];
 };
@@ -13,7 +13,7 @@ export type UserStateType = {
   birth: string;
   height: number;
   currentRoutine: Routine | null;
-  completes: completeItem[];
+  completes: CompleteItem[];
 };
 
 const initialState: UserStateType = {
@@ -24,7 +24,7 @@ const initialState: UserStateType = {
   currentRoutine: null,
   completes: [
     {
-      date: '2022-01-30',
+      date: '2022-02-09',
       list: [
         {
           exercise: {
@@ -66,7 +66,7 @@ export const userSlice = createSlice({
     setCurrentRoutine: (state, { payload }: { payload: Routine | null }) => {
       state.currentRoutine = payload;
     },
-    addCompleteDay: (state, { payload }: { payload: completeItem }) => {
+    addCompleteDay: (state, { payload }: { payload: CompleteItem }) => {
       state.completes.push(payload);
     },
   },

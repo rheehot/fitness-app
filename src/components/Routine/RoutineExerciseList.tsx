@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { ExerciseItem, removeExercise } from 'modules/routine';
 import useScroll from 'hooks/useScroll';
-import Button from 'lib/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import Button from 'lib/Button';
+import palette from 'lib/palette';
 
 const ExerciseListWrapper = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const ExerciseListBlock = styled.ul`
   }
 `;
 
-const ExerciseItemBlock = styled.li<{ editing?: boolean }>`
+const ExerciseItemBlock = styled.li<{ editing?: number }>`
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
@@ -45,22 +46,22 @@ const ExerciseItemBlock = styled.li<{ editing?: boolean }>`
     font-size: 0.8rem;
   }
   &:hover {
-    border: ${(props) => props.editing && '1px solid red'};
-    opacity: ${(props) => props.editing && 0.75};
+    ${(props) => props.editing && '1px solid red'};
+    opacity: ${(props) => (props.editing ? 0.75 : 1)};
   }
   &:active {
-    opacity: ${(props) => props.editing && 0.5};
+    opacity: ${(props) => (props.editing ? 0.5 : 1)};
   }
 `;
 
-const AddExerciseButton = styled(AiOutlinePlus)<{ editing: boolean }>`
+const AddExerciseButton = styled(AiOutlinePlus)<{ editing: number }>`
   display: flex;
   flex-shrink: 0;
   place-items: center;
   padding: 0.25rem;
   border-radius: 50%;
   color: white;
-  background: #00ffb3;
+  background: ${palette.green_main};
   font-size: 2rem;
   font-weight: bold;
   visibility: ${(props) => (props.editing ? '' : 'hidden')};
@@ -68,19 +69,19 @@ const AddExerciseButton = styled(AiOutlinePlus)<{ editing: boolean }>`
 
 const PrevScrollButton = styled(Button)<{ isEnd: boolean }>`
   position: absolute;
-  height: 100%;
   left: 0;
+  height: 100%;
   color: white;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.2);
   font-size: 1.75rem;
 `;
 
 const NextScrollButton = styled(Button)<{ isEnd: boolean }>`
   position: absolute;
-  height: 100%;
   right: 0;
+  height: 100%;
   color: white;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.2);
   font-size: 1.75rem;
 `;
 
@@ -121,7 +122,7 @@ const RoutineExerciseList = ({
       <ExerciseListBlock ref={ref}>
         {dayRoutine.map((s, i) => (
           <ExerciseItemBlock
-            editing={editing}
+            editing={editing ? 1 : 0}
             onClick={() =>
               editing &&
               dispatch(
@@ -142,7 +143,7 @@ const RoutineExerciseList = ({
         ))}
         {onOpenModal && (
           <Button onClick={editing ? () => onOpenModal(dayIdx) : null}>
-            <AddExerciseButton editing={editing} />
+            <AddExerciseButton editing={editing ? 1 : 0} />
           </Button>
         )}
       </ExerciseListBlock>

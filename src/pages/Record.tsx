@@ -5,7 +5,7 @@ import RecordCalendar from 'components/Record/RecordCalendar';
 const Record = () => {
   return (
     <Template>
-      <RecordCalendar initialMonth={2} />
+      <RecordCalendar />
     </Template>
   );
 };

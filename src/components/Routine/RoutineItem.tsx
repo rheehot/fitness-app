@@ -6,15 +6,17 @@ import { changeTitle, removeRoutine, Routine } from 'modules/routine';
 import { userSelector } from 'modules/hooks';
 import Button from 'lib/Button';
 import { numToDayOfWeek } from 'lib/methods';
+import palette from 'lib/palette';
 import { BsTriangleFill, BsStar, BsStarFill } from 'react-icons/bs';
 import { MdCheck } from 'react-icons/md';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import RoutineExerciseList from './RoutineExerciseList';
 
 const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
-  height: ${(props) => (props.visible ? '40rem' : '2.8rem')};
+  height: ${(props) => (props.visible ? '40rem' : '3rem')};
   padding: 0.5rem;
-  border: 1px solid ${(props) => (props.editing ? '#00ffb3' : '#cccccc')};
+  border: 1px solid
+    ${(props) => (props.editing ? palette.green_main : palette.grey_main)};
   border-radius: 0.5rem;
   overflow: hidden;
   transition: border 0.2s, height 0.5s;
@@ -33,7 +35,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
       overflow: hidden;
       input {
         min-width: 0;
-        font-size: 1.125rem;
+        font-size: 1.025rem;
         margin-right: 0.5rem;
       }
     }
@@ -50,8 +52,8 @@ const DaySpan = styled.div<{ dayIdx: number }>`
   margin: 0 0.25rem 0 0;
   font-weight: bold;
   color: ${(props) => {
-    if (props.dayIdx === 0) return 'red';
-    if (props.dayIdx === 6) return 'blue';
+    if (props.dayIdx === 0) return palette.red;
+    if (props.dayIdx === 6) return palette.blue;
     return 'black';
   }};
 `;
@@ -74,7 +76,8 @@ const RoutineDetailItem = styled.li<{ editing?: number }>`
   place-items: center;
   padding: 0.25rem;
   border-radius: 0.5rem;
-  background: ${(props) => (props.editing ? '#dcfff5' : '#eeeeee')};
+  background: ${(props) =>
+    props.editing ? palette.green_sub : palette.grey_sub};
   transition: background 0.2s;
   overflow: hidden;
   .list {
@@ -83,18 +86,19 @@ const RoutineDetailItem = styled.li<{ editing?: number }>`
 `;
 
 const RemoveRoutineButton = styled(FaTrashAlt)`
-  color: #df2323;
+  color: ${palette.red};
 `;
 
 const SetCurrentRoutineButton = styled(BsStar)``;
+
 const UnsetCurrentRoutineButton = styled(BsStarFill)`
-  color: #ffd900;
+  color: ${palette.yellow};
 `;
 
 const CheckButton = styled(MdCheck)`
-  color: #00ffb3;
-  font-size: 2rem;
   margin: -0.25rem;
+  color: ${palette.green_main};
+  font-size: 2rem;
 `;
 
 type RoutineItemProps = {

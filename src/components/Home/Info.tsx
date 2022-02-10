@@ -6,11 +6,13 @@ import { MdCheck } from 'react-icons/md';
 import Button from 'lib/Button';
 import { useDispatch } from 'react-redux';
 import AlertModal from 'lib/AlertModal';
+import palette from 'lib/palette';
 
 const InfoBlock = styled.div<{ editing: boolean }>`
   position: relative;
   padding: 0.5rem;
-  border: 1px solid ${(props) => (props.editing ? '#00ffb3' : '#cccccc')};
+  border: 1px solid
+    ${(props) => (props.editing ? palette.green_main : palette.grey_main)};
   border-radius: 0.5rem;
   transition: border 0.2s;
   p {
@@ -20,7 +22,7 @@ const InfoBlock = styled.div<{ editing: boolean }>`
       border: none;
       border-radius: 0.25rem;
       margin-left: 0.25rem;
-      background: #eeeeee;
+      background: ${palette.grey_sub};
       font-size: 1rem;
     }
   }
@@ -36,7 +38,7 @@ const EditButton = styled.div`
 `;
 
 const CheckButton = styled(MdCheck)`
-  color: #00ffb3;
+  color: ${palette.green_main};
   font-size: 2rem;
   margin: -0.25rem;
 `;

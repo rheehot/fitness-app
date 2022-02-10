@@ -5,6 +5,7 @@ import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
 import AlertModal from 'lib/AlertModal';
 import { categoryToKor } from 'lib/methods';
 import Button from 'lib/Button';
+import palette from 'lib/palette';
 import exerciseJSON from '../../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
@@ -42,7 +43,8 @@ const CategoryItemBlock = styled.li<{ checked: number }>`
   display: flex;
   justify-content: center;
   padding: 0.25rem;
-  border: 1px solid ${(props) => (props.checked ? '#00ffb3' : '#cccccc')};
+  border: 1px solid
+    ${(props) => (props.checked ? palette.green_main : palette.grey_main)};
   border-radius: 0.5rem;
   font-weight: ${(props) => props.checked && 'bold'};
   cursor: pointer;
@@ -52,7 +54,7 @@ const ExerciseListBlock = styled.ul`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  background: #eeeeee;
+  background: ${palette.grey_sub};
   gap: 0.5rem;
   padding: 0.5rem;
   height: 100%;
@@ -63,7 +65,7 @@ const ExerciseItemBlock = styled.li<{ isSelected: number }>`
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background: ${(props) => (props.isSelected ? '#00ffb3' : 'white')};
+  background: ${(props) => (props.isSelected ? palette.green_main : 'white')};
   transition: background 0.2s;
 `;
 
@@ -95,7 +97,7 @@ const ButtonsBlock = styled.div`
   button {
     display: flex;
     padding: 0.25rem 0.5rem;
-    border: 1px solid #cccccc;
+    border: 1px solid ${palette.grey_main};
     border-radius: 0.5rem;
     background: white;
     font-size: 1.25rem;
@@ -111,12 +113,12 @@ const ButtonsBlock = styled.div`
     padding: 0.25rem 0.5rem;
     border: 1px solid transparent;
     color: white;
-    background: #00ffb3;
+    background: ${palette.green_main};
     font-size: 1.25rem;
   }
   .close {
     padding: 0.25rem 0.5rem;
-    border: 1px solid #cccccc;
+    border: 1px solid ${palette.grey_main};
     font-size: 1.25rem;
   }
 `;
