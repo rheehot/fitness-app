@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { userSelector } from 'modules/hooks';
 import Template from 'templates/Template';
-import Info from 'components/Info';
-import PerformRoutine from 'components/PerformRoutine';
+import Info from 'components/Home/Info';
+import PerformRoutine from 'components/Home/PerformRoutine';
 import { dateToString, getWeekDate } from 'lib/methods';
 
 const PerformListBlock = styled.ul`

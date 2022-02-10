@@ -23,9 +23,11 @@ const PerformRoutineBlock = styled.div`
 
 const PerformExerciseBlock = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
-  overflow-x: scroll;
+  border: 1px solid #eeeeee;
+  border-radius: 0.5rem;
+  overflow: hidden;
 `;
 
 const ExerciseBlock = styled.div<{ completed: boolean }>`
@@ -33,7 +35,7 @@ const ExerciseBlock = styled.div<{ completed: boolean }>`
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
-  border-radius: 0.5rem;
+  border-radius: 0 0 0.5rem 0;
   padding: 0.5rem;
   background: ${(props) => (props.completed ? '#00ffb3' : '#eeeeee')};
   transition: background 0.2s;
@@ -44,7 +46,7 @@ const SetButton = styled.div<{ available: boolean }>`
   flex-direction: column;
   flex-shrink: 0;
   place-items: center;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   font-size: 2rem;
   opacity: ${(props) => (props.available ? 1 : 0.25)};
   transition: opacity 0.2s;

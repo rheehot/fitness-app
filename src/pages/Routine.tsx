@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import Template from 'templates/Template';
 import { addRoutine } from 'modules/routine';
 import { routineSelector, userSelector } from 'modules/hooks';
-import RoutineItem from 'components/RoutineItem';
-import AddExercise from 'components/AddExerciseModal';
+import RoutineItem from 'components/Routine/RoutineItem';
+import AddExercise from 'components/Routine/AddExerciseModal';
 import { BsPlusCircle } from 'react-icons/bs';
 import { v4 as uuidv4 } from 'uuid';
 

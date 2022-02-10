@@ -1,6 +1,6 @@
 import React from 'react';
 import Template from 'templates/Template';
-import RecordCalendar from 'components/RecordCalendar';
+import RecordCalendar from 'components/Record/RecordCalendar';
 
 const Record = () => {
   return (

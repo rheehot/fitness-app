@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { ExerciseItem } from 'modules/routine';
 import { useSelector } from 'react-redux';
 import { userSelector } from 'modules/hooks';
 import { dateToString } from 'lib/methods';

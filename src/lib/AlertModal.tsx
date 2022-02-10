@@ -21,6 +21,7 @@ const InfoModal = styled.div<{ visible: boolean }>`
     gap: 0.25rem;
     position: fixed;
     width: 80%;
+    max-width: 320px;
     z-index: 300;
     top: 50%;
     left: 50%;

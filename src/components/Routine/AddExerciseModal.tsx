@@ -5,7 +5,7 @@ import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
 import AlertModal from 'lib/AlertModal';
 import { categoryToKor } from 'lib/methods';
 import Button from 'lib/Button';
-import exerciseJSON from '../data/exercise.json';
+import exerciseJSON from '../../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
   display: flex;
