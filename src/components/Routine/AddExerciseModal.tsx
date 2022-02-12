@@ -191,6 +191,11 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
       onModal();
       return;
     }
+    if (inputState.numberOfSets > 20) {
+      setText('최대 세트 수는 20입니다.');
+      onModal();
+      return;
+    }
     const exercise: ExerciseItem = {
       exercise: selected,
       weight: inputState.weight,
@@ -280,6 +285,7 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
               <input
                 type="number"
                 min={0}
+                max={20}
                 value={inputState.numberOfSets}
                 onChange={(e) => onChange('CHANGE_NUM_OF_SETS', e)}
               />
