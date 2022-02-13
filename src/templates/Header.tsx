@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { MdRefresh } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
-import Button from 'lib/Button';
+import Button from 'components/common/Button';
 
 const HeaderBlock = styled.header`
   display: flex;

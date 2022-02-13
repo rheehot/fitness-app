@@ -5,7 +5,7 @@ import { ExerciseItem, removeExercise } from 'modules/routine';
 import useScroll from 'hooks/useScroll';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
-import Button from 'lib/Button';
+import Button from 'components/common/Button';
 import palette from 'lib/palette';
 
 const ExerciseListWrapper = styled.div`
@@ -22,11 +22,9 @@ const ExerciseListBlock = styled.ul`
   gap: 0.5rem;
   width: 0;
   height: 4.5rem;
+  padding-left: 3rem;
   overflow: hidden;
   scroll-behavior: smooth;
-  & > *:first-child {
-    margin-left: 2.5rem;
-  }
   & > *:last-child {
     margin-right: 2.5rem;
   }

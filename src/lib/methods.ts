@@ -1,17 +1,17 @@
-export const numToDayOfWeek = (n: number) =>
+export const dayidxToDaystr = (n: number) =>
   n >= 0 && n < 7 ? ['일', '월', '화', '수', '목', '금', '토'][n] : 'undefined';
 
-export const dateStringToDay = (str: string) => {
+export const datestrToDayidx = (str: string) => {
   const d = new Date(str);
   return d.getDay();
 };
 
-export const dateToString = (date: Date) =>
+export const getDatestr = (date: Date) =>
   `${date.getFullYear()}-${
     date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
   }-${date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}`;
 
-export const categoryToKor = (str: string) => {
+export const getKorCategory = (str: string) => {
   switch (str) {
     case 'upper':
       return '상체';

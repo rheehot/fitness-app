@@ -5,6 +5,10 @@ a {
   text-decoration: none;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   box-sizing: border-box;

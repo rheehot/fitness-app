@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { setCurrentRoutine } from 'modules/user';
 import { changeTitle, removeRoutine, Routine } from 'modules/routine';
 import { userSelector } from 'modules/hooks';
-import Button from 'lib/Button';
-import { numToDayOfWeek } from 'lib/methods';
+import Button from 'components/common/Button';
+import { dayidxToDaystr } from 'lib/methods';
 import palette from 'lib/palette';
 import { BsTriangleFill, BsStar, BsStarFill } from 'react-icons/bs';
 import { MdCheck } from 'react-icons/md';
@@ -146,7 +146,7 @@ const RoutineItem = ({
       <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
           <RoutineDetailItem editing={isEditing ? 1 : 0}>
-            <DaySpan dayIdx={dayIdx}>{numToDayOfWeek(dayIdx)}</DaySpan>
+            <DaySpan dayIdx={dayIdx}>{dayidxToDaystr(dayIdx)}</DaySpan>
             <div className="list">
               <RoutineExerciseList
                 dayRoutine={dayRoutine}
@@ -218,7 +218,7 @@ const RoutineItem = ({
       <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
           <RoutineDetailItem>
-            <DaySpan dayIdx={dayIdx}>{numToDayOfWeek(dayIdx)}</DaySpan>
+            <DaySpan dayIdx={dayIdx}>{dayidxToDaystr(dayIdx)}</DaySpan>
             <div className="list">
               <RoutineExerciseList
                 dayRoutine={dayRoutine}

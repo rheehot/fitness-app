@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
+import styled from '@emotion/styled';
 import { userSelector } from 'modules/hooks';
-import { dateToString } from 'lib/methods';
-import palette from 'lib/palette';
 import { CompleteItem } from 'modules/user';
 import { ExerciseItem } from 'modules/routine';
+import Button from 'components/common/Button';
+import palette from 'lib/palette';
+import { dayidxToDaystr, getDatestr } from 'lib/methods';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FaRegCalendarCheck } from 'react-icons/fa';
-import Button from 'lib/Button';
 
 const RecordCalendarBlock = styled.div`
   display: flex;
@@ -29,10 +29,10 @@ const CalendarList = styled.ul`
     row-gap: 2rem;
     padding: 2rem 0.5rem;
   }
-  .red {
+  span:nth-of-type(1) {
     color: ${palette.red};
   }
-  .blue {
+  span:nth-of-type(7) {
     color: ${palette.blue};
   }
 `;
@@ -109,8 +109,9 @@ const RecordViewBlock = styled.div<{ top: number; left: number }>`
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
   transform: translate(-50%);
   ul {
-    max-width: 6rem;
+    max-width: 6.5rem;
     max-height: 15rem;
+    text-align: center;
     overflow-y: scroll;
     li {
       display: flex;
@@ -158,8 +159,10 @@ type View = {
 
 const RecordCalendar = () => {
   const users = useSelector(userSelector);
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [month, setMonth] = useState(new Date().getMonth());
+  const [currentDate, setCurrentDate] = useState({
+    year: new Date().getFullYear(),
+    month: new Date().getMonth(),
+  });
   const [records, setRecords] = useState<CompleteItem[]>([]);
   const [view, setView] = useState<View>({ top: 0, left: 0, data: [] });
 
@@ -174,23 +177,36 @@ const RecordCalendar = () => {
   };
 
   const increaseMonth = () => {
-    if (month === 11) {
-      setYear(year + 1);
-      setMonth(0);
-    } else setMonth(month + 1);
+    if (currentDate.month >= 11) {
+      setCurrentDate({
+        year: currentDate.year + 1,
+        month: 0,
+      });
+    } else
+      setCurrentDate({
+        ...currentDate,
+        month: currentDate.month + 1,
+      });
   };
 
   const decreaseMonth = () => {
-    if (month === 0) {
-      setYear(year - 1);
-      setMonth(11);
-    } else setMonth(month - 1);
+    if (currentDate.month <= 0) {
+      setCurrentDate({
+        year: currentDate.year - 1,
+        month: 11,
+      });
+    } else
+      setCurrentDate({
+        ...currentDate,
+        month: currentDate.month - 1,
+      });
   };
 
-  const setDateNow = () => {
-    setYear(new Date().getFullYear());
-    setMonth(new Date().getMonth());
-  };
+  const setDateNow = () =>
+    setCurrentDate({
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+    });
 
   const onView = (e: React.MouseEvent) => {
     const elem = (e.target as HTMLLIElement).closest('li');
@@ -208,7 +224,7 @@ const RecordCalendar = () => {
   };
 
   useEffect(() => {
-    const firstDate = new Date(year, month);
+    const firstDate = new Date(currentDate.year, currentDate.month);
     const tempRecords: CompleteItem[] = [];
     firstDate.setDate(1);
 
@@ -219,8 +235,8 @@ const RecordCalendar = () => {
           list: [],
         });
 
-    while (firstDate.getMonth() === month) {
-      const r = users.completes.find((c) => c.date === dateToString(firstDate));
+    while (firstDate.getMonth() === currentDate.month) {
+      const r = users.completes.find((c) => c.date === getDatestr(firstDate));
       tempRecords.push({
         date: `${firstDate.getDate()}`,
         list: r ? r.list : [],
@@ -232,8 +248,9 @@ const RecordCalendar = () => {
 
     return () => {
       document.onclick = null;
+      window.onresize = null;
     };
-  }, [year, month]);
+  }, [currentDate]);
 
   return (
     <RecordCalendarBlock>
@@ -258,7 +275,10 @@ const RecordCalendar = () => {
         </Button>
         <div className="title">
           <h1>
-            {year}.{month + 1}
+            {currentDate.year}.
+            {currentDate.month < 9
+              ? `0${currentDate.month + 1}`
+              : currentDate.month + 1}
           </h1>
           <Button onClick={setDateNow}>
             <FaRegCalendarCheck />
@@ -269,13 +289,9 @@ const RecordCalendar = () => {
         </Button>
       </CalendarHeader>
       <CalendarList>
-        <span className="red">일</span>
-        <span>월</span>
-        <span>화</span>
-        <span>수</span>
-        <span>목</span>
-        <span>금</span>
-        <span className="blue">토</span>
+        {[...Array(7)].map((x, i) => (
+          <span>{dayidxToDaystr(i)}</span>
+        ))}
         {records.map((d) => (
           <CalendarItem
             key={d.date}

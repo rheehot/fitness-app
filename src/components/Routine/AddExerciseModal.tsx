@@ -1,10 +1,11 @@
-import React, { useReducer, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { Exercise, addExercise, ExerciseItem } from 'modules/routine';
-import AlertModal from 'lib/AlertModal';
-import { categoryToKor } from 'lib/methods';
-import Button from 'lib/Button';
+import AlertModal from 'components/common/AlertModal';
+import Button from 'components/common/Button';
+import useAddExercise from 'hooks/useAddExercise';
+import { getKorCategory } from 'lib/methods';
 import palette from 'lib/palette';
 import exerciseJSON from '../../data/exercise.json';
 
@@ -123,30 +124,6 @@ const ButtonsBlock = styled.div`
   }
 `;
 
-type InputState = {
-  weight: number;
-  numberOfTimes: number;
-  numberOfSets: number;
-};
-
-type InputAction = {
-  type: string;
-  payload: number;
-};
-
-const reducer = (state: InputState, action: InputAction) => {
-  switch (action.type) {
-    case 'CHANGE_WEIGHT':
-      return { ...state, weight: action.payload };
-    case 'CHANGE_NUM_OF_TIMES':
-      return { ...state, numberOfTimes: action.payload };
-    case 'CHANGE_NUM_OF_SETS':
-      return { ...state, numberOfSets: action.payload };
-    default:
-      return state;
-  }
-};
-
 type AddExerciseProps = {
   id: string | null;
   day: number | null;
@@ -156,87 +133,55 @@ type AddExerciseProps = {
 
 const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
   const exercise: Exercise[] = exerciseJSON;
-  const [category, setCategory] = useState('all');
-  const [selected, setSelected] = useState<Exercise | null>(null);
-  const [inputState, inputDispatch] = useReducer(reducer, {
-    weight: 0,
-    numberOfTimes: 0,
-    numberOfSets: 0,
-  });
-  const [modal, setModal] = useState(false);
-  const [text, setText] = useState('');
-
   const dispatch = useDispatch();
-  const onSelect = (exercise: Exercise) => setSelected(exercise);
-  const onChange = (type: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length > 3) return;
-    inputDispatch({
-      type,
-      payload: +e.target.value,
-    });
-  };
+  const {
+    addState,
+    onSetCategory,
+    onSelectExercise,
+    onChangeInput,
+    onCheckInputs,
+  } = useAddExercise();
+
   const onAddExercise = () => {
     if (!id || day === null) return;
-    if (!selected) {
-      setText('운동 종류를 선택하세요.');
-      onModal();
-      return;
-    }
-    if (
-      !inputState.weight ||
-      !inputState.numberOfTimes ||
-      !inputState.numberOfSets
-    ) {
-      setText('정확한 값을 입력하세요.');
-      onModal();
-      return;
-    }
-    if (inputState.numberOfSets > 20) {
-      setText('최대 세트 수는 20입니다.');
-      onModal();
-      return;
-    }
+    if (!onCheckInputs()) return;
     const exercise: ExerciseItem = {
-      exercise: selected,
-      weight: inputState.weight,
-      numberOfTimes: inputState.numberOfTimes,
-      numberOfSets: inputState.numberOfSets,
+      exercise: addState.selected as Exercise,
+      weight: addState.inputs.weight,
+      numberOfTimes: addState.inputs.numberOfTimes,
+      numberOfSets: addState.inputs.numberOfSets,
     };
     dispatch(addExercise({ id, day, exercise }));
     onClose();
   };
-  const onModal = () => {
-    setModal(true);
-    setTimeout(() => setModal(false), 2000);
-  };
 
   return (
     <>
-      <AlertModal visible={modal} text={text} />
+      <AlertModal visible={addState.alertVisible} text={addState.alertText} />
       <AddExerciseBlock visible={visible}>
         <h2>운동 목록</h2>
         <CategoryListBlock>
           <CategoryItemBlock
-            checked={category === 'all' ? 1 : 0}
-            onClick={() => setCategory('all')}
+            checked={addState.category === 'all' ? 1 : 0}
+            onClick={() => onSetCategory('all')}
           >
             전체
           </CategoryItemBlock>
           <CategoryItemBlock
-            checked={category === 'upper' ? 1 : 0}
-            onClick={() => setCategory('upper')}
+            checked={addState.category === 'upper' ? 1 : 0}
+            onClick={() => onSetCategory('upper')}
           >
             상체
           </CategoryItemBlock>
           <CategoryItemBlock
-            checked={category === 'lower' ? 1 : 0}
-            onClick={() => setCategory('lower')}
+            checked={addState.category === 'lower' ? 1 : 0}
+            onClick={() => onSetCategory('lower')}
           >
             하체
           </CategoryItemBlock>
           <CategoryItemBlock
-            checked={category === 'core' ? 1 : 0}
-            onClick={() => setCategory('core')}
+            checked={addState.category === 'core' ? 1 : 0}
+            onClick={() => onSetCategory('core')}
           >
             코어
           </CategoryItemBlock>
@@ -244,16 +189,18 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
         <ExerciseListBlock>
           {exercise
             .filter((exer) =>
-              category === 'all' ? true : exer.category === category,
+              addState.category === 'all'
+                ? true
+                : exer.category === addState.category,
             )
             .map((exer) => (
               <ExerciseItemBlock
-                onClick={() => onSelect(exer)}
-                isSelected={selected === exer ? 1 : 0}
+                onClick={() => onSelectExercise(exer)}
+                isSelected={addState.selected === exer ? 1 : 0}
               >
                 <b>{exer.name}</b>
                 <span>
-                  [{categoryToKor(exer.category)}] {exer.part}
+                  [{getKorCategory(exer.category)}] {exer.part}
                 </span>
               </ExerciseItemBlock>
             ))}
@@ -265,8 +212,8 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
               <input
                 type="number"
                 min={0}
-                value={inputState.weight}
-                onChange={(e) => onChange('CHANGE_WEIGHT', e)}
+                value={addState.inputs.weight}
+                onChange={(e) => onChangeInput('CHANGE_WEIGHT', e)}
               />
               kg
             </div>
@@ -275,8 +222,8 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
               <input
                 type="number"
                 min={0}
-                value={inputState.numberOfTimes}
-                onChange={(e) => onChange('CHANGE_NUM_OF_TIMES', e)}
+                value={addState.inputs.numberOfTimes}
+                onChange={(e) => onChangeInput('CHANGE_NUM_OF_TIMES', e)}
               />
               회
             </div>
@@ -286,8 +233,8 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
                 type="number"
                 min={0}
                 max={20}
-                value={inputState.numberOfSets}
-                onChange={(e) => onChange('CHANGE_NUM_OF_SETS', e)}
+                value={addState.inputs.numberOfSets}
+                onChange={(e) => onChangeInput('CHANGE_NUM_OF_SETS', e)}
               />
               세트
             </div>

@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { setUser, UserStateType } from 'modules/user';
 import { FaPencilAlt } from 'react-icons/fa';
 import { MdCheck } from 'react-icons/md';
-import Button from 'lib/Button';
+import Button from 'components/common/Button';
 import { useDispatch } from 'react-redux';
-import AlertModal from 'lib/AlertModal';
+import AlertModal from 'components/common/AlertModal';
 import palette from 'lib/palette';
 
 const InfoBlock = styled.div<{ editing: boolean }>`

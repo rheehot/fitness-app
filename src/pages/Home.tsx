@@ -5,7 +5,8 @@ import { userSelector } from 'modules/hooks';
 import Template from 'templates/Template';
 import Info from 'components/Home/Info';
 import PerformRoutine from 'components/Home/PerformRoutine';
-import { dateToString, getWeekDate } from 'lib/methods';
+import { getDatestr, getWeekDate } from 'lib/methods';
+import palette from 'lib/palette';
 
 const PerformListBlock = styled.ul`
   display: grid;
@@ -20,11 +21,11 @@ const PerformListBlock = styled.ul`
   }
 `;
 
-const PerformItemBlock = styled.li<{ done?: string }>`
+const PerformItemBlock = styled.li<{ done?: boolean }>`
   display: flex;
   justify-content: center;
   background: ${(props) =>
-    props.done === 'fulfilled' ? '#00ffb3' : '#eeeeee'};
+    props.done ? palette.green_main : palette.grey_sub};
   font-weight: bold;
 `;
 
@@ -50,32 +51,19 @@ const Home = () => {
       <Info user={user}></Info>
       <h1>이번 주 운동 현황</h1>
       <PerformListBlock>
-        {weekDate.map((w, i) => {
-          if (w < new Date()) {
-            if (
-              user.completes.filter((c) => c.date === dateToString(w)).length ||
-              user.currentRoutine?.weekRoutine[i].length === 0
-            ) {
-              return (
-                <PerformItemBlock done="fulfilled" key={w.getDay()}>
-                  {w.getDate()}
-                </PerformItemBlock>
-              );
-            }
-            return (
-              <PerformItemBlock done="unfulfilled" key={w.getDay()}>
-                {w.getDate()}
-              </PerformItemBlock>
-            );
-          }
-          return (
+        {weekDate.map((w) =>
+          user.completes.filter((c) => c.date === getDatestr(w)).length ? (
+            <PerformItemBlock done key={w.getDay()}>
+              {w.getDate()}
+            </PerformItemBlock>
+          ) : (
             <PerformItemBlock key={w.getDay()}>{w.getDate()}</PerformItemBlock>
-          );
-        })}
+          ),
+        )}
       </PerformListBlock>
       <CompleteText>
         <h1>오늘의 운동</h1>
-        {user.completes.filter((c) => c.date === dateToString(new Date()))
+        {user.completes.filter((c) => c.date === getDatestr(new Date()))
           .length ? (
           <span>완료</span>
         ) : null}

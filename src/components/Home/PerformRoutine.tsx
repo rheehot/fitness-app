@@ -9,8 +9,8 @@ import {
 } from 'react-icons/md';
 import { completePerform, initialPerform, toggleCheck } from 'modules/perform';
 import { addCompleteDay } from 'modules/user';
-import { dateToString } from 'lib/methods';
-import AlertModal from 'lib/AlertModal';
+import { getDatestr } from 'lib/methods';
+import AlertModal from 'components/common/AlertModal';
 import palette from 'lib/palette';
 
 const PerformRoutineBlock = styled.div`
@@ -129,7 +129,7 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
       setTimeout(() => setModal(false), 2000);
     } else {
       dispatch(
-        addCompleteDay({ date: dateToString(new Date()), list: todayRoutine }),
+        addCompleteDay({ date: getDatestr(new Date()), list: todayRoutine }),
       );
       dispatch(completePerform());
     }
