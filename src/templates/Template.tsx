@@ -5,10 +5,10 @@ import Header from './Header';
 const TemplateBlock = styled.div`
   display: flex;
   flex-direction: column;
-  width: 768px;
+  width: 100%;
   align-items: center;
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (min-width: 768px) {
+    width: 768px;
   }
 `;
 

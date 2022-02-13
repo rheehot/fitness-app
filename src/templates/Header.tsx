@@ -6,12 +6,13 @@ import Button from 'lib/Button';
 
 const HeaderBlock = styled.header`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: 1rem;
-  @media (max-width: 430px) {
-    flex-direction: column;
+  @media (min-width: 430px) {
+    flex-direction: row;
   }
 `;
 

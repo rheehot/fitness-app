@@ -7,6 +7,7 @@ import palette from 'lib/palette';
 import { CompleteItem } from 'modules/user';
 import { ExerciseItem } from 'modules/routine';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
+import { FaRegCalendarCheck } from 'react-icons/fa';
 import Button from 'lib/Button';
 
 const RecordCalendarBlock = styled.div`
@@ -27,6 +28,12 @@ const CalendarList = styled.ul`
   @media (min-width: 430px) {
     row-gap: 2rem;
     padding: 2rem 0.5rem;
+  }
+  .red {
+    color: ${palette.red};
+  }
+  .blue {
+    color: ${palette.blue};
   }
 `;
 
@@ -65,10 +72,18 @@ const CalendarHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  .title {
+    display: flex;
+    gap: 0.5rem;
+    svg {
+      font-size: 1.5rem;
+      transform: translateY(10%);
+    }
+  }
 `;
 
 const PrevButton = styled(MdNavigateBefore)`
-  font-size: 3rem;
+  font-size: 2.5rem;
   border-radius: 50%;
   &:hover {
     background: rgba(0, 0, 0, 0.1);
@@ -76,7 +91,7 @@ const PrevButton = styled(MdNavigateBefore)`
 `;
 
 const NextButton = styled(MdNavigateNext)`
-  font-size: 3rem;
+  font-size: 2.5rem;
   border-radius: 50%;
   &:hover {
     background: rgba(0, 0, 0, 0.1);
@@ -91,23 +106,26 @@ const RecordViewBlock = styled.div<{ top: number; left: number }>`
   padding: 0.25rem;
   border-radius: 0.5rem;
   background: white;
-  white-space: nowrap;
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
   transform: translate(-50%);
-  .text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0.25rem;
+  ul {
+    max-width: 6rem;
+    max-height: 15rem;
+    overflow-y: scroll;
+    li {
+      display: flex;
+      flex-direction: column;
+      place-items: center;
+      padding: 0.25rem;
+      span {
+        font-size: 0.85rem;
+      }
+    }
+    li + li {
+      border-top: 1px solid #eeeeee;
+    }
   }
-  .text + .text {
-    border-top: 1px solid #eeeeee;
-  }
-  span {
-    font-size: 0.85rem;
-  }
-  &::before {
+  .triangle {
     position: absolute;
     top: -5px;
     left: 50%;
@@ -121,6 +139,14 @@ const RecordViewBlock = styled.div<{ top: number; left: number }>`
   }
   @media (min-width: 430px) {
     top: ${(props) => `${props.top + 10}px`};
+    ul {
+      max-width: 8rem;
+    }
+  }
+  @media (min-width: 768px) {
+    ul {
+      max-width: 12rem;
+    }
   }
 `;
 
@@ -142,6 +168,11 @@ const RecordCalendar = () => {
     setView({ ...view, data: [] });
   };
 
+  document.onclick = (e: MouseEvent) => {
+    if ((e.target as Element).closest('li')) return;
+    setView({ ...view, data: [] });
+  };
+
   const increaseMonth = () => {
     if (month === 11) {
       setYear(year + 1);
@@ -156,18 +187,19 @@ const RecordCalendar = () => {
     } else setMonth(month - 1);
   };
 
+  const setDateNow = () => {
+    setYear(new Date().getFullYear());
+    setMonth(new Date().getMonth());
+  };
+
   const onView = (e: React.MouseEvent) => {
     const elem = (e.target as HTMLLIElement).closest('li');
-    if (!elem) return;
+    if (!elem || !elem.textContent) return;
 
-    const str = elem.textContent;
-    if (!str) return;
-
-    const info = records.find((r) => r.date === str);
+    const info = records.find((r) => r.date === elem.textContent);
     if (!info) return;
 
     const pos = elem.getBoundingClientRect();
-
     setView({
       top: pos.top + window.pageYOffset + 28,
       left: pos.left + window.pageXOffset + elem.clientWidth / 2,
@@ -197,34 +229,53 @@ const RecordCalendar = () => {
     }
     setRecords(tempRecords);
     setView({ ...view, data: [] });
+
+    return () => {
+      document.onclick = null;
+    };
   }, [year, month]);
 
   return (
     <RecordCalendarBlock>
       {view.data.length > 0 && (
         <RecordViewBlock top={view.top} left={view.left}>
-          {view.data.map((d) => (
-            <div className="text">
-              <b>{d.exercise.name}</b>
-              <span>
-                {d.weight}kg, {d.numberOfTimes} x {d.numberOfSets}
-              </span>
-            </div>
-          ))}
+          <div className="triangle" />
+          <ul>
+            {view.data.map((d) => (
+              <li>
+                <b>{d.exercise.name}</b>
+                <span>
+                  {d.weight}kg, {d.numberOfTimes} x {d.numberOfSets}
+                </span>
+              </li>
+            ))}
+          </ul>
         </RecordViewBlock>
       )}
       <CalendarHeader>
         <Button onClick={decreaseMonth}>
           <PrevButton />
         </Button>
-        <h1>
-          {year}.{month + 1}
-        </h1>
+        <div className="title">
+          <h1>
+            {year}.{month + 1}
+          </h1>
+          <Button onClick={setDateNow}>
+            <FaRegCalendarCheck />
+          </Button>
+        </div>
         <Button onClick={increaseMonth}>
           <NextButton />
         </Button>
       </CalendarHeader>
       <CalendarList>
+        <span className="red">일</span>
+        <span>월</span>
+        <span>화</span>
+        <span>수</span>
+        <span>목</span>
+        <span>금</span>
+        <span className="blue">토</span>
         {records.map((d) => (
           <CalendarItem
             key={d.date}
