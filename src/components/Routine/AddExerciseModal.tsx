@@ -193,17 +193,20 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
                 ? true
                 : exer.category === addState.category,
             )
-            .map((exer) => (
-              <ExerciseItemBlock
-                onClick={() => onSelectExercise(exer)}
-                isSelected={addState.selected === exer ? 1 : 0}
-              >
-                <b>{exer.name}</b>
-                <span>
-                  [{getKorCategory(exer.category)}] {exer.part}
-                </span>
-              </ExerciseItemBlock>
-            ))}
+            .map(
+              (exer) => (
+                <ExerciseItemBlock
+                  onClick={() => onSelectExercise(exer)}
+                  isSelected={addState.selected === exer ? 1 : 0}
+                >
+                  <b>{exer.name}</b>
+                  <span>
+                    [{getKorCategory(exer.category)}] {exer.part}
+                  </span>
+                </ExerciseItemBlock>
+              ),
+              [addState.category, addState.selected],
+            )}
         </ExerciseListBlock>
         <FooterBlock>
           <ConfirmBlock>
@@ -253,4 +256,4 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
   );
 };
 
-export default AddExerciseModal;
+export default React.memo(AddExerciseModal);

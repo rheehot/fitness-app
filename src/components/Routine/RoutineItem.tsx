@@ -25,6 +25,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
     justify-content: space-between;
     align-items: center;
     .title {
+      height: 2rem;
       display: flex;
       place-items: center;
       gap: 0.5rem;

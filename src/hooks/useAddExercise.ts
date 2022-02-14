@@ -1,5 +1,5 @@
 import { Exercise } from 'modules/routine';
-import { useReducer } from 'react';
+import { useReducer, useCallback } from 'react';
 
 type State = {
   category: string;
@@ -62,24 +62,32 @@ const useAddExercise = () => {
     alertText: '',
   });
 
-  const onSelectExercise = (exercise: Exercise) =>
-    dispatch({ type: 'SET_SELECTED', payload: exercise });
+  const onSelectExercise = useCallback(
+    (exercise: Exercise) =>
+      dispatch({ type: 'SET_SELECTED', payload: exercise }),
+    [],
+  );
 
-  const onChangeInput = (
-    type: 'CHANGE_WEIGHT' | 'CHANGE_NUM_OF_TIMES' | 'CHANGE_NUM_OF_SETS',
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    if (e.target.value.length > 3) return;
-    dispatch({
-      type,
-      payload: +e.target.value,
-    });
-  };
+  const onChangeInput = useCallback(
+    (
+      type: 'CHANGE_WEIGHT' | 'CHANGE_NUM_OF_TIMES' | 'CHANGE_NUM_OF_SETS',
+      e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+      if (e.target.value.length > 3) return;
+      dispatch({
+        type,
+        payload: +e.target.value,
+      });
+    },
+    [],
+  );
 
-  const onSetCategory = (str: string) =>
-    dispatch({ type: 'SET_CATEGORY', payload: str });
+  const onSetCategory = useCallback(
+    (str: string) => dispatch({ type: 'SET_CATEGORY', payload: str }),
+    [],
+  );
 
-  const onCheckInputs = () => {
+  const onCheckInputs = useCallback(() => {
     if (!state.selected) {
       dispatch({ type: 'SET_ALERT_TEXT', payload: '운동 종류를 선택하세요.' });
       onAlert();
@@ -100,12 +108,12 @@ const useAddExercise = () => {
       return false;
     }
     return true;
-  };
+  }, [state.selected, state.inputs]);
 
-  const onAlert = () => {
+  const onAlert = useCallback(() => {
     dispatch({ type: 'TOGGLE_ALERT', payload: true });
     setTimeout(() => dispatch({ type: 'TOGGLE_ALERT', payload: false }), 2000);
-  };
+  }, []);
 
   return {
     addState: state,

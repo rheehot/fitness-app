@@ -22,12 +22,9 @@ const ExerciseListBlock = styled.ul`
   gap: 0.5rem;
   width: 0;
   height: 4.5rem;
-  padding-left: 3rem;
+  padding: 0 2rem;
   overflow: hidden;
   scroll-behavior: smooth;
-  & > *:last-child {
-    margin-right: 2.5rem;
-  }
 `;
 
 const ExerciseItemBlock = styled.li<{ editing?: number }>`

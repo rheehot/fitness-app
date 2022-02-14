@@ -306,4 +306,4 @@ const RecordCalendar = () => {
   );
 };
 
-export default RecordCalendar;
+export default React.memo(RecordCalendar);

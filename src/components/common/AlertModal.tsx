@@ -56,4 +56,4 @@ const AlertModal = ({ visible, text }: AlertModalProps) => {
   );
 };
 
-export default React.memo(AlertModal);
+export default AlertModal;

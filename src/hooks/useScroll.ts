@@ -13,13 +13,13 @@ const useScroll = (ref: React.RefObject<HTMLUListElement>) => {
       case 'next':
         if (x.current >= maxWidth - ref.current.clientWidth) return;
         x.current = Math.min(
-          x.current + vWidth,
+          x.current + vWidth * 0.75,
           maxWidth - ref.current.clientWidth,
         );
         break;
       case 'prev':
         if (x.current <= 0) return;
-        x.current = Math.max(x.current - vWidth, 0);
+        x.current = Math.max(x.current - vWidth * 0.75, 0);
         break;
       case 'end':
         x.current = maxWidth - ref.current.clientWidth;
