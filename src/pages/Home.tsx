@@ -41,7 +41,7 @@ const CompleteText = styled.div`
   }
 `;
 
-const Home = () => {
+const HomePage = () => {
   const user = useSelector(userSelector);
   const weekDate = getWeekDate(new Date());
 
@@ -73,4 +73,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

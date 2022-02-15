@@ -52,6 +52,13 @@ export const performSlice = createSlice({
       )
         exer.setCheck[setIdx] = !exer.setCheck[setIdx];
     },
+    checkAll: (
+      state,
+      { payload: { exerIdx } }: { payload: { exerIdx: number } },
+    ) => {
+      const exer = state.list[exerIdx];
+      exer.setCheck = exer.setCheck.map(() => true);
+    },
     completePerform: (state) => {
       state.completed = true;
       state.list = [];
@@ -59,7 +66,7 @@ export const performSlice = createSlice({
   },
 });
 
-export const { initialPerform, toggleCheck, completePerform } =
+export const { initialPerform, toggleCheck, checkAll, completePerform } =
   performSlice.actions;
 
 export default performSlice.reducer;

@@ -31,9 +31,9 @@ export type Routine = {
     ExerciseItem[],
     ExerciseItem[],
   ];
-}; // 일주일 루틴
+};
 
-export type RoutineStateType = Routine[]; // 루틴 목록
+export type RoutineStateType = Routine[];
 
 const initialState: RoutineStateType = [
   {

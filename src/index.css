@@ -18,11 +18,9 @@ body {
   background: #f4f4f4;
 }
 
-button {
-  font-family: 'Noto Sans KR', sans-serif;
-}
-
-input {
+button,
+input,
+textarea {
   font-family: 'Noto Sans KR', sans-serif;
 }
 

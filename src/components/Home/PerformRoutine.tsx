@@ -7,7 +7,12 @@ import {
   MdRadioButtonUnchecked,
   MdOutlineCheckCircleOutline,
 } from 'react-icons/md';
-import { completePerform, initialPerform, toggleCheck } from 'modules/perform';
+import {
+  initialPerform,
+  toggleCheck,
+  checkAll,
+  completePerform,
+} from 'modules/perform';
 import { addCompleteDay } from 'modules/user';
 import { getDatestr } from 'lib/methods';
 import AlertModal from 'components/common/AlertModal';
@@ -74,12 +79,23 @@ const CompleteButton = styled.button`
   cursor: pointer;
 `;
 
+const MemoBlock = styled.textarea<{ visible: number }>`
+  display: ${(props) => (props.visible ? 'block' : 'none')};
+  max-height: ${(props) => (props.visible ? '10rem' : '0')};
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: ${palette.memo_body};
+`;
+
 type PerformRoutineProps = {
   currentRoutine: Routine | null;
 };
 
 const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
   const [modal, setModal] = useState(false);
+  const [memo, setMemo] = useState('');
 
   if (!currentRoutine) return <h4>사용 중인 루틴이 없습니다.</h4>;
 
@@ -116,22 +132,28 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
 
   const onToggleCheck = (exerIdx: number, setIdx: number) =>
     dispatch(toggleCheck({ exerIdx, setIdx }));
-
+  const onCheckAll = (exerIdx: number) => dispatch(checkAll({ exerIdx }));
   const isCompleted = () =>
     performs.list.reduce(
       (acc, exer) => acc + exer.setCheck.filter((a) => !a).length,
       0,
     ) === 0;
-
+  const onMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setMemo(e.target.value);
   const onComplete = () => {
     if (!isCompleted()) {
       setModal(true);
       setTimeout(() => setModal(false), 2000);
     } else {
       dispatch(
-        addCompleteDay({ date: getDatestr(new Date()), list: todayRoutine }),
+        addCompleteDay({
+          date: getDatestr(new Date()),
+          list: todayRoutine,
+          memo,
+        }),
       );
       dispatch(completePerform());
+      setMemo('');
     }
   };
 
@@ -141,13 +163,16 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
       <PerformRoutineBlock>
         {performs.list.map((p, i) => (
           <PerformExerciseBlock>
-            <ExerciseBlock completed={!p.setCheck.filter((a) => !a).length}>
+            <ExerciseBlock
+              completed={!p.setCheck.filter((a) => !a).length}
+              onClick={() => onCheckAll(i)}
+            >
               <b>{p.exercise.exercise.name}</b>
               <span>
                 {p.exercise.weight}kg, {p.exercise.numberOfTimes}회
               </span>
             </ExerciseBlock>
-            {p.setCheck.map((a, j) => (
+            {p.setCheck.map((x, j) => (
               <SetButton
                 available={j === 0 || p.setCheck[j - 1]}
                 onClick={() => onToggleCheck(i, j)}
@@ -162,6 +187,14 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
             ))}
           </PerformExerciseBlock>
         ))}
+        <MemoBlock
+          placeholder="오늘의 운동 소감은?"
+          visible={isCompleted() ? 1 : 0}
+          rows={5}
+          wrap="soft"
+          onChange={onMemo}
+          value={memo}
+        ></MemoBlock>
         <CompleteButton onClick={onComplete}>운동완료</CompleteButton>
       </PerformRoutineBlock>
     </>

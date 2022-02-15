@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from 'pages/Home';
-import Routine from 'pages/Routine';
-import Record from 'pages/Record';
+import HomePage from 'pages/Home';
+import RoutinePage from 'pages/Routine';
+import RecordPage from 'pages/Record';
 import styled from '@emotion/styled';
 
 const AppBlock = styled.div`
@@ -15,9 +15,9 @@ function App() {
   return (
     <AppBlock>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/routine" element={<Routine />} />
-        <Route path="/record" element={<Record />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/routine" element={<RoutinePage />} />
+        <Route path="/record" element={<RecordPage />} />
       </Routes>
     </AppBlock>
   );

@@ -5,6 +5,7 @@ import { Routine } from './routine';
 export type CompleteItem = {
   date: string;
   list: ExerciseItem[];
+  memo: string;
 };
 
 export type UserStateType = {
@@ -37,6 +38,7 @@ const initialState: UserStateType = {
           numberOfTimes: 12,
         },
       ],
+      memo: '그냥 무난하게 했다.',
     },
   ],
 };

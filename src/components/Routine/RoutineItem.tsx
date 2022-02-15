@@ -68,17 +68,14 @@ const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
 const RoutineDetailBlock = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   margin-top: 0.5rem;
 `;
 
-const RoutineDetailItem = styled.li<{ editing?: number }>`
+const RoutineDetailItem = styled.li`
   display: flex;
   place-items: center;
   padding: 0.25rem;
   border-radius: 0.5rem;
-  background: ${(props) =>
-    props.editing ? palette.green_sub : palette.grey_sub};
   transition: background 0.2s;
   overflow: hidden;
   .list {
@@ -146,7 +143,7 @@ const RoutineItem = ({
       </div>
       <RoutineDetailBlock>
         {routine.weekRoutine.map((dayRoutine, dayIdx) => (
-          <RoutineDetailItem editing={isEditing ? 1 : 0}>
+          <RoutineDetailItem>
             <DaySpan dayIdx={dayIdx}>{dayidxToDaystr(dayIdx)}</DaySpan>
             <div className="list">
               <RoutineExerciseList

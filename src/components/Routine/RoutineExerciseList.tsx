@@ -15,15 +15,19 @@ const ExerciseListWrapper = styled.div`
   position: relative;
 `;
 
-const ExerciseListBlock = styled.ul`
+const ExerciseListBlock = styled.ul<{ editing: boolean }>`
   display: flex;
   flex-grow: 1;
   align-items: center;
   gap: 0.5rem;
   width: 0;
-  height: 4.5rem;
-  padding: 0 2rem;
+  height: 5rem;
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+  background: ${(props) =>
+    props.editing ? palette.green_sub : palette.grey_sub};
   overflow: hidden;
+  transition: background 0.2s;
   scroll-behavior: smooth;
 `;
 
@@ -82,17 +86,17 @@ const NextScrollButton = styled(Button)<{ isEnd: boolean }>`
 
 type RoutineExerciseListProps = {
   dayRoutine: ExerciseItem[];
-  dayIdx: number;
-  routineId: string;
-  editing: boolean;
+  editing?: boolean;
+  dayIdx?: number;
+  routineId?: string;
   onOpenModal?: (day: number) => void;
 };
 
 const RoutineExerciseList = ({
   dayRoutine,
-  dayIdx,
-  routineId,
-  editing,
+  dayIdx = 0,
+  routineId = '',
+  editing = false,
   onOpenModal,
 }: RoutineExerciseListProps) => {
   const dispatch = useDispatch();
@@ -102,7 +106,7 @@ const RoutineExerciseList = ({
 
   const dr = useRef<ExerciseItem[]>(dayRoutine);
   useEffect(() => {
-    if (dr.current.length < dayRoutine.length) moveTo('end');
+    if (routineId && dr.current.length < dayRoutine.length) moveTo('end');
     dr.current = dayRoutine;
   }, [dayRoutine]);
 
@@ -114,7 +118,7 @@ const RoutineExerciseList = ({
       >
         <MdNavigateBefore />
       </PrevScrollButton>
-      <ExerciseListBlock ref={ref}>
+      <ExerciseListBlock ref={ref} editing={editing}>
         {dayRoutine.map((s, i) => (
           <ExerciseItemBlock
             editing={editing ? 1 : 0}
@@ -137,7 +141,9 @@ const RoutineExerciseList = ({
           </ExerciseItemBlock>
         ))}
         {onOpenModal && (
-          <Button onClick={editing ? () => onOpenModal(dayIdx) : null}>
+          <Button
+            onClick={dayIdx && editing ? () => onOpenModal(dayIdx) : null}
+          >
             <AddExerciseButton editing={editing ? 1 : 0} />
           </Button>
         )}
@@ -158,6 +164,9 @@ const RoutineExerciseList = ({
 };
 
 RoutineExerciseList.defaultProps = {
+  dayIdx: 0,
+  routineId: '',
+  editing: false,
   onOpenModal: null,
 };
 
