@@ -18,29 +18,12 @@ export type UserStateType = {
 };
 
 const initialState: UserStateType = {
-  name: '사용자',
-  gender: '남성',
-  birth: '1999-04-30',
-  height: 172,
+  name: '',
+  gender: '',
+  birth: '',
+  height: 0,
   currentRoutine: null,
-  completes: [
-    {
-      date: '2022-02-09',
-      list: [
-        {
-          exercise: {
-            name: '랫 풀 다운',
-            category: 'upper',
-            part: ['등'],
-          },
-          weight: 40,
-          numberOfSets: 5,
-          numberOfTimes: 12,
-        },
-      ],
-      memo: '그냥 무난하게 했다.',
-    },
-  ],
+  completes: [],
 };
 
 export const userSlice = createSlice({
@@ -57,6 +40,8 @@ export const userSlice = createSlice({
           gender: string;
           birth: string;
           height: number;
+          currentRoutine?: Routine | null;
+          completes?: CompleteItem[];
         };
       },
     ) => {
@@ -64,6 +49,8 @@ export const userSlice = createSlice({
       state.birth = payload.birth;
       state.gender = payload.gender;
       state.height = payload.height;
+      if (payload.currentRoutine) state.currentRoutine = payload.currentRoutine;
+      if (payload.completes) state.completes = payload.completes;
     },
     setCurrentRoutine: (state, { payload }: { payload: Routine | null }) => {
       state.currentRoutine = payload;

@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
-const useScroll = (ref: React.RefObject<HTMLUListElement>) => {
+const useScroll = () => {
+  const ref = useRef<HTMLUListElement>(null);
   const x = useRef(0);
   const moveTo = (direction: string) => {
     if (!ref.current) return;
@@ -21,6 +22,9 @@ const useScroll = (ref: React.RefObject<HTMLUListElement>) => {
         if (x.current <= 0) return;
         x.current = Math.max(x.current - vWidth * 0.75, 0);
         break;
+      case 'init':
+        x.current = 0;
+        break;
       case 'end':
         x.current = maxWidth - ref.current.clientWidth;
         break;
@@ -30,7 +34,7 @@ const useScroll = (ref: React.RefObject<HTMLUListElement>) => {
     ref.current.scrollLeft = x.current;
   };
 
-  return { moveTo };
+  return { ref, moveTo };
 };
 
 export default useScroll;

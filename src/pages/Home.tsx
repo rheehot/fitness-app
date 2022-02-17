@@ -41,13 +41,32 @@ const CompleteText = styled.div`
   }
 `;
 
+const NoUserBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  h3,
+  p {
+    margin: 0;
+  }
+`;
+
 const HomePage = () => {
   const user = useSelector(userSelector);
   const weekDate = getWeekDate(new Date());
 
   return (
     <Template>
-      <h1>안녕하세요, {user.name}님!</h1>
+      {user.name ? (
+        <h1>안녕하세요, {user.name}님!</h1>
+      ) : (
+        <NoUserBlock>
+          <h3>사용자 정보가 없습니다.</h3>
+          <p>
+            우측의 <b>편집</b> 아이콘을 눌러 정보를 입력해주세요.
+          </p>
+        </NoUserBlock>
+      )}
       <Info user={user}></Info>
       <h1>이번 주 운동 현황</h1>
       <PerformListBlock>

@@ -13,7 +13,7 @@ import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import RoutineExerciseList from './RoutineExerciseList';
 
 const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
-  height: ${(props) => (props.visible ? '40rem' : '3rem')};
+  height: ${(props) => (props.visible ? '42rem' : '3rem')};
   padding: 0.5rem;
   border: 1px solid
     ${(props) => (props.editing ? palette.green_main : palette.grey_main)};

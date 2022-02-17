@@ -94,19 +94,13 @@ type PerformRoutineProps = {
 };
 
 const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
+  const performs = useSelector(performSelector);
+  const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   const [memo, setMemo] = useState('');
 
-  if (!currentRoutine) return <h4>사용 중인 루틴이 없습니다.</h4>;
-
-  const performs = useSelector(performSelector);
-  const dispatch = useDispatch();
-
-  const day = new Date().getDay();
-  const todayRoutine = currentRoutine.weekRoutine[day];
-
   useEffect(() => {
-    if (currentRoutine.lastModified !== performs.lastModified)
+    if (currentRoutine && currentRoutine.lastModified !== performs.lastModified)
       dispatch(
         initialPerform({
           lastModified: currentRoutine.lastModified,
@@ -114,6 +108,11 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
         }),
       );
   }, []);
+
+  if (!currentRoutine) return <h4>사용 중인 루틴이 없습니다.</h4>;
+
+  const day = new Date().getDay();
+  const todayRoutine = currentRoutine.weekRoutine[day];
 
   if (!todayRoutine.length) {
     return (

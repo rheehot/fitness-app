@@ -68,6 +68,7 @@ const AddExerciseButton = styled(AiOutlinePlus)<{ editing: number }>`
 
 const PrevScrollButton = styled(Button)<{ isEnd: boolean }>`
   position: absolute;
+  z-index: 50;
   left: 0;
   height: 100%;
   color: white;
@@ -76,6 +77,7 @@ const PrevScrollButton = styled(Button)<{ isEnd: boolean }>`
 `;
 
 const NextScrollButton = styled(Button)<{ isEnd: boolean }>`
+  z-index: 50;
   position: absolute;
   right: 0;
   height: 100%;
@@ -86,27 +88,27 @@ const NextScrollButton = styled(Button)<{ isEnd: boolean }>`
 
 type RoutineExerciseListProps = {
   dayRoutine: ExerciseItem[];
-  editing?: boolean;
-  dayIdx?: number;
   routineId?: string;
+  dayIdx?: number;
+  editing?: boolean;
   onOpenModal?: (day: number) => void;
 };
 
 const RoutineExerciseList = ({
   dayRoutine,
-  dayIdx = 0,
   routineId = '',
+  dayIdx = -1,
   editing = false,
   onOpenModal,
 }: RoutineExerciseListProps) => {
   const dispatch = useDispatch();
-
-  const ref = useRef<HTMLUListElement>(null);
-  const { moveTo } = useScroll(ref);
-
+  const { ref, moveTo } = useScroll();
   const dr = useRef<ExerciseItem[]>(dayRoutine);
+
   useEffect(() => {
+    if (dayRoutine.length <= 0) return;
     if (routineId && dr.current.length < dayRoutine.length) moveTo('end');
+    else moveTo('init');
     dr.current = dayRoutine;
   }, [dayRoutine]);
 
@@ -142,7 +144,9 @@ const RoutineExerciseList = ({
         ))}
         {onOpenModal && (
           <Button
-            onClick={dayIdx && editing ? () => onOpenModal(dayIdx) : null}
+            onClick={
+              dayIdx !== -1 && editing ? () => onOpenModal(dayIdx) : null
+            }
           >
             <AddExerciseButton editing={editing ? 1 : 0} />
           </Button>
@@ -164,8 +168,8 @@ const RoutineExerciseList = ({
 };
 
 RoutineExerciseList.defaultProps = {
-  dayIdx: 0,
   routineId: '',
+  dayIdx: -1,
   editing: false,
   onOpenModal: null,
 };

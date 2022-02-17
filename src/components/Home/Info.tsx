@@ -1,30 +1,31 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { setUser, UserStateType } from 'modules/user';
 import { FaPencilAlt } from 'react-icons/fa';
 import { MdCheck } from 'react-icons/md';
 import Button from 'components/common/Button';
-import { useDispatch } from 'react-redux';
 import AlertModal from 'components/common/AlertModal';
 import palette from 'lib/palette';
 
 const InfoBlock = styled.div<{ editing: boolean }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: relative;
+  height: 8rem;
   padding: 0.5rem;
   border: 1px solid
     ${(props) => (props.editing ? palette.green_main : palette.grey_main)};
   border-radius: 0.5rem;
   transition: border 0.2s;
-  p {
-    margin: 0.25rem 0;
-    input {
-      max-width: 10rem;
-      border: none;
-      border-radius: 0.25rem;
-      margin-left: 0.25rem;
-      background: ${palette.grey_sub};
-      font-size: 1rem;
-    }
+  input {
+    max-width: 9rem;
+    border: none;
+    border-radius: 0.25rem;
+    margin-left: 0.25rem;
+    background: ${palette.grey_sub};
+    font-size: 1rem;
   }
 `;
 
@@ -42,10 +43,6 @@ const CheckButton = styled(MdCheck)`
   font-size: 2rem;
   margin: -0.25rem;
 `;
-
-type InfoBlockProps = {
-  user: UserStateType | null;
-};
 
 type InputState = {
   name: string;
@@ -74,13 +71,12 @@ const reducer = (state: InputState, action: InputAction) => {
   }
 };
 
+type InfoBlockProps = {
+  user: UserStateType;
+};
+
 const Info = ({ user }: InfoBlockProps) => {
   const dispatch = useDispatch();
-
-  if (!user) {
-    return <h2>사용자 정보가 없습니다.</h2>;
-  }
-
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState(false);
   const [inputState, inputDispatch] = useReducer(reducer, {
@@ -89,12 +85,9 @@ const Info = ({ user }: InfoBlockProps) => {
     birth: user.birth,
     height: `${user.height}`,
   });
-  const onToggleEditing = () => {
-    setEditing(!editing);
-  };
+  const onToggleEditing = () => setEditing(!editing);
   const onChange = (type: string, e: React.ChangeEvent<HTMLInputElement>) => {
     if (type === 'HEIGHT' && e.target.value.length > 3) return;
-
     inputDispatch({
       type,
       payload: e.target.value,
@@ -114,7 +107,6 @@ const Info = ({ user }: InfoBlockProps) => {
       setTimeout(() => setModal(false), 2000);
       return;
     }
-
     dispatch(
       setUser({
         name: inputState.name,
@@ -123,9 +115,15 @@ const Info = ({ user }: InfoBlockProps) => {
         height: +inputState.height,
       }),
     );
-
     onToggleEditing();
   };
+
+  useEffect(() => {
+    inputDispatch({ type: 'NAME', payload: user.name });
+    inputDispatch({ type: 'BIRTH', payload: user.birth });
+    inputDispatch({ type: 'GENDER', payload: user.gender });
+    inputDispatch({ type: 'HEIGHT', payload: `${user.height}` });
+  }, [user]);
 
   return (
     <InfoBlock editing={editing}>
@@ -137,7 +135,7 @@ const Info = ({ user }: InfoBlockProps) => {
               <CheckButton />
             </Button>
           </EditButton>
-          <p>
+          <div>
             이름:
             <input
               type="text"
@@ -146,8 +144,8 @@ const Info = ({ user }: InfoBlockProps) => {
               maxLength={8}
               required
             />
-          </p>
-          <p>
+          </div>
+          <div>
             성별:
             <label htmlFor="male">
               <input
@@ -169,8 +167,8 @@ const Info = ({ user }: InfoBlockProps) => {
               />
               여성
             </label>
-          </p>
-          <p>
+          </div>
+          <div>
             생년월일:
             <input
               type="date"
@@ -179,18 +177,19 @@ const Info = ({ user }: InfoBlockProps) => {
               placeholder="8자리 숫자 입력"
               required
             />
-          </p>
-          <p>
+          </div>
+          <div>
             키:
             <input
               type="number"
               value={inputState.height}
               onChange={(e) => onChange('HEIGHT', e)}
               min={100}
+              max={300}
               required
             />
             cm
-          </p>
+          </div>
         </>
       ) : (
         <>
@@ -199,10 +198,10 @@ const Info = ({ user }: InfoBlockProps) => {
               <FaPencilAlt />
             </Button>
           </EditButton>
-          <p>이름: {user.name}</p>
-          <p>성별: {user.gender}</p>
-          <p>생년월일: {user.birth.toLocaleString().slice(0, 11)}</p>
-          <p>키: {user.height}cm</p>
+          <div>이름: {user.name}</div>
+          <div>성별: {user.gender}</div>
+          <div>생년월일: {user.birth.toLocaleString().slice(0, 11)}</div>
+          <div>키: {user.height}cm</div>
         </>
       )}
     </InfoBlock>

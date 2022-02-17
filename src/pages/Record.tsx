@@ -24,6 +24,31 @@ const RecordPage = () => {
   const [records, setRecords] = useState<CompleteItem[]>([]);
   const [selected, setSelected] = useState<CompleteItem | null>(null);
 
+  useEffect(() => {
+    const firstDate = new Date(currentDate.year, currentDate.month);
+    const tempRecords: CompleteItem[] = [];
+    firstDate.setDate(1);
+
+    for (let i = 0; i < 7; i += 1)
+      if (i < firstDate.getDay())
+        tempRecords.push({
+          date: `${-i}`,
+          list: [],
+          memo: '',
+        });
+
+    while (firstDate.getMonth() === currentDate.month) {
+      const r = users.completes.find((c) => c.date === getDatestr(firstDate));
+      tempRecords.push({
+        date: getDatestr(firstDate),
+        list: r ? r.list : [],
+        memo: r ? r.memo : '',
+      });
+      firstDate.setDate(firstDate.getDate() + 1);
+    }
+    setRecords(tempRecords);
+  }, [currentDate, users.completes]);
+
   const increaseMonth = () => {
     if (currentDate.month >= 11) {
       setCurrentDate({
@@ -75,36 +100,6 @@ const RecordPage = () => {
 
     setSelected(info);
   };
-
-  useEffect(() => {
-    const firstDate = new Date(currentDate.year, currentDate.month);
-    const tempRecords: CompleteItem[] = [];
-    firstDate.setDate(1);
-
-    for (let i = 0; i < 7; i += 1)
-      if (i < firstDate.getDay())
-        tempRecords.push({
-          date: `${-i}`,
-          list: [],
-          memo: '',
-        });
-
-    while (firstDate.getMonth() === currentDate.month) {
-      const r = users.completes.find((c) => c.date === getDatestr(firstDate));
-      tempRecords.push({
-        date: getDatestr(firstDate),
-        list: r ? r.list : [],
-        memo: r ? r.memo : '',
-      });
-      firstDate.setDate(firstDate.getDate() + 1);
-    }
-    setRecords(tempRecords);
-
-    return () => {
-      document.onclick = null;
-      window.onresize = null;
-    };
-  }, [currentDate]);
 
   return (
     <Template>
