@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { userSelector } from 'modules/hooks';
@@ -54,6 +54,12 @@ const NoUserBlock = styled.div`
 const HomePage = () => {
   const user = useSelector(userSelector);
   const weekDate = getWeekDate(new Date());
+  const isCompleted = useMemo(
+    () =>
+      user.completes.filter((c) => c.date === getDatestr(new Date())).length >
+      0,
+    [user.completes],
+  );
 
   return (
     <Template>
@@ -82,12 +88,12 @@ const HomePage = () => {
       </PerformListBlock>
       <CompleteText>
         <h1>오늘의 운동</h1>
-        {user.completes.filter((c) => c.date === getDatestr(new Date()))
-          .length ? (
-          <span>완료</span>
-        ) : null}
+        {isCompleted ? <span>완료</span> : null}
       </CompleteText>
-      <PerformRoutine currentRoutine={user.currentRoutine} />
+      <PerformRoutine
+        currentRoutine={user.currentRoutine}
+        complete={isCompleted}
+      />
     </Template>
   );
 };

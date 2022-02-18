@@ -7,12 +7,7 @@ import {
   MdRadioButtonUnchecked,
   MdOutlineCheckCircleOutline,
 } from 'react-icons/md';
-import {
-  initialPerform,
-  toggleCheck,
-  checkAll,
-  completePerform,
-} from 'modules/perform';
+import { initialPerform, toggleCheck, checkAll } from 'modules/perform';
 import { addCompleteDay } from 'modules/user';
 import { getDatestr } from 'lib/methods';
 import AlertModal from 'components/common/AlertModal';
@@ -91,9 +86,10 @@ const MemoBlock = styled.textarea<{ visible: number }>`
 
 type PerformRoutineProps = {
   currentRoutine: Routine | null;
+  complete: boolean;
 };
 
-const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
+const PerformRoutine = ({ currentRoutine, complete }: PerformRoutineProps) => {
   const performs = useSelector(performSelector);
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
@@ -122,7 +118,7 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
     );
   }
 
-  if (performs.completed)
+  if (complete)
     return (
       <h4>
         <b>오늘 운동을 완료했습니다.</b>
@@ -151,7 +147,6 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
           memo,
         }),
       );
-      dispatch(completePerform());
       setMemo('');
     }
   };
@@ -171,7 +166,7 @@ const PerformRoutine = ({ currentRoutine }: PerformRoutineProps) => {
                 {p.exercise.weight}kg, {p.exercise.numberOfTimes}회
               </span>
             </ExerciseBlock>
-            {p.setCheck.map((x, j) => (
+            {p.setCheck.map((_, j) => (
               <SetButton
                 available={j === 0 || p.setCheck[j - 1]}
                 onClick={() => onToggleCheck(i, j)}

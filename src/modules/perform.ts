@@ -8,13 +8,11 @@ export type PerformItem = {
 
 export type PerformList = {
   lastModified: number | null;
-  completed: boolean;
   list: PerformItem[];
 };
 
 const initialState: PerformList = {
   lastModified: null,
-  completed: false,
   list: [],
 };
 
@@ -59,14 +57,9 @@ export const performSlice = createSlice({
       const exer = state.list[exerIdx];
       exer.setCheck = exer.setCheck.map(() => true);
     },
-    completePerform: (state) => {
-      state.completed = true;
-      state.list = [];
-    },
   },
 });
 
-export const { initialPerform, toggleCheck, checkAll, completePerform } =
-  performSlice.actions;
+export const { initialPerform, toggleCheck, checkAll } = performSlice.actions;
 
 export default performSlice.reducer;
