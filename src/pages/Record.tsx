@@ -7,10 +7,9 @@ import { CompleteItem } from 'modules/user';
 import { getDatestr } from 'lib/methods';
 import RoutineExerciseList from 'components/Routine/RoutineExerciseList';
 import styled from '@emotion/styled';
-import palette from 'lib/palette';
 
 const MemoBlock = styled.div`
-  background: ${palette.memo_body};
+  background: ${(props) => props.theme.memo_body};
   border-radius: 0.5rem;
   padding: 0.5rem;
 `;

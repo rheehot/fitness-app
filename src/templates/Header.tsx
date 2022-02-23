@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdRefresh } from 'react-icons/md';
+import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
 import Button from 'components/common/Button';
+import { toggleTheme } from 'modules/theme';
+import { themeSelector } from 'modules/hooks';
 
 const HeaderBlock = styled.header`
   display: flex;
@@ -25,17 +29,26 @@ const TitleBlock = styled(NavLink)`
 
 const NavBlock = styled.nav`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   place-items: center;
 `;
 
 const StyledNavLink = styled(NavLink)`
   padding: 0 0.25rem;
   margin: 0 0.5rem;
-  color: grey;
+  color: ${(props) => props.theme.letter_sub};
   border-bottom: 2px solid transparent;
   text-decoration: none;
   font-size: 1.125rem;
+  &.active {
+    color: ${(props) => props.theme.letter_main};
+    font-weight: bold;
+    border-bottom: 2px solid ${(props) => props.theme.letter_main};
+  }
+`;
+
+const ToggleButton = styled(Button)`
+  font-size: 1.5rem;
 `;
 
 type NavLinkBlockProps = {
@@ -47,15 +60,7 @@ const NavLinkBlock = ({ to, children }: NavLinkBlockProps) => (
   <Button>
     <StyledNavLink
       to={to}
-      style={({ isActive }) =>
-        isActive
-          ? {
-              color: 'black',
-              fontWeight: 'bold',
-              borderBottom: '2px solid black',
-            }
-          : {}
-      }
+      className={({ isActive }) => (isActive ? 'active' : '')}
     >
       {children}
     </StyledNavLink>
@@ -63,6 +68,10 @@ const NavLinkBlock = ({ to, children }: NavLinkBlockProps) => (
 );
 
 function Header() {
+  const theme = useSelector(themeSelector);
+  const dispatch = useDispatch();
+  const onToggleTheme = () => dispatch(toggleTheme());
+
   return (
     <HeaderBlock>
       <TitleBlock to="/">
@@ -73,6 +82,9 @@ function Header() {
         <NavLinkBlock to="/">홈</NavLinkBlock>
         <NavLinkBlock to="/routine">루틴</NavLinkBlock>
         <NavLinkBlock to="/record">기록</NavLinkBlock>
+        <ToggleButton onClick={onToggleTheme}>
+          {theme.mode === 'light' ? <BsFillSunFill /> : <BsFillMoonFill />}
+        </ToggleButton>
       </NavBlock>
     </HeaderBlock>
   );

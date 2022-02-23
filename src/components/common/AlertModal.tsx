@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { GrCircleAlert } from 'react-icons/gr';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 const InfoModal = styled.div<{ visible: boolean }>`
   display: flex;
@@ -27,7 +27,7 @@ const InfoModal = styled.div<{ visible: boolean }>`
     left: 50%;
     padding: 1rem;
     border-radius: 0.5rem;
-    background: white;
+    background: ${(props) => props.theme.background_base};
     font-size: 1.125rem;
     font-weight: bold;
     transform: translate(-50%, -50%);
@@ -49,7 +49,7 @@ const AlertModal = ({ visible, text }: AlertModalProps) => {
   return (
     <InfoModal visible={visible}>
       <div className="text">
-        <GrCircleAlert className="icon" />
+        <BsExclamationCircle className="icon" />
         {text}
       </div>
     </InfoModal>

@@ -4,11 +4,13 @@ import { persistReducer, REGISTER, PERSIST, REHYDRATE } from 'redux-persist';
 import user from './user';
 import routine from './routine';
 import perform from './perform';
+import theme from './theme';
 
 const reducers = combineReducers({
   user,
   routine,
   perform,
+  theme,
 });
 
 const persistConfig = {

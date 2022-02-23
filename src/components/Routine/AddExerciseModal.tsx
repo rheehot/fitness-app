@@ -6,7 +6,6 @@ import AlertModal from 'components/common/AlertModal';
 import Button from 'components/common/Button';
 import useAddExercise from 'hooks/useAddExercise';
 import { getKorCategory } from 'lib/methods';
-import palette from 'lib/palette';
 import exerciseJSON from '../../data/exercise.json';
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
@@ -25,7 +24,7 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   border-radius: 0.5rem;
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  background: white;
+  background: ${(props) => props.theme.background_base};
   overflow: hidden;
   transition: top 0.5s;
   h2 {
@@ -45,7 +44,10 @@ const CategoryItemBlock = styled.li<{ checked: number }>`
   justify-content: center;
   padding: 0.25rem;
   border: 1px solid
-    ${(props) => (props.checked ? palette.green_main : palette.grey_main)};
+    ${(props) =>
+      props.checked
+        ? (props) => props.theme.highlight_main
+        : (props) => props.theme.background_main};
   border-radius: 0.5rem;
   font-weight: ${(props) => props.checked && 'bold'};
   cursor: pointer;
@@ -55,7 +57,7 @@ const ExerciseListBlock = styled.ul`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  background: ${palette.grey_sub};
+  background: ${(props) => props.theme.background_sub};
   gap: 0.5rem;
   padding: 0.5rem;
   height: 100%;
@@ -66,7 +68,10 @@ const ExerciseItemBlock = styled.li<{ isSelected: number }>`
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background: ${(props) => (props.isSelected ? palette.green_main : 'white')};
+  background: ${(props) =>
+    props.isSelected
+      ? props.theme.highlight_main
+      : props.theme.background_base};
   transition: background 0.2s;
 `;
 
@@ -98,9 +103,9 @@ const ButtonsBlock = styled.div`
   button {
     display: flex;
     padding: 0.25rem 0.5rem;
-    border: 1px solid ${palette.grey_main};
+    border: 1px solid ${(props) => props.theme.background_main};
     border-radius: 0.5rem;
-    background: white;
+    background: ${(props) => props.theme.background_base};
     font-size: 1.25rem;
     cursor: pointer;
     &:hover {
@@ -113,13 +118,13 @@ const ButtonsBlock = styled.div`
   .submit {
     padding: 0.25rem 0.5rem;
     border: 1px solid transparent;
-    color: white;
-    background: ${palette.green_main};
+    color: ${(props) => props.theme.background_base};
+    background: ${(props) => props.theme.highlight_main};
     font-size: 1.25rem;
   }
   .close {
     padding: 0.25rem 0.5rem;
-    border: 1px solid ${palette.grey_main};
+    border: 1px solid ${(props) => props.theme.background_main};
     font-size: 1.25rem;
   }
 `;

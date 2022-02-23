@@ -14,7 +14,7 @@ const TemplateBlock = styled.div`
 
 const ContentBlock = styled.div`
   width: 100%;
-  background: white;
+  background: ${(props) => props.theme.background_base};
   padding: 1rem;
   border-radius: 0.5rem;
 `;

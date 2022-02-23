@@ -11,14 +11,13 @@ import { initialPerform, toggleCheck, checkAll } from 'modules/perform';
 import { addCompleteDay } from 'modules/user';
 import { getDatestr } from 'lib/methods';
 import AlertModal from 'components/common/AlertModal';
-import palette from 'lib/palette';
 
 const PerformRoutineBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
-  border: 1px solid ${palette.grey_main};
+  border: 1px solid ${(props) => props.theme.background_main};
   border-radius: 0.5rem;
 `;
 
@@ -26,7 +25,7 @@ const PerformExerciseBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  border: 1px solid ${palette.grey_sub};
+  border: 1px solid ${(props) => props.theme.background_sub};
   border-radius: 0.5rem;
   overflow: hidden;
 `;
@@ -39,7 +38,9 @@ const ExerciseBlock = styled.div<{ completed: boolean }>`
   border-radius: 0 0 0.5rem 0;
   padding: 0.5rem;
   background: ${(props) =>
-    props.completed ? palette.green_main : palette.grey_sub};
+    props.completed
+      ? (props) => props.theme.highlight_main
+      : (props) => props.theme.background_sub};
   transition: background 0.2s;
 `;
 
@@ -65,11 +66,11 @@ const CompleteButton = styled.button`
   padding: 0.5rem;
   border: none;
   border-radius: 0.5rem;
-  background: ${palette.grey_sub};
+  background: ${(props) => props.theme.background_sub};
   font-size: 1.5rem;
   font-weight: bold;
   &:active {
-    background: ${palette.green_main};
+    background: ${(props) => props.theme.highlight_main};
   }
   cursor: pointer;
 `;
@@ -81,7 +82,7 @@ const MemoBlock = styled.textarea<{ visible: number }>`
   border: none;
   border-radius: 0.5rem;
   font-size: 1rem;
-  background: ${palette.memo_body};
+  background: ${(props) => props.theme.memo_body};
 `;
 
 type PerformRoutineProps = {

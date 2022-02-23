@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { CompleteItem } from 'modules/user';
 import Button from 'components/common/Button';
-import palette from 'lib/palette';
 import { dayidxToDaystr } from 'lib/methods';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import { FaRegCalendarCheck } from 'react-icons/fa';
@@ -20,17 +19,17 @@ const CalendarList = styled.ul`
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   padding: 1rem 0.5rem;
-  border: 1px solid ${palette.grey_main};
+  border: 1px solid ${(props) => props.theme.background_main};
   border-radius: 0.5rem;
   @media (min-width: 430px) {
     row-gap: 2rem;
     padding: 2rem 0.5rem;
   }
   span:nth-of-type(1) {
-    color: ${palette.red};
+    color: ${(props) => props.theme.red};
   }
   span:nth-of-type(7) {
-    color: ${palette.blue};
+    color: ${(props) => props.theme.blue};
   }
 `;
 
@@ -42,18 +41,18 @@ const CalendarItem = styled.li<{ selected: boolean; performed: boolean }>`
   height: 1.75rem;
   padding: 0.25rem;
   border: ${(props) =>
-    props.performed ? `2px solid ${palette.green_main}` : ''};
+    props.performed ? `2px solid ${props.theme.highlight_main}` : ''};
   border-radius: 50%;
-  background: ${(props) => (props.selected ? palette.green_main : '')};
+  background: ${(props) => (props.selected ? props.theme.highlight_main : '')};
   font-size: 1rem;
   font-weight: bold;
   transition: background 0.2s;
   cursor: pointer;
   &:nth-of-type(7n + 1) {
-    color: ${palette.red};
+    color: ${(props) => props.theme.red};
   }
   &:nth-of-type(7n) {
-    color: ${palette.blue};
+    color: ${(props) => props.theme.blue};
   }
   @media (min-width: 430px) {
     font-size: 1.25rem;

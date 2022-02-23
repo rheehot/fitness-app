@@ -6,7 +6,6 @@ import useScroll from 'hooks/useScroll';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import Button from 'components/common/Button';
-import palette from 'lib/palette';
 
 const ExerciseListWrapper = styled.div`
   display: flex;
@@ -25,7 +24,9 @@ const ExerciseListBlock = styled.ul<{ editing: boolean }>`
   padding: 0.5rem 2rem;
   border-radius: 0.5rem;
   background: ${(props) =>
-    props.editing ? palette.green_sub : palette.grey_sub};
+    props.editing
+      ? (props) => props.theme.highlight_sub
+      : (props) => props.theme.background_sub};
   overflow: hidden;
   transition: background 0.2s;
   scroll-behavior: smooth;
@@ -39,7 +40,7 @@ const ExerciseItemBlock = styled.li<{ editing?: number }>`
   padding: 0.2rem 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid transparent;
-  background: white;
+  background: ${(props) => props.theme.background_base};
   transition: border 0.2s, opacity 0.2s;
   span {
     font-size: 0.8rem;
@@ -59,8 +60,8 @@ const AddExerciseButton = styled(AiOutlinePlus)<{ editing: number }>`
   place-items: center;
   padding: 0.25rem;
   border-radius: 50%;
-  color: white;
-  background: ${palette.green_main};
+  color: ${(props) => props.theme.background_base};
+  background: ${(props) => props.theme.highlight_main};
   font-size: 2rem;
   font-weight: bold;
   visibility: ${(props) => (props.editing ? '' : 'hidden')};
@@ -71,7 +72,7 @@ const PrevScrollButton = styled(Button)<{ isEnd: boolean }>`
   z-index: 50;
   left: 0;
   height: 100%;
-  color: white;
+  color: ${(props) => props.theme.background_base};
   background: rgba(0, 0, 0, 0.2);
   font-size: 1.75rem;
 `;
@@ -81,7 +82,7 @@ const NextScrollButton = styled(Button)<{ isEnd: boolean }>`
   position: absolute;
   right: 0;
   height: 100%;
-  color: white;
+  color: ${(props) => props.theme.background_base};
   background: rgba(0, 0, 0, 0.2);
   font-size: 1.75rem;
 `;
@@ -138,7 +139,7 @@ const RoutineExerciseList = ({
             <b>{s.exercise.name}</b>
             <span>{s.weight} kg</span>
             <span>
-              {s.numberOfSets} x {s.numberOfTimes}
+              {s.numberOfTimes} x {s.numberOfSets}
             </span>
           </ExerciseItemBlock>
         ))}

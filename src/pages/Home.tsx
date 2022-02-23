@@ -6,7 +6,6 @@ import Template from 'templates/Template';
 import Info from 'components/Home/Info';
 import PerformRoutine from 'components/Home/PerformRoutine';
 import { getDatestr, getWeekDate } from 'lib/methods';
-import palette from 'lib/palette';
 
 const PerformListBlock = styled.ul`
   display: grid;
@@ -14,10 +13,10 @@ const PerformListBlock = styled.ul`
   border-radius: 0.5rem;
   overflow: hidden;
   li:nth-of-type(1) {
-    color: red;
+    color: ${(props) => props.theme.red};
   }
   li:nth-of-type(7) {
-    color: blue;
+    color: ${(props) => props.theme.blue};
   }
 `;
 
@@ -25,7 +24,9 @@ const PerformItemBlock = styled.li<{ done?: boolean }>`
   display: flex;
   justify-content: center;
   background: ${(props) =>
-    props.done ? palette.green_main : palette.grey_sub};
+    props.done
+      ? (props) => props.theme.highlight_main
+      : (props) => props.theme.background_sub};
   font-weight: bold;
 `;
 
@@ -36,7 +37,7 @@ const CompleteText = styled.div`
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
     margin-left: 0.5rem;
-    background: #ffe600;
+    background: ${(props) => props.theme.yellow};
     font-weight: bold;
   }
 `;

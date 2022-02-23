@@ -6,7 +6,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { MdCheck } from 'react-icons/md';
 import Button from 'components/common/Button';
 import AlertModal from 'components/common/AlertModal';
-import palette from 'lib/palette';
+import { getDatestr } from 'lib/methods';
 
 const InfoBlock = styled.div<{ editing: boolean }>`
   display: flex;
@@ -16,7 +16,10 @@ const InfoBlock = styled.div<{ editing: boolean }>`
   height: 8rem;
   padding: 0.5rem;
   border: 1px solid
-    ${(props) => (props.editing ? palette.green_main : palette.grey_main)};
+    ${(props) =>
+      props.editing
+        ? (props) => props.theme.highlight_main
+        : (props) => props.theme.background_main};
   border-radius: 0.5rem;
   transition: border 0.2s;
   input {
@@ -24,7 +27,7 @@ const InfoBlock = styled.div<{ editing: boolean }>`
     border: none;
     border-radius: 0.25rem;
     margin-left: 0.25rem;
-    background: ${palette.grey_sub};
+    background: ${(props) => props.theme.background_sub};
     font-size: 1rem;
   }
 `;
@@ -39,7 +42,7 @@ const EditButton = styled.div`
 `;
 
 const CheckButton = styled(MdCheck)`
-  color: ${palette.green_main};
+  color: ${(props) => props.theme.highlight_main};
   font-size: 2rem;
   margin: -0.25rem;
 `;
@@ -174,7 +177,8 @@ const Info = ({ user }: InfoBlockProps) => {
               type="date"
               value={inputState.birth}
               onChange={(e) => onChange('BIRTH', e)}
-              placeholder="8자리 숫자 입력"
+              min="1900-01-01"
+              max={getDatestr(new Date())}
               required
             />
           </div>

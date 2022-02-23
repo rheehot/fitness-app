@@ -4,6 +4,10 @@ import HomePage from 'pages/Home';
 import RoutinePage from 'pages/Routine';
 import RecordPage from 'pages/Record';
 import styled from '@emotion/styled';
+import { css, Global, ThemeProvider, useTheme } from '@emotion/react';
+import { useSelector } from 'react-redux';
+import { themeSelector } from 'modules/hooks';
+import { globalStyles } from './lib/globalStyles';
 
 const AppBlock = styled.div`
   display: flex;
@@ -11,14 +15,41 @@ const AppBlock = styled.div`
   padding: 1rem;
 `;
 
+const GlobalStyles = () => {
+  const theme = useTheme();
+  return (
+    <Global
+      styles={css`
+        ${globalStyles};
+        body {
+          background: ${theme.body};
+          color: ${theme.letter_main};
+        }
+        hr {
+          border-color: ${theme.letter_sub};
+        }
+        input,
+        textArea,
+        button {
+          color: ${theme.letter_main};
+        }
+      `}
+    />
+  );
+};
+
 function App() {
+  const theme = useSelector(themeSelector);
   return (
     <AppBlock>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/routine" element={<RoutinePage />} />
-        <Route path="/record" element={<RecordPage />} />
-      </Routes>
+      <ThemeProvider theme={theme.colors}>
+        <GlobalStyles />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/routine" element={<RoutinePage />} />
+          <Route path="/record" element={<RecordPage />} />
+        </Routes>
+      </ThemeProvider>
     </AppBlock>
   );
 }

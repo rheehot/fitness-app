@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'sanitize.css';
-import './index.css';
 import store from 'modules';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
