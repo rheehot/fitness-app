@@ -29,8 +29,7 @@ const GlobalStyles = () => {
         textArea,
         button {
           color: ${theme.letter_main};
-          background: ${theme.background_main};
-          border: 1px solid ${theme.border};
+          background: ${theme.background_sub};
         }
       `}
     />

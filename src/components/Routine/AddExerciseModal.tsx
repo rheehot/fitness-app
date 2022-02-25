@@ -21,7 +21,7 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   }
   width: 90%;
   height: 90%;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border_main};
   border-radius: 0.5rem;
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -44,7 +44,7 @@ const CategoryItemBlock = styled(Button)<{ checked: number }>`
   padding: 0.25rem;
   border: 1px solid
     ${(props) =>
-      props.checked ? props.theme.highlight_main : props.theme.border};
+      props.checked ? props.theme.primary : props.theme.border_main};
 `;
 
 const ExerciseListBlock = styled.ul`
@@ -62,11 +62,8 @@ const ExerciseItemBlock = styled.li<{ isSelected: number }>`
   flex-direction: column;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background: ${(props) =>
-    props.isSelected
-      ? props.theme.highlight_main
-      : props.theme.background_main};
-  transition: background 0.2s;
+  background: ${({ isSelected, theme }) =>
+    isSelected ? theme.primary : theme.background_main};
 `;
 
 const FooterBlock = styled.div`
@@ -95,9 +92,8 @@ const ButtonsBlock = styled.div`
   display: flex;
   gap: 0.5rem;
   .submit {
-    padding: 0.25rem 0.5rem;
-    border: 1px solid transparent;
-    background: ${(props) => props.theme.highlight_main};
+    padding: 0.25rem 1rem;
+    background: ${(props) => props.theme.primary};
     font-size: 1.25rem;
   }
   .close {

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { ExerciseItem, removeExercise } from 'modules/routine';
 import useScroll from 'hooks/useScroll';
-import { AiOutlinePlus } from 'react-icons/ai';
+import { BsPlusCircleDotted } from 'react-icons/bs';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import Button from 'components/common/Button';
 
@@ -23,12 +23,9 @@ const ExerciseListBlock = styled.ul<{ editing: boolean }>`
   height: 5rem;
   padding: 0.5rem 2rem;
   border-radius: 0.5rem;
-  background: ${(props) =>
-    props.editing
-      ? (props) => props.theme.highlight_sub
-      : (props) => props.theme.background_sub};
+  background: ${({ editing, theme }) =>
+    editing ? theme.primary : theme.background_sub};
   overflow: hidden;
-  transition: background 0.2s;
   scroll-behavior: smooth;
 `;
 
@@ -39,30 +36,26 @@ const ExerciseItemBlock = styled.li<{ editing?: number }>`
   place-items: center;
   padding: 0.2rem 0.5rem;
   border-radius: 0.5rem;
-  background: ${(props) => props.theme.background_main};
-  transition: border 0.2s, opacity 0.2s;
+  background: ${({ theme }) => theme.background_main};
+  transition: opacity 0.2s;
   span {
     font-size: 0.8rem;
   }
   &:hover {
-    opacity: ${(props) => (props.editing ? 0.75 : 1)};
+    opacity: ${({ editing }) => (editing ? 0.75 : 1)};
   }
   &:active {
-    opacity: ${(props) => (props.editing ? 0.5 : 1)};
+    opacity: ${({ editing }) => (editing ? 0.5 : 1)};
   }
 `;
 
-const AddExerciseButton = styled(AiOutlinePlus)<{ editing: number }>`
+const AddExerciseButton = styled(BsPlusCircleDotted)<{ editing: number }>`
   display: flex;
   flex-shrink: 0;
   place-items: center;
-  padding: 0.25rem;
   border-radius: 50%;
-  color: ${(props) => props.theme.background_main};
-  background: ${(props) => props.theme.highlight_main};
   font-size: 2rem;
-  font-weight: bold;
-  visibility: ${(props) => (props.editing ? '' : 'hidden')};
+  visibility: ${({ editing }) => (editing ? '' : 'hidden')};
 `;
 
 const PrevScrollButton = styled(Button)<{ isEnd: boolean }>`

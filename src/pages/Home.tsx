@@ -25,7 +25,7 @@ const PerformItemBlock = styled.li<{ done?: boolean }>`
   justify-content: center;
   background: ${(props) =>
     props.done
-      ? (props) => props.theme.highlight_main
+      ? (props) => props.theme.primary
       : (props) => props.theme.background_sub};
   font-weight: bold;
 `;

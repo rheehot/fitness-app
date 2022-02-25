@@ -37,11 +37,8 @@ const ExerciseBlock = styled.div<{ completed: boolean }>`
   align-items: center;
   border-radius: 0 0 0.5rem 0;
   padding: 0.5rem;
-  background: ${(props) =>
-    props.completed
-      ? (props) => props.theme.highlight_main
-      : (props) => props.theme.background_sub};
-  transition: background 0.2s;
+  background: ${({ completed, theme }) =>
+    completed ? theme.primary : theme.background_sub};
 `;
 
 const SetButton = styled.div<{ available: boolean }>`
@@ -70,7 +67,7 @@ const CompleteButton = styled.button`
   font-size: 1.5rem;
   font-weight: bold;
   &:active {
-    background: ${(props) => props.theme.highlight_main};
+    background: ${(props) => props.theme.border_primary};
   }
   cursor: pointer;
 `;

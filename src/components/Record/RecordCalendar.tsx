@@ -19,7 +19,7 @@ const CalendarList = styled.ul`
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   padding: 1rem 0.5rem;
-  border: 1px solid ${(props) => props.theme.border};
+  border: 1px solid ${(props) => props.theme.border_main};
   border-radius: 0.5rem;
   @media (min-width: 430px) {
     row-gap: 2rem;
@@ -40,19 +40,18 @@ const CalendarItem = styled.li<{ selected: boolean; performed: boolean }>`
   width: 1.75rem;
   height: 1.75rem;
   padding: 0.25rem;
-  border: ${(props) =>
-    props.performed ? `2px solid ${props.theme.highlight_main}` : ''};
+  border: ${({ performed, theme }) =>
+    performed ? `2px solid ${theme.primary}` : ''};
   border-radius: 50%;
-  background: ${(props) => (props.selected ? props.theme.highlight_main : '')};
+  background: ${({ selected, theme }) => (selected ? theme.primary : '')};
   font-size: 1rem;
   font-weight: bold;
-  transition: background 0.2s;
   cursor: pointer;
   &:nth-of-type(7n + 1) {
-    color: ${(props) => props.theme.red};
+    color: ${({ theme }) => theme.red};
   }
   &:nth-of-type(7n) {
-    color: ${(props) => props.theme.blue};
+    color: ${({ theme }) => theme.blue};
   }
   @media (min-width: 430px) {
     font-size: 1.25rem;

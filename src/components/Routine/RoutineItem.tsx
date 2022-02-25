@@ -16,7 +16,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   padding: 0.5rem;
   border: 1px solid
     ${(props) =>
-      props.editing ? props.theme.highlight_main : props.theme.border};
+      props.editing ? props.theme.primary : props.theme.border_main};
   border-radius: 0.5rem;
   overflow: hidden;
   transition: border 0.2s, height 0.5s;
@@ -62,7 +62,7 @@ const DaySpan = styled.div<{ dayIdx: number }>`
 const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
   flex-shrink: 0;
   transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
-  transition: transform 0.25s;
+  transition: transform 0.2s;
 `;
 
 const RoutineDetailBlock = styled.ul`
@@ -76,7 +76,6 @@ const RoutineDetailItem = styled.li`
   place-items: center;
   padding: 0.25rem;
   border-radius: 0.5rem;
-  transition: background 0.2s;
   overflow: hidden;
   .list {
     flex-grow: 1;
@@ -95,7 +94,7 @@ const UnsetCurrentRoutineButton = styled(BsStarFill)`
 
 const CheckButton = styled(MdCheck)`
   margin: -0.25rem;
-  color: ${(props) => props.theme.highlight_main};
+  color: ${(props) => props.theme.primary};
   font-size: 2rem;
 `;
 

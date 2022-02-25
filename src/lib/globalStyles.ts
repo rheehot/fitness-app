@@ -21,6 +21,7 @@ export const globalStyles = css`
   button,
   input,
   textarea {
+    border: 1px solid transparent;
     border-radius: 0.25rem;
     font-family: 'Noto Sans KR', sans-serif;
   }
@@ -46,6 +47,7 @@ export const globalStyles = css`
 
   body,
   div,
+  ul,
   li {
     transition: background 0.2s;
   }

@@ -27,7 +27,7 @@ const InfoModal = styled.div<{ visible: boolean }>`
     left: 50%;
     padding: 1rem;
     border-radius: 0.5rem;
-    border: 1px solid ${(props) => props.theme.border};
+    border: 1px solid ${(props) => props.theme.border_main};
     background: ${(props) => props.theme.background_main};
     font-size: 1.125rem;
     font-weight: bold;

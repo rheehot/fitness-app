@@ -18,8 +18,8 @@ const InfoBlock = styled.div<{ editing: boolean }>`
   border: 1px solid
     ${(props) =>
       props.editing
-        ? (props) => props.theme.highlight_main
-        : (props) => props.theme.border};
+        ? (props) => props.theme.primary
+        : (props) => props.theme.border_main};
   border-radius: 0.5rem;
   transition: border 0.2s;
   input {
@@ -27,7 +27,6 @@ const InfoBlock = styled.div<{ editing: boolean }>`
     border: none;
     border-radius: 0.25rem;
     margin-left: 0.25rem;
-    background: ${(props) => props.theme.background_sub};
     font-size: 1rem;
   }
 `;
@@ -42,7 +41,7 @@ const EditButton = styled.div`
 `;
 
 const CheckButton = styled(MdCheck)`
-  color: ${(props) => props.theme.highlight_main};
+  color: ${(props) => props.theme.primary};
   font-size: 2rem;
   margin: -0.25rem;
 `;
