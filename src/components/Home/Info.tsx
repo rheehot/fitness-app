@@ -19,7 +19,7 @@ const InfoBlock = styled.div<{ editing: boolean }>`
     ${(props) =>
       props.editing
         ? (props) => props.theme.highlight_main
-        : (props) => props.theme.background_main};
+        : (props) => props.theme.border};
   border-radius: 0.5rem;
   transition: border 0.2s;
   input {

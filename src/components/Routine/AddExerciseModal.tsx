@@ -21,10 +21,11 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   }
   width: 90%;
   height: 90%;
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 0.5rem;
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  background: ${(props) => props.theme.background_base};
+  background: ${(props) => props.theme.background_main};
   overflow: hidden;
   transition: top 0.5s;
   h2 {
@@ -39,18 +40,11 @@ const CategoryListBlock = styled.ul`
   gap: 0.5rem;
 `;
 
-const CategoryItemBlock = styled.li<{ checked: number }>`
-  display: flex;
-  justify-content: center;
+const CategoryItemBlock = styled(Button)<{ checked: number }>`
   padding: 0.25rem;
   border: 1px solid
     ${(props) =>
-      props.checked
-        ? (props) => props.theme.highlight_main
-        : (props) => props.theme.background_main};
-  border-radius: 0.5rem;
-  font-weight: ${(props) => props.checked && 'bold'};
-  cursor: pointer;
+      props.checked ? props.theme.highlight_main : props.theme.border};
 `;
 
 const ExerciseListBlock = styled.ul`
@@ -71,7 +65,7 @@ const ExerciseItemBlock = styled.li<{ isSelected: number }>`
   background: ${(props) =>
     props.isSelected
       ? props.theme.highlight_main
-      : props.theme.background_base};
+      : props.theme.background_main};
   transition: background 0.2s;
 `;
 
@@ -100,31 +94,15 @@ const ConfirmBlock = styled.div`
 const ButtonsBlock = styled.div`
   display: flex;
   gap: 0.5rem;
-  button {
-    display: flex;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid ${(props) => props.theme.background_main};
-    border-radius: 0.5rem;
-    background: ${(props) => props.theme.background_base};
-    font-size: 1.25rem;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.75;
-    }
-    &:active {
-      opacity: 0.5;
-    }
-  }
   .submit {
     padding: 0.25rem 0.5rem;
     border: 1px solid transparent;
-    color: ${(props) => props.theme.background_base};
     background: ${(props) => props.theme.highlight_main};
     font-size: 1.25rem;
   }
   .close {
     padding: 0.25rem 0.5rem;
-    border: 1px solid ${(props) => props.theme.background_main};
+    background: ${(props) => props.theme.background_sub};
     font-size: 1.25rem;
   }
 `;

@@ -21,6 +21,7 @@ export const globalStyles = css`
   button,
   input,
   textarea {
+    border-radius: 0.25rem;
     font-family: 'Noto Sans KR', sans-serif;
   }
 
@@ -41,5 +42,11 @@ export const globalStyles = css`
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
+  }
+
+  body,
+  div,
+  li {
+    transition: background 0.2s;
   }
 `;

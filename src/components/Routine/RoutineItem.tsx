@@ -16,9 +16,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
   padding: 0.5rem;
   border: 1px solid
     ${(props) =>
-      props.editing
-        ? (props) => props.theme.highlight_main
-        : (props) => props.theme.background_main};
+      props.editing ? props.theme.highlight_main : props.theme.border};
   border-radius: 0.5rem;
   overflow: hidden;
   transition: border 0.2s, height 0.5s;
@@ -34,7 +32,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
       min-width: 0;
       font-weight: bold;
       font-size: 1.25rem;
-      ${(props) => props.theme.background_base}-space: nowrap;
+      ${(props) => props.theme.background_main}-space: nowrap;
       overflow: hidden;
       input {
         min-width: 0;

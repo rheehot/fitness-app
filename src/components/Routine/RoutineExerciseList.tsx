@@ -39,14 +39,12 @@ const ExerciseItemBlock = styled.li<{ editing?: number }>`
   place-items: center;
   padding: 0.2rem 0.5rem;
   border-radius: 0.5rem;
-  border: 1px solid transparent;
-  background: ${(props) => props.theme.background_base};
+  background: ${(props) => props.theme.background_main};
   transition: border 0.2s, opacity 0.2s;
   span {
     font-size: 0.8rem;
   }
   &:hover {
-    ${(props) => props.editing && '1px solid red'};
     opacity: ${(props) => (props.editing ? 0.75 : 1)};
   }
   &:active {
@@ -60,7 +58,7 @@ const AddExerciseButton = styled(AiOutlinePlus)<{ editing: number }>`
   place-items: center;
   padding: 0.25rem;
   border-radius: 50%;
-  color: ${(props) => props.theme.background_base};
+  color: ${(props) => props.theme.background_main};
   background: ${(props) => props.theme.highlight_main};
   font-size: 2rem;
   font-weight: bold;
@@ -72,7 +70,7 @@ const PrevScrollButton = styled(Button)<{ isEnd: boolean }>`
   z-index: 50;
   left: 0;
   height: 100%;
-  color: ${(props) => props.theme.background_base};
+  color: white;
   background: rgba(0, 0, 0, 0.2);
   font-size: 1.75rem;
 `;
@@ -82,7 +80,7 @@ const NextScrollButton = styled(Button)<{ isEnd: boolean }>`
   position: absolute;
   right: 0;
   height: 100%;
-  color: ${(props) => props.theme.background_base};
+  color: white;
   background: rgba(0, 0, 0, 0.2);
   font-size: 1.75rem;
 `;

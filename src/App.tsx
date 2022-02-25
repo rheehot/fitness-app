@@ -25,13 +25,12 @@ const GlobalStyles = () => {
           background: ${theme.body};
           color: ${theme.letter_main};
         }
-        hr {
-          border-color: ${theme.letter_sub};
-        }
         input,
         textArea,
         button {
           color: ${theme.letter_main};
+          background: ${theme.background_main};
+          border: 1px solid ${theme.border};
         }
       `}
     />

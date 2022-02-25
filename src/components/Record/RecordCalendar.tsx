@@ -19,7 +19,7 @@ const CalendarList = styled.ul`
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   padding: 1rem 0.5rem;
-  border: 1px solid ${(props) => props.theme.background_main};
+  border: 1px solid ${(props) => props.theme.border};
   border-radius: 0.5rem;
   @media (min-width: 430px) {
     row-gap: 2rem;

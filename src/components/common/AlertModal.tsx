@@ -4,14 +4,14 @@ import { BsExclamationCircle } from 'react-icons/bs';
 
 const InfoModal = styled.div<{ visible: boolean }>`
   display: flex;
-  background: ${(props) =>
-    props.visible ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0)'};
   position: fixed;
   z-index: 150;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: ${(props) =>
+    props.visible ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0)'};
   transition: background 0.5s;
   pointer-events: none;
   .text {
@@ -27,7 +27,8 @@ const InfoModal = styled.div<{ visible: boolean }>`
     left: 50%;
     padding: 1rem;
     border-radius: 0.5rem;
-    background: ${(props) => props.theme.background_base};
+    border: 1px solid ${(props) => props.theme.border};
+    background: ${(props) => props.theme.background_main};
     font-size: 1.125rem;
     font-weight: bold;
     transform: translate(-50%, -50%);
