@@ -24,6 +24,13 @@ export const getKorCategory = (str: string) => {
   }
 };
 
+export const getKorProgress = (str: string) => {
+  if (/weight/.test(str)) return '체중';
+  if (/muscleMass/.test(str)) return '골격근량';
+  if (/fatMass/.test(str)) return '체지방량';
+  return '';
+};
+
 export const getWeekDate = (date: Date) => {
   date.setDate(date.getDate() - date.getDay()); // this week, sunday
   date.setHours(0, 0, 0, 0);

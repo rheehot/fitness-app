@@ -97,7 +97,7 @@ const ButtonsBlock = styled.div`
     font-size: 1.25rem;
   }
   .close {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 1rem;
     background: ${(props) => props.theme.background_sub};
     font-size: 1.25rem;
   }

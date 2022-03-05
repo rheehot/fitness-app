@@ -10,6 +10,7 @@ const RecordCalendarBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 2rem;
 `;
 
 const CalendarList = styled.ul`
@@ -19,7 +20,7 @@ const CalendarList = styled.ul`
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   padding: 1rem 0.5rem;
-  border: 1px solid ${(props) => props.theme.border_main};
+  border: 1px solid ${({ theme }) => theme.border_main};
   border-radius: 0.5rem;
   @media (min-width: 430px) {
     row-gap: 2rem;
@@ -48,10 +49,12 @@ const CalendarItem = styled.li<{ selected: boolean; performed: boolean }>`
   font-weight: bold;
   cursor: pointer;
   &:nth-of-type(7n + 1) {
-    color: ${({ theme }) => theme.red};
+    color: ${({ selected, theme }) =>
+      selected ? theme.letter_primary : theme.red};
   }
   &:nth-of-type(7n) {
-    color: ${({ theme }) => theme.blue};
+    color: ${({ selected, theme }) =>
+      selected ? theme.letter_primary : theme.blue};
   }
   @media (min-width: 430px) {
     font-size: 1.25rem;

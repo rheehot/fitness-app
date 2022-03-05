@@ -8,6 +8,22 @@ export type CompleteItem = {
   memo: string;
 };
 
+export type ProgressPayload = {
+  date: string;
+  weight: number;
+  muscleMass: number;
+  fatMass: number;
+};
+
+export type ProgressItem = {
+  id: 'weight' | 'muscleMass' | 'fatMass';
+  color: string;
+  data: {
+    x: string;
+    y: number;
+  }[];
+};
+
 export type UserStateType = {
   name: string;
   gender: string;
@@ -15,6 +31,7 @@ export type UserStateType = {
   height: number;
   currentRoutine: Routine | null;
   completes: CompleteItem[];
+  progress: ProgressItem[];
 };
 
 const initialState: UserStateType = {
@@ -24,6 +41,23 @@ const initialState: UserStateType = {
   height: 0,
   currentRoutine: null,
   completes: [],
+  progress: [
+    {
+      id: 'weight',
+      color: '#123456',
+      data: [],
+    },
+    {
+      id: 'muscleMass',
+      color: '#234567',
+      data: [],
+    },
+    {
+      id: 'fatMass',
+      color: '#345678',
+      data: [],
+    },
+  ],
 };
 
 export const userSlice = createSlice({
@@ -40,8 +74,6 @@ export const userSlice = createSlice({
           gender: string;
           birth: string;
           height: number;
-          currentRoutine?: Routine | null;
-          completes?: CompleteItem[];
         };
       },
     ) => {
@@ -49,8 +81,6 @@ export const userSlice = createSlice({
       state.birth = payload.birth;
       state.gender = payload.gender;
       state.height = payload.height;
-      if (payload.currentRoutine) state.currentRoutine = payload.currentRoutine;
-      if (payload.completes) state.completes = payload.completes;
     },
     setCurrentRoutine: (state, { payload }: { payload: Routine | null }) => {
       state.currentRoutine = payload;
@@ -58,9 +88,18 @@ export const userSlice = createSlice({
     addCompleteDay: (state, { payload }: { payload: CompleteItem }) => {
       state.completes.push(payload);
     },
+    addProgress: (state, { payload }: { payload: ProgressPayload }) => {
+      state.progress.map((item) =>
+        item.data.push({
+          x: payload.date,
+          y: payload[item.id],
+        }),
+      );
+    },
   },
 });
 
-export const { setUser, setCurrentRoutine, addCompleteDay } = userSlice.actions;
+export const { setUser, setCurrentRoutine, addCompleteDay, addProgress } =
+  userSlice.actions;
 
 export default userSlice.reducer;

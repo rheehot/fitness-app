@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Template from 'templates/Template';
-import RecordCalendar from 'components/Record/RecordCalendar';
 import { useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import Template from 'templates/Template';
 import { userSelector } from 'modules/hooks';
-import { CompleteItem } from 'modules/user';
+import user, { CompleteItem } from 'modules/user';
 import { getDatestr } from 'lib/methods';
 import RoutineExerciseList from 'components/Routine/RoutineExerciseList';
-import styled from '@emotion/styled';
+import RecordCalendar from 'components/Record/RecordCalendar';
+import ProgressViewer from 'components/Record/ProgressViewer';
+import AddProgress from 'components/Record/AddProgress';
 
 const MemoBlock = styled.div`
   background: ${(props) => props.theme.memo_body};
@@ -111,7 +113,6 @@ const RecordPage = () => {
         onDateNow={setDateNow}
         onSelect={onSelect}
       />
-      <hr />
       {selected && selected.list.length > 0 ? (
         <>
           <span>
@@ -125,6 +126,9 @@ const RecordPage = () => {
       ) : (
         <h4>수행한 운동이 없습니다.</h4>
       )}
+      <hr />
+      <h1>체성분 변화</h1>
+      <ProgressViewer />
     </Template>
   );
 };
