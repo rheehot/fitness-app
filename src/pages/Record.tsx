@@ -3,12 +3,11 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import Template from 'templates/Template';
 import { userSelector } from 'modules/hooks';
-import user, { CompleteItem } from 'modules/user';
+import { CompleteItem } from 'modules/user';
 import { getDatestr } from 'lib/methods';
 import RoutineExerciseList from 'components/Routine/RoutineExerciseList';
 import RecordCalendar from 'components/Record/RecordCalendar';
 import ProgressViewer from 'components/Record/ProgressViewer';
-import AddProgress from 'components/Record/AddProgress';
 
 const MemoBlock = styled.div`
   background: ${(props) => props.theme.memo_body};
