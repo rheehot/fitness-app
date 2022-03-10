@@ -41,11 +41,11 @@ const AddProgressButton = styled.button`
   padding: 0.5rem;
   border: none;
   border-radius: 0.5rem;
-  background: ${(props) => props.theme.background_sub};
+  background: ${({ theme }) => theme.background_sub};
   font-size: 1.5rem;
   font-weight: bold;
   &:active {
-    background: ${(props) => props.theme.border_primary};
+    background: ${({ theme }) => theme.border_primary};
   }
   cursor: pointer;
 `;

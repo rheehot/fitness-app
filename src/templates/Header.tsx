@@ -36,14 +36,14 @@ const NavBlock = styled.nav`
 const StyledNavLink = styled(NavLink)`
   padding: 0 0.25rem;
   margin: 0 0.5rem;
-  color: ${(props) => props.theme.letter_sub};
+  color: ${({ theme }) => theme.letter_sub};
   border-bottom: 2px solid transparent;
   text-decoration: none;
   font-size: 1.125rem;
   &.active {
-    color: ${(props) => props.theme.letter_main};
+    color: ${({ theme }) => theme.letter_main};
     font-weight: bold;
-    border-bottom: 2px solid ${(props) => props.theme.letter_main};
+    border-bottom: 2px solid ${({ theme }) => theme.letter_main};
   }
 `;
 

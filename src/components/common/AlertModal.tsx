@@ -10,8 +10,8 @@ const InfoModal = styled.div<{ visible: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background: ${(props) =>
-    props.visible ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0)'};
+  background: ${({ visible }) =>
+    visible ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0)'};
   transition: background 0.5s;
   pointer-events: none;
   .text {
@@ -27,12 +27,12 @@ const InfoModal = styled.div<{ visible: boolean }>`
     left: 50%;
     padding: 1rem;
     border-radius: 0.5rem;
-    border: 1px solid ${(props) => props.theme.border_main};
-    background: ${(props) => props.theme.background_main};
+    border: 1px solid ${({ theme }) => theme.border_main};
+    background: ${({ theme }) => theme.background_main};
     font-size: 1.125rem;
     font-weight: bold;
     transform: translate(-50%, -50%);
-    opacity: ${(props) => (props.visible ? 1 : 0)};
+    opacity: ${({ visible }) => (visible ? 1 : 0)};
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
     transition: opacity 0.5s;
     .icon {

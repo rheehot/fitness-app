@@ -12,7 +12,7 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   display: flex;
   flex-direction: column;
   z-index: 100;
-  top: ${(props) => (props.visible ? '5%' : '100%')};
+  top: ${({ visible }) => (visible ? '5%' : '100%')};
   left: 5%;
   position: fixed;
   max-width: 480px;
@@ -21,11 +21,11 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   }
   width: 90%;
   height: 90%;
-  border: 1px solid ${(props) => props.theme.border_main};
+  border: 1px solid ${({ theme }) => theme.border_main};
   border-radius: 0.5rem;
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  background: ${(props) => props.theme.background_main};
+  background: ${({ theme }) => theme.background_main};
   overflow: hidden;
   transition: top 0.5s;
   h2 {
@@ -43,15 +43,14 @@ const CategoryListBlock = styled.ul`
 const CategoryItemBlock = styled(Button)<{ checked: number }>`
   padding: 0.25rem;
   border: 1px solid
-    ${(props) =>
-      props.checked ? props.theme.primary : props.theme.border_main};
+    ${({ checked, theme }) => (checked ? theme.primary : theme.border_main)};
 `;
 
 const ExerciseListBlock = styled.ul`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  background: ${(props) => props.theme.background_sub};
+  background: ${({ theme }) => theme.background_sub};
   gap: 0.5rem;
   padding: 0.5rem;
   height: 100%;
@@ -93,12 +92,12 @@ const ButtonsBlock = styled.div`
   gap: 0.5rem;
   .submit {
     padding: 0.25rem 1rem;
-    background: ${(props) => props.theme.primary};
+    background: ${({ theme }) => theme.primary};
     font-size: 1.25rem;
   }
   .close {
     padding: 0.25rem 1rem;
-    background: ${(props) => props.theme.background_sub};
+    background: ${({ theme }) => theme.background_sub};
     font-size: 1.25rem;
   }
 `;

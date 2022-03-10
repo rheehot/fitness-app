@@ -12,11 +12,10 @@ import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import RoutineExerciseList from './RoutineExerciseList';
 
 const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
-  height: ${(props) => (props.visible ? '42rem' : '3rem')};
+  height: ${({ visible }) => (visible ? '42rem' : '3rem')};
   padding: 0.5rem;
   border: 1px solid
-    ${(props) =>
-      props.editing ? props.theme.primary : props.theme.border_main};
+    ${({ editing, theme }) => (editing ? theme.primary : theme.border_main)};
   border-radius: 0.5rem;
   overflow: hidden;
   transition: border 0.2s, height 0.5s;
@@ -32,7 +31,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
       min-width: 0;
       font-weight: bold;
       font-size: 1.25rem;
-      ${(props) => props.theme.background_main}-space: nowrap;
+      white-space: nowrap;
       overflow: hidden;
       input {
         min-width: 0;
@@ -52,16 +51,16 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
 const DaySpan = styled.div<{ dayIdx: number }>`
   margin: 0 0.25rem 0 0;
   font-weight: bold;
-  color: ${(props) => {
-    if (props.dayIdx === 0) return (props) => props.theme.red;
-    if (props.dayIdx === 6) return (props) => props.theme.blue;
+  color: ${({ dayIdx, theme }) => {
+    if (dayIdx === 0) return theme.red;
+    if (dayIdx === 6) return theme.blue;
     return 'letter_main';
   }};
 `;
 
 const DetailButton = styled(BsTriangleFill)<{ visible: number }>`
   flex-shrink: 0;
-  transform: ${(props) => (props.visible ? 'rotate(180deg)' : 'rotate(90deg)')};
+  transform: ${({ visible }) => (visible ? 'rotate(180deg)' : 'rotate(90deg)')};
   transition: transform 0.2s;
 `;
 
@@ -83,18 +82,18 @@ const RoutineDetailItem = styled.li`
 `;
 
 const RemoveRoutineButton = styled(FaTrashAlt)`
-  color: ${(props) => props.theme.red};
+  color: ${({ theme }) => theme.red};
 `;
 
 const SetCurrentRoutineButton = styled(BsStar)``;
 
 const UnsetCurrentRoutineButton = styled(BsStarFill)`
-  color: ${(props) => props.theme.yellow};
+  color: ${({ theme }) => theme.yellow};
 `;
 
 const CheckButton = styled(MdCheck)`
   margin: -0.25rem;
-  color: ${(props) => props.theme.primary};
+  color: ${({ theme }) => theme.primary};
   font-size: 2rem;
 `;
 

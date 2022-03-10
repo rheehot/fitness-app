@@ -17,7 +17,7 @@ const PerformRoutineBlock = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
-  border: 1px solid ${(props) => props.theme.background_main};
+  border: 1px solid ${({ theme }) => theme.background_main};
   border-radius: 0.5rem;
 `;
 
@@ -25,7 +25,7 @@ const PerformExerciseBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  border: 1px solid ${(props) => props.theme.background_sub};
+  border: 1px solid ${({ theme }) => theme.background_sub};
   border-radius: 0.5rem;
   overflow: hidden;
 `;
@@ -48,7 +48,7 @@ const SetButton = styled.div<{ available: boolean }>`
   place-items: center;
   padding: 0.25rem 0.5rem;
   font-size: 2rem;
-  opacity: ${(props) => (props.available ? 1 : 0.25)};
+  opacity: ${({ available }) => (available ? 1 : 0.25)};
   transition: opacity 0.2s;
   cursor: pointer;
   b {
@@ -63,23 +63,23 @@ const CompleteButton = styled.button`
   padding: 0.5rem;
   border: none;
   border-radius: 0.5rem;
-  background: ${(props) => props.theme.background_sub};
+  background: ${({ theme }) => theme.background_sub};
   font-size: 1.5rem;
   font-weight: bold;
   &:active {
-    background: ${(props) => props.theme.border_primary};
+    background: ${({ theme }) => theme.border_primary};
   }
   cursor: pointer;
 `;
 
 const MemoBlock = styled.textarea<{ visible: number }>`
-  display: ${(props) => (props.visible ? 'block' : 'none')};
-  max-height: ${(props) => (props.visible ? '10rem' : '0')};
+  display: ${({ visible }) => (visible ? 'block' : 'none')};
+  max-height: ${({ visible }) => (visible ? '10rem' : '0')};
   padding: 0.5rem;
   border: none;
   border-radius: 0.5rem;
   font-size: 1rem;
-  background: ${(props) => props.theme.memo_body};
+  background: ${({ theme }) => theme.memo_body};
 `;
 
 type PerformRoutineProps = {

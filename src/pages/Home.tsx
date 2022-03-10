@@ -13,20 +13,18 @@ const PerformListBlock = styled.ul`
   border-radius: 0.5rem;
   overflow: hidden;
   li:nth-of-type(1) {
-    color: ${(props) => props.theme.red};
+    color: ${({ theme }) => theme.red};
   }
   li:nth-of-type(7) {
-    color: ${(props) => props.theme.blue};
+    color: ${({ theme }) => theme.blue};
   }
 `;
 
 const PerformItemBlock = styled.li<{ done?: boolean }>`
   display: flex;
   justify-content: center;
-  background: ${(props) =>
-    props.done
-      ? (props) => props.theme.primary
-      : (props) => props.theme.background_sub};
+  background: ${({ done, theme }) =>
+    done ? theme.primary : theme.background_sub};
   font-weight: bold;
 `;
 
@@ -38,7 +36,7 @@ const CompleteText = styled.div`
     border-radius: 0.5rem;
     margin-left: 0.5rem;
     color: black;
-    background: ${(props) => props.theme.yellow};
+    background: ${({ theme }) => theme.yellow};
     font-weight: bold;
   }
 `;

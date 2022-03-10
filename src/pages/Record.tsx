@@ -10,7 +10,7 @@ import RecordCalendar from 'components/Record/RecordCalendar';
 import ProgressViewer from 'components/Record/ProgressViewer';
 
 const MemoBlock = styled.div`
-  background: ${(props) => props.theme.memo_body};
+  background: ${({ theme }) => theme.memo_body};
   border-radius: 0.5rem;
   padding: 0.5rem;
 `;

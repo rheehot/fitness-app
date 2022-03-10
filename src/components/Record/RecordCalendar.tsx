@@ -27,10 +27,10 @@ const CalendarList = styled.ul`
     padding: 2rem 0.5rem;
   }
   span:nth-of-type(1) {
-    color: ${(props) => props.theme.red};
+    color: ${({ theme }) => theme.red};
   }
   span:nth-of-type(7) {
-    color: ${(props) => props.theme.blue};
+    color: ${({ theme }) => theme.blue};
   }
 `;
 

@@ -16,10 +16,7 @@ const InfoBlock = styled.div<{ editing: boolean }>`
   height: 8rem;
   padding: 0.5rem;
   border: 1px solid
-    ${(props) =>
-      props.editing
-        ? (props) => props.theme.primary
-        : (props) => props.theme.border_main};
+    ${({ editing, theme }) => (editing ? theme.primary : theme.border_main)};
   border-radius: 0.5rem;
   transition: border 0.2s;
   input {
@@ -41,7 +38,7 @@ const EditButton = styled.div`
 `;
 
 const CheckButton = styled(MdCheck)`
-  color: ${(props) => props.theme.primary};
+  color: ${({ theme }) => theme.primary};
   font-size: 2rem;
   margin: -0.25rem;
 `;

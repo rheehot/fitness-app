@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { PointerEvent, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { ExerciseItem, removeExercise } from 'modules/routine';
-import useScroll from 'hooks/useScroll';
+import useScroll from 'hooks/useExerciseList';
 import { BsPlusCircleDotted } from 'react-icons/bs';
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md';
 import Button from 'components/common/Button';
@@ -46,6 +46,9 @@ const ExerciseItemBlock = styled.li<{ editing?: number }>`
   }
   &:active {
     opacity: ${({ editing }) => (editing ? 0.5 : 1)};
+  }
+  &.hold {
+    transform: scale(1.1);
   }
 `;
 
@@ -94,8 +97,28 @@ const RoutineExerciseList = ({
   onOpenModal,
 }: RoutineExerciseListProps) => {
   const dispatch = useDispatch();
-  const { ref, moveTo } = useScroll();
+  const { ref, moveTo, onDragStart } = useScroll();
   const dr = useRef<ExerciseItem[]>(dayRoutine);
+
+  const onPointerDown = (e: PointerEvent, idx: number) => {
+    const elem = (e.target as HTMLElement).closest('li') as HTMLLIElement;
+    const timer = setTimeout(() => {
+      onDragStart(routineId, dayIdx, idx, elem, e.clientX);
+    }, 500);
+    document.onpointerup = () => {
+      clearTimeout(timer);
+      document.onpointermove = null;
+      document.onpointerup = null;
+      if (editing)
+        dispatch(
+          removeExercise({
+            id: routineId,
+            day: dayIdx,
+            idx,
+          }),
+        );
+    };
+  };
 
   useEffect(() => {
     if (dayRoutine.length <= 0) return;
@@ -107,7 +130,7 @@ const RoutineExerciseList = ({
   return (
     <ExerciseListWrapper>
       <PrevScrollButton
-        onClick={() => moveTo('prev')}
+        onPointerDown={() => moveTo('prev')}
         isEnd={ref.current?.scrollLeft === 0}
       >
         <MdNavigateBefore />
@@ -116,16 +139,7 @@ const RoutineExerciseList = ({
         {dayRoutine.map((s, i) => (
           <ExerciseItemBlock
             editing={editing ? 1 : 0}
-            onClick={() =>
-              editing &&
-              dispatch(
-                removeExercise({
-                  id: routineId,
-                  day: dayIdx,
-                  idx: i,
-                }),
-              )
-            }
+            onPointerDown={(e) => onPointerDown(e, i)}
           >
             <b>{s.exercise.name}</b>
             <span>{s.weight} kg</span>
