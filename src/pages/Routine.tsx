@@ -36,7 +36,6 @@ const RoutineListBlock = styled.ul`
 `;
 
 const RoutinePage = () => {
-  const user = useSelector(userSelector);
   const routines = useSelector(routineSelector);
   const dispatch = useDispatch();
 
@@ -61,13 +60,6 @@ const RoutinePage = () => {
 
   return (
     <Template>
-      <h1>현재 루틴</h1>
-      {user.currentRoutine?.id ? (
-        <RoutineItem isCurrent routine={user.currentRoutine} />
-      ) : (
-        <h3>선택된 루틴이 없습니다.</h3>
-      )}
-      <hr />
       <h1>루틴 목록</h1>
       <AddExercise
         id={editing}

@@ -8,6 +8,22 @@ import useAddExercise from 'hooks/useAddExercise';
 import { getKorCategory } from 'lib/methods';
 import exerciseJSON from '../../data/exercise.json';
 
+const AddExerciseWrapper = styled.div<{ visible: boolean }>`
+  display: flex;
+  place-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  transition: opacity 0.5s;
+  pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
+  content: '';
+`;
+
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
   display: flex;
   flex-direction: column;
@@ -134,7 +150,7 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
   };
 
   return (
-    <>
+    <AddExerciseWrapper visible={visible}>
       <AlertModal visible={addState.alertVisible} text={addState.alertText} />
       <AddExerciseBlock visible={visible}>
         <h2>운동 목록</h2>
@@ -230,7 +246,7 @@ const AddExerciseModal = ({ id, day, visible, onClose }: AddExerciseProps) => {
           </ButtonsBlock>
         </FooterBlock>
       </AddExerciseBlock>
-    </>
+    </AddExerciseWrapper>
   );
 };
 

@@ -99,19 +99,17 @@ const CheckButton = styled(MdCheck)`
 
 type RoutineItemProps = {
   routine: Routine;
-  isCurrent?: boolean;
-  isVisible?: boolean;
-  isEditing?: boolean;
-  onOpenModal?: (day: number) => void;
-  onVisible?: (id: string) => void;
-  onInvisible?: () => void;
-  onEditing?: (id: string) => void;
-  onUnediting?: () => void;
+  isVisible: boolean;
+  isEditing: boolean;
+  onOpenModal: (day: number) => void;
+  onVisible: (id: string) => void;
+  onInvisible: () => void;
+  onEditing: (id: string) => void;
+  onUnediting: () => void;
 };
 
 const RoutineItem = ({
   routine,
-  isCurrent = false,
   isVisible = false,
   isEditing = false,
   onOpenModal,
@@ -134,29 +132,7 @@ const RoutineItem = ({
       dispatch(setCurrentRoutine(routine));
   }, [routine.lastModified]);
 
-  return isCurrent ? (
-    <RoutineItemBlock key={routine.id} visible>
-      <div className="header">
-        <div className="title">{routine.title}</div>
-      </div>
-      <RoutineDetailBlock>
-        {routine.weekRoutine.map((dayRoutine, dayIdx) => (
-          <RoutineDetailItem>
-            <DaySpan dayIdx={dayIdx}>{dayidxToDaystr(dayIdx)}</DaySpan>
-            <div className="list">
-              <RoutineExerciseList
-                dayRoutine={dayRoutine}
-                dayIdx={dayIdx}
-                routineId={routine.id}
-                editing={isEditing}
-                onOpenModal={onOpenModal}
-              />
-            </div>
-          </RoutineDetailItem>
-        ))}
-      </RoutineDetailBlock>
-    </RoutineItemBlock>
-  ) : (
+  return (
     <RoutineItemBlock key={routine.id} visible={isVisible} editing={isEditing}>
       <div className="header">
         <div className="title">
@@ -229,17 +205,6 @@ const RoutineItem = ({
       </RoutineDetailBlock>
     </RoutineItemBlock>
   );
-};
-
-RoutineItem.defaultProps = {
-  isCurrent: false,
-  isVisible: false,
-  isEditing: false,
-  onOpenModal: null,
-  onVisible: null,
-  onInvisible: null,
-  onEditing: null,
-  onUnediting: null,
 };
 
 export default React.memo(RoutineItem);

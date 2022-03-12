@@ -123,7 +123,7 @@ const RecordPage = () => {
           <MemoBlock>{selected.memo}</MemoBlock>
         </>
       ) : (
-        <h4>수행한 운동이 없습니다.</h4>
+        <h3>수행한 운동이 없습니다.</h3>
       )}
       <hr />
       <h1>체성분 변화</h1>

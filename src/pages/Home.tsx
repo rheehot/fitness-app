@@ -66,10 +66,11 @@ const HomePage = () => {
         <h1>안녕하세요, {user.name}님!</h1>
       ) : (
         <NoUserBlock>
-          <h1>사용자 정보가 없습니다.</h1>
-          <span>
+          <h3>
+            사용자 정보가 없습니다.
+            <br />
             우측의 <strong>편집</strong> 아이콘을 눌러 정보를 입력해주세요.
-          </span>
+          </h3>
         </NoUserBlock>
       )}
       <Info user={user}></Info>
