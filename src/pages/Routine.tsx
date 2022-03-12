@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import Template from 'templates/Template';
 import { addRoutine } from 'modules/routine';
-import { routineSelector, userSelector } from 'modules/hooks';
+import { routineSelector } from 'modules/hooks';
 import RoutineItem from 'components/Routine/RoutineItem';
 import AddExercise from 'components/Routine/AddExerciseModal';
 import { BsPlusCircle } from 'react-icons/bs';
