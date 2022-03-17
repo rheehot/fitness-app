@@ -103,6 +103,7 @@ const RoutineExerciseList = ({
   const onPointerDown = (e: PointerEvent, idx: number) => {
     const elem = (e.target as HTMLElement).closest('li') as HTMLLIElement;
     const timer = setTimeout(() => {
+      if (!editing) return;
       onDragStart(routineId, dayIdx, idx, elem, e.clientX);
     }, 500);
     document.onpointerup = () => {
@@ -123,7 +124,6 @@ const RoutineExerciseList = ({
   useEffect(() => {
     if (dayRoutine.length <= 0) return;
     if (routineId && dr.current.length < dayRoutine.length) moveTo('end');
-    else moveTo('init');
     dr.current = dayRoutine;
   }, [dayRoutine]);
 

@@ -21,20 +21,17 @@ const AddExerciseWrapper = styled.div<{ visible: boolean }>`
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   transition: opacity 0.5s;
   pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
-  content: '';
 `;
 
 const AddExerciseBlock = styled.div<{ visible: boolean }>`
   display: flex;
   flex-direction: column;
+  align-items: center;
   z-index: 100;
   top: ${({ visible }) => (visible ? '5%' : '100%')};
   left: 5%;
   position: fixed;
   max-width: 480px;
-  @media (min-width: 540px) {
-    left: calc(50% - 240px);
-  }
   width: 90%;
   height: 90%;
   border: 1px solid ${({ theme }) => theme.border_main};
@@ -47,13 +44,17 @@ const AddExerciseBlock = styled.div<{ visible: boolean }>`
   h2 {
     align-self: center;
   }
+  @media (min-width: 540px) {
+    left: calc(50% - 240px);
+  }
 `;
 
 const CategoryListBlock = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 1rem;
   gap: 0.5rem;
+  padding: 1rem;
+  width: 100%;
 `;
 
 const CategoryItemBlock = styled(Button)<{ checked: number }>`
@@ -65,11 +66,12 @@ const CategoryItemBlock = styled(Button)<{ checked: number }>`
 const ExerciseListBlock = styled.ul`
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  background: ${({ theme }) => theme.background_sub};
   gap: 0.5rem;
-  padding: 0.5rem;
+  width: 100%;
   height: 100%;
+  padding: 0.5rem;
+  background: ${({ theme }) => theme.background_sub};
+  overflow-y: scroll;
 `;
 
 const ExerciseItemBlock = styled.li<{ isSelected: number }>`

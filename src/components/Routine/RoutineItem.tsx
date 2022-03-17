@@ -28,7 +28,7 @@ const RoutineItemBlock = styled.li<{ visible: boolean; editing?: boolean }>`
       display: flex;
       place-items: center;
       gap: 0.5rem;
-      min-width: 0;
+      flex-grow: 1;
       font-weight: bold;
       font-size: 1.25rem;
       white-space: nowrap;
@@ -68,12 +68,12 @@ const RoutineDetailBlock = styled.ul`
   display: flex;
   flex-direction: column;
   margin-top: 0.5rem;
+  gap: 0.25rem;
 `;
 
 const RoutineDetailItem = styled.li`
   display: flex;
   place-items: center;
-  padding: 0.25rem;
   border-radius: 0.5rem;
   overflow: hidden;
   .list {
@@ -102,10 +102,8 @@ type RoutineItemProps = {
   isVisible: boolean;
   isEditing: boolean;
   onOpenModal: (day: number) => void;
-  onVisible: (id: string) => void;
-  onInvisible: () => void;
-  onEditing: (id: string) => void;
-  onUnediting: () => void;
+  onSetVisible: (id?: string) => void;
+  onSetEditing: (id?: string) => void;
 };
 
 const RoutineItem = ({
@@ -113,10 +111,8 @@ const RoutineItem = ({
   isVisible = false,
   isEditing = false,
   onOpenModal,
-  onVisible,
-  onInvisible,
-  onEditing,
-  onUnediting,
+  onSetVisible,
+  onSetEditing,
 }: RoutineItemProps) => {
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -136,14 +132,16 @@ const RoutineItem = ({
     <RoutineItemBlock key={routine.id} visible={isVisible} editing={isEditing}>
       <div className="header">
         <div className="title">
-          {onVisible && onInvisible && (
-            <Button>
-              <DetailButton
-                visible={isVisible ? 1 : 0}
-                onClick={isVisible ? onInvisible : () => onVisible(routine.id)}
-              />
-            </Button>
-          )}
+          <Button>
+            <DetailButton
+              visible={isVisible ? 1 : 0}
+              onClick={
+                isVisible
+                  ? () => onSetVisible()
+                  : () => onSetVisible(routine.id)
+              }
+            />
+          </Button>
           {isEditing ? (
             <input
               type="text"
@@ -171,17 +169,13 @@ const RoutineItem = ({
               />
             </Button>
           )}
-          {onEditing &&
-            onUnediting &&
-            (isEditing ? (
-              <Button>
-                <CheckButton onClick={onUnediting} />
-              </Button>
+          <Button>
+            {isEditing ? (
+              <CheckButton onClick={() => onSetEditing()} />
             ) : (
-              <Button>
-                <FaPencilAlt onClick={() => onEditing(routine.id)} />
-              </Button>
-            ))}
+              <FaPencilAlt onClick={() => onSetEditing(routine.id)} />
+            )}
+          </Button>
           <Button>
             <RemoveRoutineButton onClick={onRemoveRoutine} />
           </Button>

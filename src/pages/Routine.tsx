@@ -50,13 +50,21 @@ const RoutinePage = () => {
   }, []);
   const onCloseModal = useCallback(() => setModal(false), []);
 
-  const onVisible = useCallback((id: string) => setVisible(id), []);
-  const onInvisible = useCallback(() => setVisible(null), []);
-  const onEditing = useCallback((id: string) => {
-    setVisible(id);
-    setEditing(id);
+  const onSetVisible = useCallback((id?: string) => {
+    if (id) {
+      setVisible(id);
+      return;
+    }
+    setVisible(null);
   }, []);
-  const onUnediting = useCallback(() => setEditing(null), []);
+  const onSetEditing = useCallback((id?: string) => {
+    if (id) {
+      setVisible(id);
+      setEditing(id);
+      return;
+    }
+    setEditing(null);
+  }, []);
 
   return (
     <Template>
@@ -74,10 +82,8 @@ const RoutinePage = () => {
             isVisible={visible === routine.id}
             isEditing={editing === routine.id}
             onOpenModal={onOpenModal}
-            onVisible={onVisible}
-            onInvisible={onInvisible}
-            onEditing={onEditing}
-            onUnediting={onUnediting}
+            onSetVisible={onSetVisible}
+            onSetEditing={onSetEditing}
             key={routine.id}
           />
         ))}
@@ -94,7 +100,7 @@ const RoutinePage = () => {
                 weekRoutine: [[], [], [], [], [], [], []],
               }),
             );
-            onEditing(id);
+            onSetEditing(id);
           }}
         />
         <b>루틴 추가</b>

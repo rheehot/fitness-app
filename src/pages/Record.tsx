@@ -117,10 +117,14 @@ const RecordPage = () => {
           <span>
             {selected.date.slice(5, 7)}월 {selected.date.slice(8, 10)}일
           </span>
-          <h2 style={{ marginTop: 0 }}>수행한 운동</h2>
+          <h2>수행한 운동</h2>
           <RoutineExerciseList dayRoutine={selected.list} />
           <h2>메모</h2>
-          <MemoBlock>{selected.memo}</MemoBlock>
+          {selected.memo ? (
+            <MemoBlock>{selected.memo}</MemoBlock>
+          ) : (
+            <p>작성한 메모가 없습니다.</p>
+          )}
         </>
       ) : (
         <h3>수행한 운동이 없습니다.</h3>
